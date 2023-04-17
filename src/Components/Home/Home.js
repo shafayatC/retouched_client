@@ -6,7 +6,7 @@ const Home = () => {
         <div className="bg-[#060D5A] h-[100vh]">
             <div className='container mx-auto'>
                 <div className='flex justify-between mx-2 pt-4'>
-                    <img className='h-16 w-16 rounded-full' src={logo} alt="" />
+                    <img className='h-12 w-12 rounded-full' src={logo} alt="" />
                     <h2 className='text-white font-bold'>SPONSOR <i className="fa-brands ml-2 fa-twitter"></i></h2>
                 </div>
 
@@ -20,7 +20,7 @@ const Home = () => {
                                 type="text"
                                 className=" w-96 px-4 py-3 border border-gray-400 text-xl font-normal text-white bg-gray-800 rounded-md " placeholder="Email address"
                             />
-                            <button className='bg-[#03448D] border hover:bg-blue-400 border-blue-400 text-white font-semibold rounded-md text-sm px-3  '>GET MY SUMMARY</button>
+                            <button className='bg-[#03448D] border hover:bg-blue-400 border-blue-400 text-white font-semibold rounded-md text-sm px-6 '>GET MY SUMMARY</button>
                         </div>
                         <a href='' target='_blank' className='text-white underline flex justify-start mt-2 '>Read the latest summary</a>
                     </div>
