@@ -3,7 +3,7 @@ import './style.css'
 
 const Home = () => {
     return (
-        <div className="bg_1 h-[100vh]">
+        <div className="bg_1 h-full pb-28">
             <div className='container mx-auto'>
                 <div className='flex justify-between mx-2 pt-4'>
                     <img className='h-12 w-12 rounded-full' src={logo} alt="" />
