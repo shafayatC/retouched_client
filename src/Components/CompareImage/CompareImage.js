@@ -99,7 +99,7 @@ const CompareImage = ({ topImage, bottomImage }) => {
                     <LazyLoadImage
                         className="topImage"
                         draggable="false"
-                        effect="blur"
+                        // effect="blur"
                         src={topImage}
                         height="100%"
                         width="100%"
@@ -109,7 +109,7 @@ const CompareImage = ({ topImage, bottomImage }) => {
                     <LazyLoadImage
                         className="bottomImage"
                         draggable="false"
-                        effect="blur"
+                        // effect="blur"
                         src={bottomImage}
                         height="100%"
                         width="100%"

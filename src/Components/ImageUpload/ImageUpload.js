@@ -9,7 +9,7 @@ const ImageUpload = () => {
 
                 <div className="flex justify-center">
                     <div className="h-[400px] w-[600px]">
-                        <CompareImage topImage={p1} bottomImage={p2} />
+                        <CompareImage topImage={"https://cdn.pixabay.com/photo/2015/11/16/14/43/cat-1045782__340.jpg"} bottomImage={"https://cdn.pixabay.com/photo/2015/11/16/14/43/cat-1045782__340.jpg"} />
 
                     </div>
                 </div>
