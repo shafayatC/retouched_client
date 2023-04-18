@@ -43,6 +43,6 @@ body {
   .round-content:hover {
     background-color: #696C96;
     color: white;
-    transform: rotate(-1deg) scale(0.9);
+    transform:  scale(0.9);
   }
   
