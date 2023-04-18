@@ -3,14 +3,14 @@ import './style.css'
 
 const Home = () => {
     return (
-        <div className="bg-[#060D5A] h-[100vh]">
+        <div className="bg_1 h-[100vh]">
             <div className='container mx-auto'>
                 <div className='flex justify-between mx-2 pt-4'>
                     <img className='h-12 w-12 rounded-full' src={logo} alt="" />
                     <h2 className='text-white font-bold'>SPONSOR <i className="fa-brands ml-2 fa-twitter"></i></h2>
                 </div>
 
-                <div className='flex gap-4'>
+                <div className='flex gap-4 flex-col lg:flex-row'>
                     <div className='mt-28 w-[650px] '>
                         <h2 className='text-white text-4xl text-left'>Stay up to date with the latest in Machine Learning.</h2>
                         <p className='text-white text-left w-[600px] text-xl mt-3'>Get a weekly summary of the top research papers, repos, and tweets identified by our AI models.</p>
@@ -37,8 +37,6 @@ const Home = () => {
                             <div className='h-[75px] w-[75px] border-4 border-gray-600 text-xs flex justify-center items-center text-white rounded-full'>Objects Removal</div>
                         </div>
                     </div>
-
-
                     <div className='flex flex-col justify-center items-center  h-[300px] mt-28 p-5 bg-gray-300 rounded-xl ml-20'>
                         <div className='text-white font-bold px-5 py-2 bg-[#696C96] rounded-md '>
                             <h2 >UPLOAD IMAGE</h2>
