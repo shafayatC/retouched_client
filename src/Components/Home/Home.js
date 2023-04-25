@@ -3,13 +3,12 @@ import './style.css'
 
 const Home = () => {
     return (
-        <div className="bg_1 h-full pb-28">
+        <div id='home' className="bg_1 h-full pb-28">
             <div className='container mx-auto'>
                 <div className='flex justify-between mx-2 pt-4'>
                     <img className='h-12 w-12 rounded-full' src={logo} alt="" />
                     <h2 className='text-white font-bold'>SPONSOR <i className="fa-brands ml-2 fa-twitter"></i></h2>
                 </div>
-
                 <div className='flex gap-6 2xl:gap-60 flex-col lg:flex-row'>
                     <div className='mt-28 w-[650px]'>
                         <h2 className='text-white text-4xl text-left'>Stay up to date with the latest in Machine Learning.</h2>
@@ -45,15 +44,24 @@ const Home = () => {
                         <div >
                             <div className="content flex justify-center mt-8 gap-5">
                                 <div className="round-container">
-                                    <button className="round-content">
+                                    <a
+                                    //  href='#upload'
+                                        onClick={() =>
+                                            document.querySelector("#singleImagePick").click()
+                                        }
+                                        className="round-content">
                                         File
-                                    </button>
+                                    </a>
                                 </div>
-                                <div className="round-container">
+                                <a 
+                                onClick={() =>
+                                    document.querySelector("#filepicker").click()
+                                }
+                                className="round-container">
                                     <button className="round-content">
                                         Folder
                                     </button>
-                                </div>
+                                </a>
                                 <div className="round-container">
                                     <button className="round-content">
                                         FTP
@@ -88,7 +96,6 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-
             </div>
 
         </div>
