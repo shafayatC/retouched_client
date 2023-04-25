@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import { ReactComponent as CompareIcon } from "./assets/compare.svg";
 import "./style.css";
 
@@ -99,7 +100,7 @@ const CompareImage = ({ topImage, bottomImage }) => {
                     <LazyLoadImage
                         className="topImage"
                         draggable="false"
-                        // effect="blur"
+                        effect="blur"
                         src={topImage}
                         height="100%"
                         width="100%"
@@ -109,7 +110,7 @@ const CompareImage = ({ topImage, bottomImage }) => {
                     <LazyLoadImage
                         className="bottomImage"
                         draggable="false"
-                        // effect="blur"
+                        effect="blur"
                         src={bottomImage}
                         height="100%"
                         width="100%"
