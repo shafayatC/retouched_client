@@ -68,7 +68,7 @@ const ImageUpload = () => {
             service_type_id: getServiceTypeId,
             subscription_plan_type_id: getSubscriptionPlanId
         };
-
+        console.log(getToken)
         fetch(getApiBasicUrl + "/order-master-info", {
             method: "POST", // or 'PUT'
             headers: {
@@ -79,6 +79,7 @@ const ImageUpload = () => {
         })
             .then((res) => res.json())
             .then((data) => {
+                console.log(data)
                 let order_id = data.results.order_master_info.order_id;
                 setOrderMasterId(order_id)
                 setTotalImage(0)
@@ -172,7 +173,7 @@ const ImageUpload = () => {
 
                 {getTotalImage > getProccessImgIndex && <Loading_2 />}
 
-                { getTotalImage !== getProccessImgIndex && getAfterBeforeImg.length > 0 && actionStatus == "" &&
+                {getTotalImage !== getProccessImgIndex && getAfterBeforeImg.length > 0 && actionStatus == "" &&
                     <div >
 
                         <div className={`grid grid-cols-4 gap-4 pt-2 ml-2  pr-3`}>
@@ -185,17 +186,17 @@ const ImageUpload = () => {
                                     }
 
                                 >
-                                        <div
-                                            className={`img-container w-full h-full  bg-no-repeat  cursor-pointer img-bag ${getAfterBeforeImg.length === 1 ? "h-[400px] justify-center" : "img-bag"}`}
-                                            onClick={() => viewImg((currentPage - 1) * itemsPerPage + index)}
-                                        //   style={{
-                                        //     backgroundImage: `url(${image.output_urls[0].compressed_raw_image_public_url})`,
-                                        //   }}
-                                        >
-                                            <img className="w-full h-full" src={image.output_urls[0].compressed_raw_image_public_url} />
-                                        </div>
+                                    <div
+                                        className={`img-container w-full h-full  bg-no-repeat  cursor-pointer img-bag ${getAfterBeforeImg.length === 1 ? "h-[400px] justify-center" : "img-bag"}`}
+                                        onClick={() => viewImg((currentPage - 1) * itemsPerPage + index)}
+                                    //   style={{
+                                    //     backgroundImage: `url(${image.output_urls[0].compressed_raw_image_public_url})`,
+                                    //   }}
+                                    >
+                                        <img className="w-full h-full" src={image.output_urls[0].compressed_raw_image_public_url} />
+                                    </div>
 
-                                    
+
                                     {/* <div className="flex gap-1  ">
                                         {image.output_urls[0].is_ai_processed ?
                                             <p><i className="fa-solid text-green-400 absolute top-2 right-2 fa-circle-check"></i></p>
@@ -212,28 +213,39 @@ const ImageUpload = () => {
                     </div>
                 }
 
-{console.log(getAfterBeforeImg)}
+                {console.log(getAfterBeforeImg)}
                 {getTotalImage !== 0 && getTotalImage == getProccessImgIndex &&
+                    <div>
 
+                        <div className="flex gap-16 justify-center">
+                            <div className="flex items-center">
+                                <img className="h-[300px] w-[300px] skew-y-3  opacity-50" src={p3} />
+                            </div>
+                            <div className="h-[500px] w-[500px]">
 
-                    <div className="flex gap-8 justify-center">
-                        <div className="h-[600px] w-[600px]">
-                            
-                        <CompareImage
-                                topImage={getAfterBeforeImg[0].output_urls[0].compressed_raw_image_public_url}
-                                bottomImage={getAfterBeforeImg[0].output_urls[0].default_compressed_output_public_url} />
-                            {/* <CompareImage
+                                <CompareImage
+                                    topImage={getAfterBeforeImg[0].output_urls[0].compressed_raw_image_public_url}
+                                    bottomImage={getAfterBeforeImg[0].output_urls[0].default_compressed_output_public_url} />
+                                {/* <CompareImage
                                 topImage={"https://cdn.pixabay.com/photo/2015/11/16/14/43/cat-1045782__340.jpg"}
                                 bottomImage={"https://cdn.pixabay.com/photo/2015/11/16/14/43/cat-1045782__340.jpg"} /> */}
-                        </div>
-                        <div className="flex items-center">
-                            <button className=" px-4 py-1 bg-[#696C96] rounded-lg  text-white">Process Image</button>
-                        </div>
+                            </div>
 
+                            <div className="flex items-center">
+                                <img class="css_transform h-[300px] w-[300px] -skew-y-3" src={p2} />
+                            </div>
+
+
+                        </div>
+                        <div className="">
+                            <button className=" px-4 py-1 mt-4 bg-[#696C96] rounded-lg  text-white">Adjust Image</button>
+                        </div>
                     </div>
+
                 }
+
             </div>
-        </div>
+        </div >
     )
 }
 
