@@ -270,8 +270,11 @@ const ImageUpload = () => {
                 onDragOver={dragOverHandler}
                 onDragEnter={e => console.log("")}
                 onDragLeave={e => console.log("")}
-                id='drop-zone' className="bg-slate-400 w-96 h-96 mx-auto">
-                <p>Drage and drop</p>
+                id='drop-zone'
+                className="bg-[#A0A2B7] rounded-lg flex flex-col justify-center items-center w-[600px] h-96 mx-auto"
+                >
+              <p><i className="fa-solid text-7xl fa-download"></i></p>
+                <p className="text-center text-lg mt-4 ">Choose a <span className="font-bold">File</span> or drag it here...</p>
             </div>
 
             <div className="relative">
