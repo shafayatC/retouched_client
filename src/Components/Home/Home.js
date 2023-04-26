@@ -1,7 +1,42 @@
 import logo from '../images/logo.png'
 import './style.css'
 
-const Home = () => {
+const Home = ({callBackFile}) => {
+
+    function dragOverHandler(e) {
+        console.log("File(s) in drop zone");
+
+        // Prevent default behavior (Prevent file from being opened)
+        e.preventDefault();
+    }
+
+    function dropHandler(ev) {
+        console.log("File(s) dropped");
+
+        // Prevent default behavior (Prevent file from being opened)
+        ev.preventDefault();
+
+        if (ev.dataTransfer.items) {
+            // Use DataTransferItemList interface to access the file(s)
+            let files = [];
+
+            [...ev.dataTransfer.items].forEach((item, i) => {
+                // If dropped items aren't files, reject them
+                if (item.kind === "file") {
+                    const file = item.getAsFile();
+                    files.push(file)
+                    console.log(`… file[${i}].name = ${file.name}`);
+                }
+            });
+
+            callBackFile(files)
+        }
+
+    }
+
+
+
+
     return (
         <div id='home' className="bg_1 h-full pb-28">
             <div className='container mx-auto'>
@@ -36,16 +71,26 @@ const Home = () => {
                             <div className='h-[75px] w-[75px] border-4 border-gray-600 text-xs flex justify-center items-center text-white rounded-full'>Objects Removal</div>
                         </div>
                     </div>
-                    <div className='flex flex-col  w-full  justify-center items-center h-[300px] mt-28 p-5 bg-gray-300 rounded-xl '>
-                        <div className='text-white font-bold px-5 py-2 bg-[#696C96] rounded-md '>
-                            <h2 >UPLOAD IMAGE</h2>
-                            <p><i className="fa-solid text-xl mt-2 fa-caret-down"></i></p>
+
+                    <div
+                    onDrop={dropHandler}
+                    onDragOver={dragOverHandler}
+                    onDragEnter={e => console.log("")}
+                    onDragLeave={e => console.log("")}
+                   className='flex flex-col  w-full  justify-center items-center h-[300px] mt-28 p-5 bg-gray-300 rounded-xl'>
+                        
+                        <div
+
+                            className=" rounded-lg flex flex-col justify-center items-center w-[400px] h-40 mx-auto"
+                        >
+                            <p><i className="fa-solid text-[#696C96] text-7xl fa-cloud-arrow-up"></i></p>
+                            <p className="text-center text-lg mt-4 ">Choose your <span className="font-bold">File</span> or drag it here...</p>
                         </div>
                         <div >
-                            <div className="content flex justify-center mt-8 gap-5">
+                            <div className="content flex justify-center mt-4 gap-5">
                                 <div className="round-container">
                                     <a
-                                    //  href='#upload'
+                                        //  href='#upload'
                                         onClick={() =>
                                             document.querySelector("#singleImagePick").click()
                                         }
@@ -53,11 +98,11 @@ const Home = () => {
                                         File
                                     </a>
                                 </div>
-                                <a 
-                                onClick={() =>
-                                    document.querySelector("#filepicker").click()
-                                }
-                                className="round-container">
+                                <a
+                                    onClick={() =>
+                                        document.querySelector("#filepicker").click()
+                                    }
+                                    className="round-container">
                                     <button className="round-content">
                                         Folder
                                     </button>
