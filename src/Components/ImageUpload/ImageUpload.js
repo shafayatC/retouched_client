@@ -8,6 +8,9 @@ import { useContext, useEffect, useState } from "react";
 import Loading_2 from "../Loading/Loading_2";
 import ServiceMenu from "../ServiceMenu/ServiceMenu";
 
+import { Popover } from 'antd';
+import { Radio } from 'antd';
+
 const ImageUpload = ({ dragFiles }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [getSuggest, setSuggest] = useState([]);
@@ -54,6 +57,23 @@ const ImageUpload = ({ dragFiles }) => {
         setImgIndex(img);
         setShowImage(true);
     };
+    const downloadContent = (
+        <div>
+            <Radio.Group defaultValue={1}>
+                <Radio value={1}>JPG</Radio>
+                <Radio value={2}>PNG</Radio>
+                <Radio value={3}>PSD</Radio>
+
+
+            </Radio.Group>
+            <div className="flex justify-end text-xs">
+                <button className="bg-green-600 text-white rounded-lg py-1 px-2 mt-2 font-semibold">Download</button>
+            </div>
+        </div>
+    )
+
+
+
 
     const handleClose = () => {
         setShowImage(false);
@@ -247,6 +267,8 @@ const ImageUpload = ({ dragFiles }) => {
     return (
         <div id="upload" className={getAfterBeforeImg.length > 0 ? 'min-h-screen container mx-auto relative py-20' : 'container mx-auto relative'}>
 
+
+
             <input
                 onChange={uploadFile}
                 type="file"
@@ -296,7 +318,7 @@ const ImageUpload = ({ dragFiles }) => {
                 {getAfterBeforeImg.length > 0 && actionStatus == "" &&
                     <div >
 
-                        <div className={`grid grid-cols-4 gap-4 pt-2 ml-2  pr-3`}>
+                        <div className={`grid grid-cols-4 gap-4 pt-2 ml-2     pr-3`}>
 
                             {currentImages.map((image, index) => (
                                 <div
@@ -352,6 +374,52 @@ const ImageUpload = ({ dragFiles }) => {
 
             </div>
 
+                    <div>
+                        <div
+                            style={{
+                                // position: "absolute",
+                                top: -20,
+                                left: -10,
+                                right: 0,
+                                bottom: 0,
+                                zIndex: 99,
+                                display: "flex",
+                                justifyContent: "center",
+                                // backgroundColor: "#ffff"
+                            }}
+                        >
+                            <div className="h-[580px] w-[800px] bg-white my-20 relative rounded-md z-50">
+                                <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-16  font-semibold">Beautify imagery with Ad-on Professional Services</p>
+                                <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
+                                <div className="  pt-20 pl-16 absolute ">
+                                    <div className="w-[400px] h-[400px] border border-theme-shade  relative">
+                                        {getCallbackAiBool ?
+                                            <CompareImage
+                                                topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
+                                                bottomImage={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
+                                            /> :
+                                            <img className="h-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
+                                        }
+                                        <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
+                                    </div>
+                                    <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
+
+                                        <Popover content={downloadContent} trigger="click">
+                                            <div className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                                                <p className="text-xs">Download</p></div>
+                                        </Popover>
+
+                                        <div
+
+                                            className="cursor-pointer"><p><i class="fa-solid fa-sliders"></i></p>
+                                            <p className="text-xs">Adjust</p></div>
+
+                                    </div>
+                                </div>
+
+
+                                {getAfterBeforeImg.length > 0 && <ServiceMenu callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
+                            </div>
 
 
             {getTotalImage !== 0 && getTotalImage == getProccessImgIndex && getFirstImgView &&
