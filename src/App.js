@@ -58,9 +58,10 @@ function App() {
           <menuContextManager.Provider value={[getMenuId, setMenuId, getMenu, setMenu, getDashboardMenu, setDashboardMenu]}>
             <apiUrlContextManager.Provider value={[getModelBaseUrl, setModelBaseUrl, getApiBasicUrl, setApiBasicUrl]}>
               <div className="App">
-                <InitialDataLoad/>
+                <InitialDataLoad />
                 <Routes>
                   <Route path="/" element={<HomeContainer />} />
+
                 </Routes>
               </div>
             </apiUrlContextManager.Provider>
