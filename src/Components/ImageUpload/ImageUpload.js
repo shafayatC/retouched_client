@@ -265,7 +265,7 @@ const ImageUpload = ({ dragFiles }) => {
     }, [dragFiles])
 
     return (
-        <div id="upload" className="container mx-auto">
+        <div id="upload" className={getAfterBeforeImg.length > 0 ? 'min-h-screen container mx-auto relative py-20' : 'container mx-auto relative'}>
 
 
 
@@ -315,7 +315,7 @@ const ImageUpload = ({ dragFiles }) => {
 
                 {getTotalImage > getProccessImgIndex && <Loading_2 />}
 
-                {getTotalImage !== getProccessImgIndex && getAfterBeforeImg.length > 0 && actionStatus == "" &&
+                {getAfterBeforeImg.length > 0 && actionStatus == "" &&
                     <div >
 
                         <div className={`grid grid-cols-4 gap-4 pt-2 ml-2     pr-3`}>
@@ -372,7 +372,7 @@ const ImageUpload = ({ dragFiles }) => {
 
                 } */}
 
-                {getTotalImage !== 0 && getTotalImage == getProccessImgIndex && getFirstImgView &&
+            </div>
 
                     <div>
                         <div
@@ -421,99 +421,131 @@ const ImageUpload = ({ dragFiles }) => {
                                 {getAfterBeforeImg.length > 0 && <ServiceMenu callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
                             </div>
 
-                            <div className="absolute top-[50%] w-full" style={{ transform: 'translateY(-50%)' }}>
-                                <button disabled={getImgIndex == 0} onClick={() => { setImgIndex(getImgIndex - 1) }} className="float-left ml-36 cursor-pointer text-white disabled:text-black ">
-                                    <i className="fa-solid fa-circle-chevron-left text-4xl "></i>
-                                    {/* <i className="fa-solid fa-circle-chevron-left"></i> */}
-                                </button>
-                                <button disabled={getImgIndex == getAfterBeforeImg.length - 1} onClick={() => { setImgIndex(getImgIndex + 1) }} className="float-right mr-36 cursor-pointer text-white  disabled:text-black ">
-                                    <i className="fa-solid fa-circle-chevron-right text-4xl "></i>
-                                    {/* <i className="fa-solid fa-circle-chevron-right"></i> */}
-                                </button>
-                            </div>
-                            <div className="absolute right-4 top-4 flex gap-2">
-                                <button
-                                    onClick={() => deletImage(getImgIndex)}
-                                    className="bg-white w-10 h-10 rounded-full border border-green-500"
-                                >
-                                    <i className="fa-regular fa-trash-can"></i>
-                                </button>
-                                <button
-                                    onClick={hanleCloseFirstImg}
-                                    className="bg-white w-10 h-10 border border-green-500 rounded-full"
-                                >
-                                    <i className="fa-solid fa-xmark"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                }
-                {showImage &&
-                    <div>
-                        <div
-                            style={{
-                                // position: "absolute",
-                                top: -20,
-                                left: -10,
-                                right: 0,
-                                bottom: 0,
-                                zIndex: 99,
-                                display: "flex",
-                                justifyContent: "center",
-                                // backgroundColor: "#ffff"
-                            }}
-                        >
-                            <div className="h-[550px] w-[800px] bg-white my-20 relative rounded-md z-50">
 
-                                <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-16  font-semibold">Beautify imagery with Ad-on Professional Services</p>
-                                <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
-                                <div className="  pt-20 pl-16 absolute ">
-                                    <div className="w-[400px] h-[400px] border border-theme-shade  relative">
-                                        {getCallbackAiBool ?
-                                            <CompareImage
-                                                topImage={actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].compressed_raw_image_public_url : getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
-                                                bottomImage={actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].default_compressed_output_public_url : getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
-                                            /> :
-                                            <img className="h-full" src={actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].compressed_raw_image_public_url : getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
-                                        }
-                                        <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
-                                    </div>
+            {getTotalImage !== 0 && getTotalImage == getProccessImgIndex && getFirstImgView &&
+
+                <div className="flex items-center justify-center absolute top-0 left-0 bg-[#eeeeee] w-full h-full">
+                    <div
+                        style={{
+                            // position: "absolute",
+                            top: -20,
+                            left: -10,
+                            right: 0,
+                            bottom: 0,
+                            zIndex: 99,
+                            display: "flex",
+                            justifyContent: "center",
+                            // backgroundColor: "#ffff"
+                        }}
+                    >
+                        <div className="h-[550px] w-[800px] bg-white my-20 relative rounded-md z-50">
+                            <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-16  font-semibold">Beautify imagery with Ad-on Professional Services</p>
+                            <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
+                            <div className="  pt-20 pl-16 absolute ">
+                                <div className="w-[400px] h-[400px] border border-theme-shade  relative">
+                                    {getCallbackAiBool ?
+                                        <CompareImage
+                                            topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
+                                            bottomImage={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
+                                        /> :
+                                        <img className="h-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
+                                    }
+                                    <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
                                 </div>
-
-                                {getAfterBeforeImg.length > 0 && <ServiceMenu callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
                             </div>
 
-                            <div className="absolute top-[50%] w-full" style={{ transform: 'translateY(-50%)' }}>
-                                <button disabled={getImgIndex == 0} onClick={() => { setImgIndex(getImgIndex - 1) }} className="float-left ml-36 cursor-pointer text-white disabled:text-black ">
-                                    <i className="fa-solid fa-circle-chevron-left text-4xl "></i>
-                                    {/* <i className="fa-solid fa-circle-chevron-left"></i> */}
-                                </button>
-                                <button disabled={getImgIndex == getAfterBeforeImg.length - 1} onClick={() => { setImgIndex(getImgIndex + 1) }} className="float-right mr-36 cursor-pointer text-white  disabled:text-black ">
-                                    <i className="fa-solid fa-circle-chevron-right text-4xl "></i>
-                                    {/* <i className="fa-solid fa-circle-chevron-right"></i> */}
-                                </button>
-                            </div>
-                            <div className="absolute right-4 top-4 flex gap-2">
-                                <button
-                                    onClick={() => deletImage(getImgIndex)}
-                                    className="bg-white w-10 h-10 rounded-full border border-green-500"
-                                >
-                                    <i className="fa-regular fa-trash-can"></i>
-                                </button>
-                                <button
-                                    onClick={handleClose}
-                                    className="bg-white w-10 h-10 border border-green-500 rounded-full"
-                                >
-                                    <i className="fa-solid fa-xmark"></i>
-                                </button>
-                            </div>
+                            {getAfterBeforeImg.length > 0 && <ServiceMenu callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
+                        </div>
+
+                        <div className="absolute top-[50%] w-full" style={{ transform: 'translateY(-50%)' }}>
+                            <button disabled={getImgIndex == 0} onClick={() => { setImgIndex(getImgIndex - 1) }} className="float-left ml-36 cursor-pointer text-white disabled:text-black ">
+                                <i className="fa-solid fa-circle-chevron-left text-4xl "></i>
+                                {/* <i className="fa-solid fa-circle-chevron-left"></i> */}
+                            </button>
+                            <button disabled={getImgIndex == getAfterBeforeImg.length - 1} onClick={() => { setImgIndex(getImgIndex + 1) }} className="float-right mr-36 cursor-pointer text-white  disabled:text-black ">
+                                <i className="fa-solid fa-circle-chevron-right text-4xl "></i>
+                                {/* <i className="fa-solid fa-circle-chevron-right"></i> */}
+                            </button>
+                        </div>
+                        <div className="absolute right-4 top-4 flex gap-2">
+                            <button
+                                onClick={() => deletImage(getImgIndex)}
+                                className="bg-white w-10 h-10 rounded-full border border-green-500"
+                            >
+                                <i className="fa-regular fa-trash-can"></i>
+                            </button>
+                            <button
+                                onClick={hanleCloseFirstImg}
+                                className="bg-white w-10 h-10 border border-green-500 rounded-full"
+                            >
+                                <i className="fa-solid fa-xmark"></i>
+                            </button>
                         </div>
                     </div>
-                }
+                </div>
+            }
+            {showImage &&
+                <div className="flex items-center justify-center absolute top-0 left-0 bg-[#eeeeee] w-full h-full">
+                <div
+                        style={{
+                            // position: "absolute",
+                            top: -20,
+                            left: -10,
+                            right: 0,
+                            bottom: 0,
+                            zIndex: 99,
+                            display: "flex",
+                            justifyContent: "center",
+                            // backgroundColor: "#ffff"
+                        }}
+                    >
+                        <div className="h-[550px] w-[800px] bg-white my-20 relative rounded-md z-50">
 
+                            <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-16  font-semibold">Beautify imagery with Ad-on Professional Services</p>
+                            <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
+                            <div className="  pt-20 pl-16 absolute ">
+                                <div className="w-[400px] h-[400px] border border-theme-shade  relative">
+                                    {getCallbackAiBool ?
+                                        <CompareImage
+                                            topImage={actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].compressed_raw_image_public_url : getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
+                                            bottomImage={actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].default_compressed_output_public_url : getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
+                                        /> :
+                                        <img className="h-full" src={actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].compressed_raw_image_public_url : getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
+                                    }
+                                    <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
+                                </div>
+                            </div>
 
+                            {getAfterBeforeImg.length > 0 && <ServiceMenu callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
+                        </div>
 
-            </div>
+                        <div className="absolute top-[50%] w-full" style={{ transform: 'translateY(-50%)' }}>
+                            <button disabled={getImgIndex == 0} onClick={() => { setImgIndex(getImgIndex - 1) }} className="float-left ml-36 cursor-pointer text-white disabled:text-black ">
+                                <i className="fa-solid fa-circle-chevron-left text-4xl "></i>
+                                {/* <i className="fa-solid fa-circle-chevron-left"></i> */}
+                            </button>
+                            <button disabled={getImgIndex == getAfterBeforeImg.length - 1} onClick={() => { setImgIndex(getImgIndex + 1) }} className="float-right mr-36 cursor-pointer text-white  disabled:text-black ">
+                                <i className="fa-solid fa-circle-chevron-right text-4xl "></i>
+                                {/* <i className="fa-solid fa-circle-chevron-right"></i> */}
+                            </button>
+                        </div>
+                        <div className="absolute right-4 top-4 flex gap-2">
+                            <button
+                                onClick={() => deletImage(getImgIndex)}
+                                className="bg-white w-10 h-10 rounded-full border border-green-500"
+                            >
+                                <i className="fa-regular fa-trash-can"></i>
+                            </button>
+                            <button
+                                onClick={handleClose}
+                                className="bg-white w-10 h-10 border border-green-500 rounded-full"
+                            >
+                                <i className="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
         </div >
     )
 }
