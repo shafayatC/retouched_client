@@ -78,10 +78,7 @@ const Home = ({callBackFile}) => {
                     onDragEnter={e => console.log("")}
                     onDragLeave={e => console.log("")}
                    className='flex flex-col  w-full  justify-center items-center h-[300px] mt-28 p-5 bg-gray-300 rounded-xl'>
-                        <div className='text-white font-bold px-5 py-2 bg-[#696C96] rounded-md '>
-                            <h2 >UPLOAD IMAGE</h2>
-                            <p><i className="fa-solid text-xl mt-2 fa-caret-down"></i></p>
-                        </div> */}
+                        
                         <div
 
                             className=" rounded-lg flex flex-col justify-center items-center w-[400px] h-40 mx-auto"
