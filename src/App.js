@@ -12,7 +12,6 @@ export const menuContextManager = createContext();
 export const apiUrlContextManager = createContext();
 
 function App() {
-  const [getMainFile, setMainFile] = useState([]);
   const [fileInfo, setFileInfo] = useState([]);
   const [getAfterBeforeImg, setAfterBeforeImg] = useState([]);
   const [getImageData, setImageData] = useState()
@@ -38,8 +37,6 @@ function App() {
   return (
     <FileContextManager.Provider
       value={[
-        getMainFile,
-        setMainFile,
         fileInfo,
         setFileInfo,
         getAfterBeforeImg,

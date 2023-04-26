@@ -36,7 +36,7 @@ const Home = () => {
                             <div className='h-[75px] w-[75px] border-4 border-gray-600 text-xs flex justify-center items-center text-white rounded-full'>Objects Removal</div>
                         </div>
                     </div>
-                    <div className='flex flex-col  w-full  justify-center items-center h-[300px] mt-28 p-5 bg-gray-300 rounded-xl ml-20 '>
+                    <div className='flex flex-col  w-full  justify-center items-center h-[300px] mt-28 p-5 bg-gray-300 rounded-xl '>
                         <div className='text-white font-bold px-5 py-2 bg-[#696C96] rounded-md '>
                             <h2 >UPLOAD IMAGE</h2>
                             <p><i className="fa-solid text-xl mt-2 fa-caret-down"></i></p>

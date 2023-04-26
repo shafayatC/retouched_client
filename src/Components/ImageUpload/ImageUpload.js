@@ -14,8 +14,6 @@ const ImageUpload = () => {
     const [showImage, setShowImage] = useState(false);
 
     const [
-        getMainFile,
-        setMainFile,
         fileInfo,
         setFileInfo,
         getAfterBeforeImg,
@@ -53,15 +51,22 @@ const ImageUpload = () => {
 
     const uploadFile = (e) => {
         const newFile = e.target.files;
-
-        setMainFile(newFile);
         setActionStatus("");
-
         newOrderCreate(newFile);
 
     };
 
+    const dragNdropFiles = (newFile) => {
+
+        setActionStatus("");
+
+        newOrderCreate(newFile);
+
+    }
+
+
     const newOrderCreate = (newFile) => {
+
 
         const myOrdre = {
             menu_id: getMenuId,
@@ -145,8 +150,39 @@ const ImageUpload = () => {
         }
     };
 
+    function dragOverHandler(e) {
+        console.log("File(s) in drop zone");
+
+        // Prevent default behavior (Prevent file from being opened)
+        e.preventDefault();
+    }
+
+    function dropHandler(ev) {
+        console.log("File(s) dropped");
+
+        // Prevent default behavior (Prevent file from being opened)
+        ev.preventDefault();
+
+        if (ev.dataTransfer.items) {
+            // Use DataTransferItemList interface to access the file(s)
+            let files = [];
+
+            [...ev.dataTransfer.items].forEach((item, i) => {
+                // If dropped items aren't files, reject them
+                if (item.kind === "file") {
+                    const file = item.getAsFile();
+                    files.push(file)
+                    console.log(`… file[${i}].name = ${file.name}`);
+                }
+            });
+
+            dragNdropFiles(files)
+        }
+
+    }
+
     return (
-        <div id="upload" className="container mx-auto my-20">
+        <div id="upload" className="container mx-auto my-20 min-h-screen">
 
             <input
                 onChange={uploadFile}
@@ -168,6 +204,10 @@ const ImageUpload = () => {
                 accept="image/jpeg, image/png, image/tiff,.tif"
                 multiple
             />
+
+            <div onDrop={dropHandler} onDragOver={dragOverHandler} id='drop-zone' className="bg-slate-400 w-96 h-96 mx-auto">
+                <p>Drage and drop</p>
+            </div>
 
             <div className="relative">
 
