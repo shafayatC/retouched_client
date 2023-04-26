@@ -4,8 +4,9 @@ import p3 from "../images/3.jpg"
 import CompareImage from "../CompareImage/CompareImage";
 import { FileContextManager, OrderContextManager, apiUrlContextManager, menuContextManager, userContextManager } from "../../App";
 import { useContext, useState } from "react";
-import './style.css';
+
 import Loading_2 from "../Loading/Loading_2";
+import ServiceMenu from "../ServiceMenu/ServiceMenu";
 
 const ImageUpload = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -13,9 +14,11 @@ const ImageUpload = () => {
     const [getImgIndex, setImgIndex] = useState();
     const [showImage, setShowImage] = useState(false);
 
+    const [getSwitchLoop, setSwitchLoop] = useState(false);
+    //const [getProccessImgIndex, setProccessImgIndex] = useState(0)
+    const [getCallbackAiBool, setCallbackAiBool] = useState(false);
+
     const [
-        getMainFile,
-        setMainFile,
         fileInfo,
         setFileInfo,
         getAfterBeforeImg,
@@ -51,24 +54,77 @@ const ImageUpload = () => {
         setShowImage(true);
     };
 
+    const handleClose = () => {
+        setShowImage(false);
+        switchLoopFunc()
+    };
+
+    const callBackIsAiProccess = (bl) => {
+        setCallbackAiBool(bl)
+    }
+
+    const switchLoopFunc = () => {
+
+        setSwitchLoop(!getSwitchLoop)
+    }
+
+    const deletImage = (dlImage) => {
+        //console.log(dlImage);
+
+        // const ImageIndex = getAfterBeforeImg.map((fl) => { return parseInt(fl.output_urls[0].order_image_detail_sequence_no) }).indexOf(fileInfo[getImgIndex].sequence_no);
+
+        // console.log(getAfterBeforeImg[ImageIndex].output_urls[0].order_image_detail_id)
+
+        const delateInfo = {
+            "id": getAfterBeforeImg[dlImage].output_urls[0].order_image_detail_id,
+            "is_deleted": true
+        }
+
+        fetch(getApiBasicUrl + "/update-order-image-detail", {
+            method: "POST", // or 'PUT'
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': 'bearer ' + getToken
+            },
+            body: JSON.stringify(delateInfo),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                // setFileInfo(fileInfo.filter((f, index) => index !== dlImage));
+                setAfterBeforeImg(getAfterBeforeImg.filter((f, index) => index !== dlImage))
+                // setProccessImgIndex(getProccessImgIndex - 1)
+                handleClose();
+            })
+
+        //setFileInfo(fileInfo.filter((f) => f.imageUrl !== dlImage));
+    };
+
     const uploadFile = (e) => {
         const newFile = e.target.files;
-
-        setMainFile(newFile);
         setActionStatus("");
-
         newOrderCreate(newFile);
 
     };
 
+    const dragNdropFiles = (newFile) => {
+
+        setActionStatus("");
+
+        newOrderCreate(newFile);
+
+    }
+
+
     const newOrderCreate = (newFile) => {
+
 
         const myOrdre = {
             menu_id: getMenuId,
             service_type_id: getServiceTypeId,
             subscription_plan_type_id: getSubscriptionPlanId
         };
-
+        console.log(getToken)
         fetch(getApiBasicUrl + "/order-master-info", {
             method: "POST", // or 'PUT'
             headers: {
@@ -79,6 +135,7 @@ const ImageUpload = () => {
         })
             .then((res) => res.json())
             .then((data) => {
+                console.log(data)
                 let order_id = data.results.order_master_info.order_id;
                 setOrderMasterId(order_id)
                 setTotalImage(0)
@@ -144,8 +201,39 @@ const ImageUpload = () => {
         }
     };
 
+    function dragOverHandler(e) {
+        console.log("File(s) in drop zone");
+
+        // Prevent default behavior (Prevent file from being opened)
+        e.preventDefault();
+    }
+
+    function dropHandler(ev) {
+        console.log("File(s) dropped");
+
+        // Prevent default behavior (Prevent file from being opened)
+        ev.preventDefault();
+
+        if (ev.dataTransfer.items) {
+            // Use DataTransferItemList interface to access the file(s)
+            let files = [];
+
+            [...ev.dataTransfer.items].forEach((item, i) => {
+                // If dropped items aren't files, reject them
+                if (item.kind === "file") {
+                    const file = item.getAsFile();
+                    files.push(file)
+                    console.log(`… file[${i}].name = ${file.name}`);
+                }
+            });
+
+            dragNdropFiles(files)
+        }
+
+    }
+
     return (
-        <div id="upload" className="container mx-auto my-20">
+        <div id="upload" className="container mx-auto my-20 min-h-screen">
 
             <input
                 onChange={uploadFile}
@@ -168,11 +256,15 @@ const ImageUpload = () => {
                 multiple
             />
 
+            <div onDrop={dropHandler} onDragOver={dragOverHandler} id='drop-zone' className="bg-slate-400 w-96 h-96 mx-auto">
+                <p>Drage and drop</p>
+            </div>
+
             <div className="relative">
 
                 {getTotalImage > getProccessImgIndex && <Loading_2 />}
 
-                { getTotalImage !== getProccessImgIndex && getAfterBeforeImg.length > 0 && actionStatus == "" &&
+                {getTotalImage !== getProccessImgIndex && getAfterBeforeImg.length > 0 && actionStatus == "" &&
                     <div >
 
                         <div className={`grid grid-cols-4 gap-4 pt-2 ml-2  pr-3`}>
@@ -185,17 +277,17 @@ const ImageUpload = () => {
                                     }
 
                                 >
-                                        <div
-                                            className={`img-container w-full h-full  bg-no-repeat  cursor-pointer img-bag ${getAfterBeforeImg.length === 1 ? "h-[400px] justify-center" : "img-bag"}`}
-                                            onClick={() => viewImg((currentPage - 1) * itemsPerPage + index)}
-                                        //   style={{
-                                        //     backgroundImage: `url(${image.output_urls[0].compressed_raw_image_public_url})`,
-                                        //   }}
-                                        >
-                                            <img className="w-full h-full" src={image.output_urls[0].compressed_raw_image_public_url} />
-                                        </div>
+                                    <div
+                                        className={`img-container w-full h-full  bg-no-repeat  cursor-pointer img-bag ${getAfterBeforeImg.length === 1 ? "h-[400px] justify-center" : "img-bag"}`}
+                                        onClick={() => viewImg((currentPage - 1) * itemsPerPage + index)}
+                                    //   style={{
+                                    //     backgroundImage: `url(${image.output_urls[0].compressed_raw_image_public_url})`,
+                                    //   }}
+                                    >
+                                        <img className="w-full h-full" src={image.output_urls[0].compressed_raw_image_public_url} />
+                                    </div>
 
-                                    
+
                                     {/* <div className="flex gap-1  ">
                                         {image.output_urls[0].is_ai_processed ?
                                             <p><i className="fa-solid text-green-400 absolute top-2 right-2 fa-circle-check"></i></p>
@@ -212,28 +304,104 @@ const ImageUpload = () => {
                     </div>
                 }
 
-{console.log(getAfterBeforeImg)}
+                {console.log(getAfterBeforeImg)}
                 {getTotalImage !== 0 && getTotalImage == getProccessImgIndex &&
+                    <div>
 
+                        <div className="flex gap-16 justify-center">
+                            {/* <div className="flex items-center">
+                                <img className="h-[300px] w-[300px] skew-y-3  opacity-50" src={p3} />
+                            </div> */}
+                            <div className="h-[500px] w-[500px]">
 
-                    <div className="flex gap-8 justify-center">
-                        <div className="h-[600px] w-[600px]">
-                            
-                        <CompareImage
-                                topImage={getAfterBeforeImg[0].output_urls[0].compressed_raw_image_public_url}
-                                bottomImage={getAfterBeforeImg[0].output_urls[0].default_compressed_output_public_url} />
-                            {/* <CompareImage
+                                <CompareImage
+                                    topImage={getAfterBeforeImg[0].output_urls[0].compressed_raw_image_public_url}
+                                    bottomImage={getAfterBeforeImg[0].output_urls[0].default_compressed_output_public_url} />
+                                {/* <CompareImage
                                 topImage={"https://cdn.pixabay.com/photo/2015/11/16/14/43/cat-1045782__340.jpg"}
                                 bottomImage={"https://cdn.pixabay.com/photo/2015/11/16/14/43/cat-1045782__340.jpg"} /> */}
-                        </div>
-                        <div className="flex items-center">
-                            <button className=" px-4 py-1 bg-[#696C96] rounded-lg  text-white">Process Image</button>
-                        </div>
+                            </div>
 
+                            {/* <div className="flex items-center">
+                                <img class="css_transform h-[300px] w-[300px] -skew-y-3" src={p2} />
+                            </div> */}
+
+
+                        </div>
+                        <div className="">
+                            <button onClick={() => viewImg((currentPage - 1) * itemsPerPage)} className=" px-4 py-1 mt-4 bg-[#696C96] rounded-lg  text-white">Adjust Image</button>
+                        </div>
+                    </div>
+
+                }
+
+                {showImage &&
+                    <div>
+                        <div
+                            style={{
+                                position: "absolute",
+                                top: -20,
+                                left: -10,
+                                right: 0,
+                                bottom: 0,
+                                zIndex: 99,
+                                display: "flex",
+                                justifyContent: "center",
+                                // backgroundColor: "#ffff"
+                            }}
+                        >
+                            <div className="h-[550px] w-[800px] bg-white mt-5 relative rounded-md z-50">
+
+                                <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-16  font-semibold">Beautify imagery with Ad-on Professional Services</p>
+                                <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
+                                <div className="  pt-20 pl-16 absolute ">
+                                    <div className="w-[400px] h-[400px] border border-theme-shade  relative">
+                                        {getCallbackAiBool ?
+                                            <CompareImage
+                                                topImage={actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].compressed_raw_image_public_url : getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
+                                                bottomImage={actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].default_compressed_output_public_url : getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
+                                            /> :
+                                            <img className="h-full" src={actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].compressed_raw_image_public_url : getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
+                                        }
+                                        <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
+                                    </div>
+                                </div>
+
+                                {getAfterBeforeImg.length > 0 && <ServiceMenu callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
+                            </div>
+
+                            <div className="absolute top-[50%] w-full" style={{ transform: 'translateY(-50%)' }}>
+                                <button disabled={getImgIndex == 0} onClick={() => { setImgIndex(getImgIndex - 1) }} className="float-left ml-36 cursor-pointer text-white disabled:text-black ">
+                                    <i className="fa-solid fa-circle-chevron-left text-4xl "></i>
+                                    {/* <i className="fa-solid fa-circle-chevron-left"></i> */}
+                                </button>
+                                <button disabled={getImgIndex == getAfterBeforeImg.length - 1} onClick={() => { setImgIndex(getImgIndex + 1) }} className="float-right mr-36 cursor-pointer text-white  disabled:text-black ">
+                                    <i className="fa-solid fa-circle-chevron-right text-4xl "></i>
+                                    {/* <i className="fa-solid fa-circle-chevron-right"></i> */}
+                                </button>
+                            </div>
+                            <div className="absolute right-4 top-4 flex gap-2">
+                                <button
+                                    onClick={() => deletImage(getImgIndex)}
+                                    className="bg-white w-10 h-10 rounded-full border border-green-500"
+                                >
+                                    <i className="fa-regular fa-trash-can"></i>
+                                </button>
+                                <button
+                                    onClick={handleClose}
+                                    className="bg-white w-10 h-10 border border-green-500 rounded-full"
+                                >
+                                    <i className="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 }
+
+
+
             </div>
-        </div>
+        </div >
     )
 }
 

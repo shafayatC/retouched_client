@@ -12,7 +12,6 @@ export const menuContextManager = createContext();
 export const apiUrlContextManager = createContext();
 
 function App() {
-  const [getMainFile, setMainFile] = useState([]);
   const [fileInfo, setFileInfo] = useState([]);
   const [getAfterBeforeImg, setAfterBeforeImg] = useState([]);
   const [getImageData, setImageData] = useState()
@@ -38,8 +37,6 @@ function App() {
   return (
     <FileContextManager.Provider
       value={[
-        getMainFile,
-        setMainFile,
         fileInfo,
         setFileInfo,
         getAfterBeforeImg,
@@ -61,9 +58,10 @@ function App() {
           <menuContextManager.Provider value={[getMenuId, setMenuId, getMenu, setMenu, getDashboardMenu, setDashboardMenu]}>
             <apiUrlContextManager.Provider value={[getModelBaseUrl, setModelBaseUrl, getApiBasicUrl, setApiBasicUrl]}>
               <div className="App">
-                <InitialDataLoad/>
+                <InitialDataLoad />
                 <Routes>
                   <Route path="/" element={<HomeContainer />} />
+
                 </Routes>
               </div>
             </apiUrlContextManager.Provider>
