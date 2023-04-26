@@ -1,5 +1,6 @@
 import p1 from "../images/1.jpg"
 import p2 from "../images/2.jpg"
+import p3 from "../images/3.jpg"
 import CompareImage from "../CompareImage/CompareImage";
 import { FileContextManager, OrderContextManager, apiUrlContextManager, menuContextManager, userContextManager } from "../../App";
 import { useContext, useState } from "react";
@@ -213,6 +214,7 @@ const ImageUpload = () => {
 
 {console.log(getAfterBeforeImg)}
                 {getTotalImage !== 0 && getTotalImage == getProccessImgIndex &&
+
 
                     <div className="flex gap-8 justify-center">
                         <div className="h-[600px] w-[600px]">
