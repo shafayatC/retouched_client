@@ -8,7 +8,10 @@ import { useContext, useEffect, useState } from "react";
 import Loading_2 from "../Loading/Loading_2";
 import ServiceMenu from "../ServiceMenu/ServiceMenu";
 
-const ImageUpload = ({dragFiles}) => {
+import { Popover } from 'antd';
+import { Radio } from 'antd';
+
+const ImageUpload = ({ dragFiles }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [getSuggest, setSuggest] = useState([]);
     const [getImgIndex, setImgIndex] = useState(0);
@@ -54,6 +57,23 @@ const ImageUpload = ({dragFiles}) => {
         setImgIndex(img);
         setShowImage(true);
     };
+    const downloadContent = (
+        <div>
+            <Radio.Group defaultValue={1}>
+                <Radio value={1}>JPG</Radio>
+                <Radio value={2}>PNG</Radio>
+                <Radio value={3}>PSD</Radio>
+
+
+            </Radio.Group>
+            <div className="flex justify-end text-xs">
+                <button className="bg-green-600 text-white rounded-lg py-1 px-2 mt-2 font-semibold">Download</button>
+            </div>
+        </div>
+    )
+
+
+
 
     const handleClose = () => {
         setShowImage(false);
@@ -238,14 +258,16 @@ const ImageUpload = ({dragFiles}) => {
 
     }
 
-    useEffect(()=>{
+    useEffect(() => {
 
-       dragFiles.length > 0 && dragNdropFiles(dragFiles); 
+        dragFiles.length > 0 && dragNdropFiles(dragFiles);
 
-    },[dragFiles])
+    }, [dragFiles])
 
     return (
         <div id="upload" className="container mx-auto">
+
+
 
             <input
                 onChange={uploadFile}
@@ -296,7 +318,7 @@ const ImageUpload = ({dragFiles}) => {
                 {getTotalImage !== getProccessImgIndex && getAfterBeforeImg.length > 0 && actionStatus == "" &&
                     <div >
 
-                        <div className={`grid grid-cols-4 gap-4 pt-2 ml-2  pr-3`}>
+                        <div className={`grid grid-cols-4 gap-4 pt-2 ml-2     pr-3`}>
 
                             {currentImages.map((image, index) => (
                                 <div
@@ -366,7 +388,7 @@ const ImageUpload = ({dragFiles}) => {
                                 // backgroundColor: "#ffff"
                             }}
                         >
-                            <div className="h-[550px] w-[800px] bg-white my-20 relative rounded-md z-50">
+                            <div className="h-[580px] w-[800px] bg-white my-20 relative rounded-md z-50">
                                 <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-16  font-semibold">Beautify imagery with Ad-on Professional Services</p>
                                 <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
                                 <div className="  pt-20 pl-16 absolute ">
@@ -380,7 +402,21 @@ const ImageUpload = ({dragFiles}) => {
                                         }
                                         <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
                                     </div>
+                                    <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
+
+                                        <Popover content={downloadContent} trigger="click">
+                                            <div className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                                                <p className="text-xs">Download</p></div>
+                                        </Popover>
+
+                                        <div
+
+                                            className="cursor-pointer"><p><i class="fa-solid fa-sliders"></i></p>
+                                            <p className="text-xs">Adjust</p></div>
+
+                                    </div>
                                 </div>
+
 
                                 {getAfterBeforeImg.length > 0 && <ServiceMenu callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
                             </div>
