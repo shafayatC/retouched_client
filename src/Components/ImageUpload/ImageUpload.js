@@ -4,14 +4,19 @@ import p3 from "../images/3.jpg"
 import CompareImage from "../CompareImage/CompareImage";
 import { FileContextManager, OrderContextManager, apiUrlContextManager, menuContextManager, userContextManager } from "../../App";
 import { useContext, useState } from "react";
-import './style.css';
+
 import Loading_2 from "../Loading/Loading_2";
+import ServiceMenu from "../ServiceMenu/ServiceMenu";
 
 const ImageUpload = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [getSuggest, setSuggest] = useState([]);
     const [getImgIndex, setImgIndex] = useState();
     const [showImage, setShowImage] = useState(false);
+
+    const [getSwitchLoop, setSwitchLoop] = useState(false);
+    //const [getProccessImgIndex, setProccessImgIndex] = useState(0)
+    const [getCallbackAiBool, setCallbackAiBool] = useState(false);
 
     const [
         getMainFile,
@@ -49,6 +54,52 @@ const ImageUpload = () => {
         console.log(img);
         setImgIndex(img);
         setShowImage(true);
+    };
+
+    const handleClose = () => {
+        setShowImage(false);
+        switchLoopFunc()
+    };
+
+    const callBackIsAiProccess = (bl) => {
+        setCallbackAiBool(bl)
+    }
+
+    const switchLoopFunc = () => {
+
+        setSwitchLoop(!getSwitchLoop)
+    }
+
+    const deletImage = (dlImage) => {
+        //console.log(dlImage);
+
+        // const ImageIndex = getAfterBeforeImg.map((fl) => { return parseInt(fl.output_urls[0].order_image_detail_sequence_no) }).indexOf(fileInfo[getImgIndex].sequence_no);
+
+        // console.log(getAfterBeforeImg[ImageIndex].output_urls[0].order_image_detail_id)
+
+        const delateInfo = {
+            "id": getAfterBeforeImg[dlImage].output_urls[0].order_image_detail_id,
+            "is_deleted": true
+        }
+
+        fetch(getApiBasicUrl + "/update-order-image-detail", {
+            method: "POST", // or 'PUT'
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': 'bearer ' + getToken
+            },
+            body: JSON.stringify(delateInfo),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                // setFileInfo(fileInfo.filter((f, index) => index !== dlImage));
+                setAfterBeforeImg(getAfterBeforeImg.filter((f, index) => index !== dlImage))
+                // setProccessImgIndex(getProccessImgIndex - 1)
+                handleClose();
+            })
+
+        //setFileInfo(fileInfo.filter((f) => f.imageUrl !== dlImage));
     };
 
     const uploadFile = (e) => {
@@ -146,7 +197,7 @@ const ImageUpload = () => {
     };
 
     return (
-        <div id="upload" className="container mx-auto my-20">
+        <div id="upload" className="container mx-auto my-20 min-h-screen">
 
             <input
                 onChange={uploadFile}
@@ -218,9 +269,9 @@ const ImageUpload = () => {
                     <div>
 
                         <div className="flex gap-16 justify-center">
-                            <div className="flex items-center">
+                            {/* <div className="flex items-center">
                                 <img className="h-[300px] w-[300px] skew-y-3  opacity-50" src={p3} />
-                            </div>
+                            </div> */}
                             <div className="h-[500px] w-[500px]">
 
                                 <CompareImage
@@ -231,18 +282,83 @@ const ImageUpload = () => {
                                 bottomImage={"https://cdn.pixabay.com/photo/2015/11/16/14/43/cat-1045782__340.jpg"} /> */}
                             </div>
 
-                            <div className="flex items-center">
+                            {/* <div className="flex items-center">
                                 <img class="css_transform h-[300px] w-[300px] -skew-y-3" src={p2} />
-                            </div>
+                            </div> */}
 
 
                         </div>
                         <div className="">
-                            <button className=" px-4 py-1 mt-4 bg-[#696C96] rounded-lg  text-white">Adjust Image</button>
+                            <button onClick={() => viewImg((currentPage - 1) * itemsPerPage)} className=" px-4 py-1 mt-4 bg-[#696C96] rounded-lg  text-white">Adjust Image</button>
                         </div>
                     </div>
 
                 }
+
+                {showImage &&
+                    <div>
+                        <div
+                            style={{
+                                position: "absolute",
+                                top: -20,
+                                left: -10,
+                                right: 0,
+                                bottom: 0,
+                                zIndex: 99,
+                                display: "flex",
+                                justifyContent: "center",
+                                // backgroundColor: "#ffff"
+                            }}
+                        >
+                            <div className="h-[550px] w-[800px] bg-white mt-5 relative rounded-md z-50">
+
+                                <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-16  font-semibold">Beautify imagery with Ad-on Professional Services</p>
+                                <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
+                                <div className="  pt-20 pl-16 absolute ">
+                                    <div className="w-[400px] h-[400px] border border-theme-shade  relative">
+                                        {getCallbackAiBool ?
+                                            <CompareImage
+                                                topImage={actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].compressed_raw_image_public_url : getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
+                                                bottomImage={actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].default_compressed_output_public_url : getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
+                                            /> :
+                                            <img className="h-full" src={actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].compressed_raw_image_public_url : getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
+                                        }
+                                        <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
+                                    </div>
+                                </div>
+
+                                {getAfterBeforeImg.length > 0 && <ServiceMenu callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
+                            </div>
+
+                            <div className="absolute top-[50%] w-full" style={{ transform: 'translateY(-50%)' }}>
+                                <button disabled={getImgIndex == 0} onClick={() => { setImgIndex(getImgIndex - 1) }} className="float-left ml-36 cursor-pointer text-white disabled:text-black ">
+                                    <i className="fa-solid fa-circle-chevron-left text-4xl "></i>
+                                    {/* <i className="fa-solid fa-circle-chevron-left"></i> */}
+                                </button>
+                                <button disabled={getImgIndex == getAfterBeforeImg.length - 1} onClick={() => { setImgIndex(getImgIndex + 1) }} className="float-right mr-36 cursor-pointer text-white  disabled:text-black ">
+                                    <i className="fa-solid fa-circle-chevron-right text-4xl "></i>
+                                    {/* <i className="fa-solid fa-circle-chevron-right"></i> */}
+                                </button>
+                            </div>
+                            <div className="absolute right-4 top-4 flex gap-2">
+                                <button
+                                    onClick={() => deletImage(getImgIndex)}
+                                    className="bg-white w-10 h-10 rounded-full border border-green-500"
+                                >
+                                    <i className="fa-regular fa-trash-can"></i>
+                                </button>
+                                <button
+                                    onClick={handleClose}
+                                    className="bg-white w-10 h-10 border border-green-500 rounded-full"
+                                >
+                                    <i className="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
 
             </div>
         </div >
