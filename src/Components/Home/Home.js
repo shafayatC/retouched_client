@@ -37,15 +37,22 @@ const Home = () => {
                         </div>
                     </div>
                     <div className='flex flex-col  w-full  justify-center items-center h-[300px] mt-28 p-5 bg-gray-300 rounded-xl '>
-                        <div className='text-white font-bold px-5 py-2 bg-[#696C96] rounded-md '>
+                        {/* <div className='text-white font-bold px-5 py-2 bg-[#696C96] rounded-md '>
                             <h2 >UPLOAD IMAGE</h2>
                             <p><i className="fa-solid text-xl mt-2 fa-caret-down"></i></p>
+                        </div> */}
+                        <div
+
+                            className=" rounded-lg flex flex-col justify-center items-center w-[400px] h-40 mx-auto"
+                        >
+                            <p><i className="fa-solid text-[#696C96] text-7xl fa-cloud-arrow-up"></i></p>
+                            <p className="text-center text-lg mt-4 ">Choose your <span className="font-bold">File</span> or drag it here...</p>
                         </div>
                         <div >
-                            <div className="content flex justify-center mt-8 gap-5">
+                            <div className="content flex justify-center mt-4 gap-5">
                                 <div className="round-container">
                                     <a
-                                    //  href='#upload'
+                                        //  href='#upload'
                                         onClick={() =>
                                             document.querySelector("#singleImagePick").click()
                                         }
@@ -53,11 +60,11 @@ const Home = () => {
                                         File
                                     </a>
                                 </div>
-                                <a 
-                                onClick={() =>
-                                    document.querySelector("#filepicker").click()
-                                }
-                                className="round-container">
+                                <a
+                                    onClick={() =>
+                                        document.querySelector("#filepicker").click()
+                                    }
+                                    className="round-container">
                                     <button className="round-content">
                                         Folder
                                     </button>
