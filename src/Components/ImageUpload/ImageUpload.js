@@ -3,17 +3,17 @@ import p2 from "../images/2.jpg"
 import p3 from "../images/3.jpg"
 import CompareImage from "../CompareImage/CompareImage";
 import { FileContextManager, OrderContextManager, apiUrlContextManager, menuContextManager, userContextManager } from "../../App";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import Loading_2 from "../Loading/Loading_2";
 import ServiceMenu from "../ServiceMenu/ServiceMenu";
 
-const ImageUpload = () => {
+const ImageUpload = ({dragFiles}) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [getSuggest, setSuggest] = useState([]);
     const [getImgIndex, setImgIndex] = useState(0);
     const [showImage, setShowImage] = useState(false);
-    const [getFirstImgView, setFirstImgView] = useState(true); 
+    const [getFirstImgView, setFirstImgView] = useState(true);
 
     const [getSwitchLoop, setSwitchLoop] = useState(false);
     //const [getProccessImgIndex, setProccessImgIndex] = useState(0)
@@ -69,7 +69,7 @@ const ImageUpload = () => {
         setSwitchLoop(!getSwitchLoop)
     }
 
-    const hanleCloseFirstImg =()=>{
+    const hanleCloseFirstImg = () => {
         setFirstImgView(false)
     }
 
@@ -145,7 +145,7 @@ const ImageUpload = () => {
                 setOrderMasterId(order_id)
                 setTotalImage(0)
                 setProccessImgIndex(0)
-                setFirstImgView(true); 
+                setFirstImgView(true);
 
                 let i = 0;
                 for (const file of newFile) {
@@ -238,8 +238,14 @@ const ImageUpload = () => {
 
     }
 
+    useEffect(()=>{
+
+       dragFiles.length > 0 && dragNdropFiles(dragFiles); 
+
+    },[dragFiles])
+
     return (
-        <div id="upload" className="container mx-auto my-20 min-h-screen">
+        <div id="upload" className="container mx-auto">
 
             <input
                 onChange={uploadFile}
@@ -261,21 +267,27 @@ const ImageUpload = () => {
                 accept="image/jpeg, image/png, image/tiff,.tif"
                 multiple
             />
+            {/* {getTotalImage < 1 &&
 
-            <div
-                onClick={() =>
-                    document.querySelector("#singleImagePick").click()
-                }
-                onDrop={dropHandler}
-                onDragOver={dragOverHandler}
-                onDragEnter={e => console.log("")}
-                onDragLeave={e => console.log("")}
-                id='drop-zone'
-                className="bg-[#A0A2B7] rounded-lg flex flex-col justify-center items-center w-[600px] h-96 mx-auto"
-                >
-              <p><i className="fa-solid text-7xl fa-download"></i></p>
-                <p className="text-center text-lg mt-4 ">Choose a <span className="font-bold">File</span> or drag it here...</p>
-            </div>
+                <div className="flex items-center h-screen w-full">
+
+                    <div
+                        onClick={() =>
+                            document.querySelector("#singleImagePick").click()
+                        }
+                        onDrop={dropHandler}
+                        onDragOver={dragOverHandler}
+                        onDragEnter={e => console.log("")}
+                        onDragLeave={e => console.log("")}
+                        id='drop-zone'
+                        className="bg-[#A0A2B7] rounded-lg flex flex-col justify-center items-center w-[600px] h-96 mx-auto"
+                    >
+                        <p><i className="fa-solid text-7xl fa-download"></i></p>
+                        <p className="text-center text-lg mt-4 ">Choose a <span className="font-bold">File</span> or drag it here...</p>
+                    </div>
+                </div>
+            } */}
+
 
             <div className="relative">
 
@@ -343,7 +355,7 @@ const ImageUpload = () => {
                     <div>
                         <div
                             style={{
-                                position: "absolute",
+                                // position: "absolute",
                                 top: -20,
                                 left: -10,
                                 right: 0,
@@ -354,17 +366,17 @@ const ImageUpload = () => {
                                 // backgroundColor: "#ffff"
                             }}
                         >
-                            <div className="h-[550px] w-[800px] bg-white mt-5 relative rounded-md z-50">
+                            <div className="h-[550px] w-[800px] bg-white my-20 relative rounded-md z-50">
                                 <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-16  font-semibold">Beautify imagery with Ad-on Professional Services</p>
                                 <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
                                 <div className="  pt-20 pl-16 absolute ">
                                     <div className="w-[400px] h-[400px] border border-theme-shade  relative">
                                         {getCallbackAiBool ?
                                             <CompareImage
-                                                topImage={ getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
+                                                topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
                                                 bottomImage={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
                                             /> :
-                                            <img className="h-full" src={ getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
+                                            <img className="h-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
                                         }
                                         <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
                                     </div>
@@ -404,7 +416,7 @@ const ImageUpload = () => {
                     <div>
                         <div
                             style={{
-                                position: "absolute",
+                                // position: "absolute",
                                 top: -20,
                                 left: -10,
                                 right: 0,
@@ -415,7 +427,7 @@ const ImageUpload = () => {
                                 // backgroundColor: "#ffff"
                             }}
                         >
-                            <div className="h-[550px] w-[800px] bg-white mt-5 relative rounded-md z-50">
+                            <div className="h-[550px] w-[800px] bg-white my-20 relative rounded-md z-50">
 
                                 <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-16  font-semibold">Beautify imagery with Ad-on Professional Services</p>
                                 <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
