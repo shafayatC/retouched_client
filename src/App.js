@@ -4,6 +4,7 @@ import './App.css';
 import { Routes, Route } from "react-router-dom";
 import HomeContainer from './Components/HomeContainer/HomeContainer';
 import InitialDataLoad from './Components/InitialDataLoad/InitialDataLoad';
+import CostBreakDown from './Components/CostBreakDown/CostBreakDown';
 
 export const FileContextManager = createContext();
 export const OrderContextManager = createContext();
@@ -61,6 +62,7 @@ function App() {
                 <InitialDataLoad />
                 <Routes>
                   <Route path="/" element={<HomeContainer />} />
+                  <Route path='/cost-breakdown' element={<CostBreakDown />} />
 
                 </Routes>
               </div>
