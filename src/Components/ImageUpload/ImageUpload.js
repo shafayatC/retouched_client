@@ -464,21 +464,21 @@ const ImageUpload = ({ dragFiles }) => {
                             </div>
                         </div>
 
-                        <div className="px-10"> 
-                        
-                        <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
+                        <div className="px-10">
 
-                            <Popover content={downloadContent} trigger="click">
-                                <div className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
-                                    <p className="text-xs">Download</p></div>
-                            </Popover>
+                            <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
 
-                            <div
+                                <Popover content={downloadContent} trigger="click">
+                                    <div className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                                        <p className="text-xs">Download</p></div>
+                                </Popover>
 
-                                className="cursor-pointer"><p><i class="fa-solid fa-sliders"></i></p>
-                                <p className="text-xs">Adjust</p></div>
+                                <div
 
-                        </div>
+                                    className="cursor-pointer"><p><i class="fa-solid fa-sliders"></i></p>
+                                    <p className="text-xs">Adjust</p></div>
+
+                            </div>
                         </div>
 
                         {/* <div className="h-[580px] w-[800px] bg-white my-20 relative rounded-md z-50">
