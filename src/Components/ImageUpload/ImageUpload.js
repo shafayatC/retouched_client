@@ -476,6 +476,7 @@ const ImageUpload = ({ dragFiles }) => {
                         </div>
 
 
+
                         {getAfterBeforeImg.length > 0 && <ServiceMenu callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
                     </div>
 
