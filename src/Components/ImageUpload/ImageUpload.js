@@ -596,7 +596,7 @@ const ImageUpload = ({ dragFiles }) => {
                     </div>
                 )}
             </>
-            {/* Login Modal end-------------------------------------- */}
+            {/* Login Modal end----------------------------------------- */}
 
         </div >
     )
