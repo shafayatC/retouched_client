@@ -68,9 +68,8 @@ const CostBreakDown = () => {
                                 <p className="font-semibold text-sm">Subscription: </p>
                                 <p className="font-semibold text-sm">Payment Status: </p>
                             </div>
-                            {Object.keys(getCostDetails).length > 0 &&
+                            {Object.keys(getCostDetails).length > 0 && typeof getCostDetails.results.order_master_charge_breakdown[0] != 'undefined' &&
                                 <div className="text-start">
-
                                     <p className=" text-sm">{getCostDetails.results.order_master_charge_breakdown[0].order_service_type}</p>
                                     <p className=" text-sm">{getCostDetails.results.order_master_charge_breakdown[0].order_subscription_plan_type}</p>
                                     <p className=" text-sm">{getCostDetails.results.order_master_charge_breakdown[0].order_payment_status}</p>
@@ -122,7 +121,7 @@ const CostBreakDown = () => {
                             <p className="font-semibold text-sm">Discount: </p><hr></hr>
                             <p className="font-semibold text-sm">Total Charge: </p><hr></hr>
                         </div>
-                        {Object.keys(getCostDetails).length > 0 && typeof getCostDetails.results.order_master_charge_breakdown !== 'undefined' &&
+                        {Object.keys(getCostDetails).length > 0 && typeof getCostDetails.results.order_master_charge_breakdown !== 'undefined' && typeof getCostDetails.results.order_master_charge_breakdown[0] !== 'undefined' &&
                             <div className="mr-8">
 
                                 <p className="font-semibold text-sm">{getCostDetails.results.order_master_charge_breakdown[0].total_charge}</p>
@@ -136,7 +135,7 @@ const CostBreakDown = () => {
                         <hr className="mb-3"></hr>
                         <p className="text-xs text-center  mb-5"> <span className="font-bold">Address:</span> 2nd Floor, Navana DH Tower, Plot:06, Panthapath, Dhaka, Bangladesh   <span className="font-bold">Phone:</span> 02-55013583   <span className="font-bold">Email:</span> info@retouched.ai</p>
                     </div>
-                    <Link to="/">
+                    <Link to="/#upload">
                         <button
                             className=" w-10 h-10 border border-green-600 rounded-full"
                             style={{
