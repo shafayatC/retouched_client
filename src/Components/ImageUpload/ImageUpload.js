@@ -277,50 +277,50 @@ const ImageUpload = ({ dragFiles }) => {
     }
 
 
-    const reviewPaymentFunc = async () => {
-        // openModal()
+    // const reviewPaymentFunc = async () => {
+    //     // openModal()
 
-        try {
-            const data = await localforage.getItem('userInfo');
-            // This code runs once the value has been loaded
-            // from the offline store.
-            if (data !== null && Object.keys(data).length > 0) {
+    //     try {
+    //         const data = await localforage.getItem('userInfo');
+    //         // This code runs once the value has been loaded
+    //         // from the offline store.
+    //         if (data !== null && Object.keys(data).length > 0) {
 
-                console.log(data)
-                setUserInfo(data);
-                setToken(data.results.token);
+    //             console.log(data)
+    //             setUserInfo(data);
+    //             setToken(data.results.token);
 
-                const orderId = {
-                    "id": getOrderMasterId
-                }
+    //             const orderId = {
+    //                 "id": getOrderMasterId
+    //             }
 
-                fetch(getApiBasicUrl + "/update-order-master-info-by-id", {
-                    method: "POST", // or 'PUT'
-                    headers: {
-                        "Content-Type": "application/json",
-                        'Authorization': 'bearer ' + data.results.token
-                    },
-                    body: JSON.stringify(orderId),
-                })
-                    .then((res) => res.json())
-                    .then((data) => {
-                        console.log(data);
-                        if (data.status_code == 200) {
-                            navigate('/cart')
-                        } else {
-                            setIsOpen(true);
-                        }
-                    })
+    //             fetch(getApiBasicUrl + "/update-order-master-info-by-id", {
+    //                 method: "POST", // or 'PUT'
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                     'Authorization': 'bearer ' + data.results.token
+    //                 },
+    //                 body: JSON.stringify(orderId),
+    //             })
+    //                 .then((res) => res.json())
+    //                 .then((data) => {
+    //                     console.log(data);
+    //                     if (data.status_code == 200) {
+    //                         navigate('/cart')
+    //                     } else {
+    //                         setIsOpen(true);
+    //                     }
+    //                 })
 
-            } else {
-                openModal()
-            }
-        } catch (err) {
-            console.log(err);
-            openModal()
-        }
+    //         } else {
+    //             openModal()
+    //         }
+    //     } catch (err) {
+    //         console.log(err);
+    //         openModal()
+    //     }
 
-    }
+    // }
     useEffect(() => {
 
         dragFiles.length > 0 && dragNdropFiles(dragFiles);
@@ -328,7 +328,8 @@ const ImageUpload = ({ dragFiles }) => {
     }, [getAfterBeforeImg, dragFiles])
 
     return (
-        <div id="upload" className={getAfterBeforeImg.length > 0 ? 'min-h-screen container mx-auto relative pb-20' : 'container mx-auto relative'}>
+        <div id="upload" className="bg-[#04403e]">
+            <div  className={getAfterBeforeImg.length > 0 ? 'min-h-screen container mx-auto relative pb-20' : 'container mx-auto relative'}>
             <input
                 onChange={uploadFile}
                 type="file"
@@ -371,19 +372,19 @@ const ImageUpload = ({ dragFiles }) => {
             } */}
 
 
-            <div className="relative">
+            <div className={`relative ${getAfterBeforeImg.length > 0 && ' pt-4'}`}>
 
                 {getTotalImage > getProccessImgIndex && <Loading_2 />}
 
                 {getAfterBeforeImg.length > 0 && actionStatus == "" &&
                     <div >
 
-                        <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4 pt-2 ml-2  pr-3 `}>
+                        <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10 pt-2 ml-2  pr-3 ${getAfterBeforeImg.length > 0 && ' h-[400]'}`}>
 
                             {currentImages.map((image, index) => (
                                 <div
                                     key={index}
-                                    className={`flex relative justify-center h-[350px]`}
+                                    className={`relative h-[250px]`}
 
                                 >
                                     <div
@@ -433,7 +434,7 @@ const ImageUpload = ({ dragFiles }) => {
             </div>
             {getTotalImage !== 0 && getTotalImage == getProccessImgIndex && getFirstImgView &&
 
-                <div className="flex items-center justify-center absolute top-0 left-0 bg-[#eeeeee] w-full h-full">
+                <div className="flex items-center justify-center absolute top-0 left-0 bg-[#04403e] w-full h-full">
                     <div
                         // style={{
                         //     // position: "absolute",
@@ -446,14 +447,14 @@ const ImageUpload = ({ dragFiles }) => {
                         //     justifyContent: "center",
                         //     // backgroundColor: "#ffff"
                         // }}
-                        className="flex flex-col justify-center z-50 bg-white pb-3"
+                        className="flex flex-col justify-center z-50 bg-white pb-3 mt-[-50px]"
                     >
                         {getShowSrvMenu ? 
-                        <div className="h-[580px] w-[800px] bg-white relative rounded-md z-50">
-                        <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-16  font-semibold">Beautify imagery with Ad-on Professional Services</p>
+                        <div className="h-[450px] w-[700px] bg-white relative rounded-md z-50">
+                        <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-10  font-semibold">Beautify imagery with Ad-on Professional Services</p>
                         <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
-                        <div className="  pt-20 pl-16 absolute ">
-                            <div className="w-[400px] h-[400px] border border-theme-shade  relative">
+                        <div className=" w-[400px] pt-20 pl-16 absolute ">
+                            <div className="h-[300px] border border-theme-shade  relative">
                                 {getCallbackAiBool ?
                                     <CompareImage
                                         topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
@@ -481,19 +482,18 @@ const ImageUpload = ({ dragFiles }) => {
                     </div>
 
                         : 
-                        
-                        
+                    
                         <div>
-                            <div className="h-[500px] w-[700px] bg-white relative rounded-md z-50">
+                            <div className="h-[400px] w-[700px] bg-white relative rounded-md z-50">
                                 <p className="w-full text-white px-2 py-2  absolute top-0 bg-teal-500  font-semibold">Beautify imagery with Ad-on Professional Services</p>
                                 <div className=" w-full pt-20 px-10 absolute ">
-                                    <div className="w-full h-[400px] border border-theme-shade  relative">
+                                    <div className="w-full h-[300px] border border-theme-shade  relative">
                                         {getCallbackAiBool ?
                                             <CompareImage
                                                 topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
                                                 bottomImage={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
                                             /> :
-                                            <img className="h-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
+                                            <img className="h-full w-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
                                         }
                                         <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
                                     </div>
@@ -546,66 +546,116 @@ const ImageUpload = ({ dragFiles }) => {
 
             }
             {showImage &&
-                <div className="flex items-center justify-center absolute top-0 left-0 bg-[#eeeeee] w-full h-full">
-                    <div
-                        style={{
-                            // position: "absolute",
-                            top: -20,
-                            left: -10,
-                            right: 0,
-                            bottom: 0,
-                            zIndex: 99,
-                            display: "flex",
-                            justifyContent: "center",
-                            // backgroundColor: "#ffff"
-                        }}
-                    >
-                        <div className="h-[550px] w-[800px] bg-white my-20 relative rounded-md z-50">
 
-                            <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-16  font-semibold">Beautify imagery with Ad-on Professional Services</p>
-                            <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
-                            <div className="  pt-20 pl-16 absolute ">
-                                <div className="w-[400px] h-[400px] border border-theme-shade  relative">
-                                    {getCallbackAiBool ?
-                                        <CompareImage
-                                            topImage={actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].compressed_raw_image_public_url : getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
-                                            bottomImage={actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].default_compressed_output_public_url : getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
-                                        /> :
-                                        <img className="h-full" src={actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].compressed_raw_image_public_url : getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
-                                    }
-                                    <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
-                                </div>
-                            </div>
+<div className="flex items-center justify-center absolute top-0 left-0 bg-[#04403e] w-full h-full">
+<div
+    // style={{
+    //     // position: "absolute",
+    //     // top: -20,
+    //     left: -10,
+    //     right: 0,
+    //     bottom: 0,
+    //     zIndex: 99,
+    //     display: "flex",
+    //     justifyContent: "center",
+    //     // backgroundColor: "#ffff"
+    // }}
+    className="flex flex-col justify-center z-50 bg-white pb-3 mt-[-50px]"
+>
+    {getShowSrvMenu ? 
+    <div className="h-[450px] w-[700px] bg-white relative rounded-md z-50">
+    <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-10  font-semibold">Beautify imagery with Ad-on Professional Services</p>
+    <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
+    <div className=" w-[400px] pt-20 pl-16 absolute ">
+        <div className="h-[300px] border border-theme-shade  relative">
+            {getCallbackAiBool ?
+                <CompareImage
+                    topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
+                    bottomImage={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
+                /> :
+                <img className="h-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
+            }
+            <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
+        </div>
+        <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
 
-                            {getAfterBeforeImg.length > 0 && <ServiceMenu callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
-                        </div>
+            <Popover content={downloadContent} trigger="click">
+                <div className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                    <p className="text-xs">Download</p></div>
+            </Popover>
 
-                        <div className="absolute left-0 top-[50%] w-full" style={{ transform: 'translateY(-50%)' }}>
-                            <button disabled={getImgIndex == 0} onClick={() => { setImgIndex(getImgIndex - 1) }} className="float-left ml-36 cursor-pointer text-white disabled:text-black ">
-                                <i className="fa-solid fa-circle-chevron-left text-4xl "></i>
-                                {/* <i className="fa-solid fa-circle-chevron-left"></i> */}
-                            </button>
-                            <button disabled={getImgIndex == getAfterBeforeImg.length - 1} onClick={() => { setImgIndex(getImgIndex + 1) }} className="float-right mr-36 cursor-pointer text-white  disabled:text-black ">
-                                <i className="fa-solid fa-circle-chevron-right text-4xl "></i>
-                                {/* <i className="fa-solid fa-circle-chevron-right"></i> */}
-                            </button>
-                        </div>
-                        <div className="absolute right-4 top-4 flex gap-2">
-                            <button
-                                onClick={() => deletImage(getImgIndex)}
-                                className="bg-white w-10 h-10 rounded-full border border-green-500"
-                            >
-                                <i className="fa-regular fa-trash-can"></i>
-                            </button>
-                            <button
-                                onClick={handleClose}
-                                className="bg-white w-10 h-10 border border-green-500 rounded-full"
-                            >
-                                <i className="fa-solid fa-xmark"></i>
-                            </button>
-                        </div>
-                    </div>
+            <div onClick={showSrvMenuFunc} className="cursor-pointer"><p><i class="fa-solid fa-sliders"></i></p>
+                <p className="text-xs">Adjust</p></div>
+        </div>
+    </div>
+
+
+
+    {getAfterBeforeImg.length > 0 && <ServiceMenu callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
+</div>
+
+    : 
+
+    <div>
+        <div className="h-[400px] w-[700px] bg-white relative rounded-md z-50">
+            <p className="w-full text-white px-2 py-2  absolute top-0 bg-teal-500  font-semibold">Beautify imagery with Ad-on Professional Services</p>
+            <div className=" w-full pt-20 px-10 absolute ">
+                <div className="w-full h-[300px] border border-theme-shade  relative">
+                    {getCallbackAiBool ?
+                        <CompareImage
+                            topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
+                            bottomImage={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
+                        /> :
+                        <img className="h-full w-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
+                    }
+                    <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
                 </div>
+            </div>
+        </div>
+
+        <div className="px-10">
+
+            <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
+
+                <Popover content={downloadContent} trigger="click">
+                    <div className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                        <p className="text-xs">Download</p></div>
+                </Popover>
+
+                <div onClick={showSrvMenuFunc} className="cursor-pointer">
+                    <p><i class="fa-solid fa-sliders"></i></p>
+                    <p className="text-xs">Adjust</p></div>
+            </div>
+        </div>
+    </div>
+    }
+    
+    <div className="absolute left-0 top-[50%] w-full" style={{ transform: 'translateY(-50%)' }}>
+        <button disabled={getImgIndex == 0} onClick={() => { setImgIndex(getImgIndex - 1) }} className="float-left ml-36 cursor-pointer text-white disabled:text-black ">
+            <i className="fa-solid fa-circle-chevron-left text-4xl "></i>
+            {/* <i className="fa-solid fa-circle-chevron-left"></i> */}
+        </button>
+        <button disabled={getImgIndex == getAfterBeforeImg.length - 1} onClick={() => { setImgIndex(getImgIndex + 1) }} className="float-right mr-36 cursor-pointer text-white  disabled:text-black ">
+            <i className="fa-solid fa-circle-chevron-right text-4xl "></i>
+            {/* <i className="fa-solid fa-circle-chevron-right"></i> */}
+        </button>
+    </div>
+    <div className="absolute right-4 top-4 flex gap-2">
+        <button
+            onClick={() => deletImage(getImgIndex)}
+            className="bg-white w-10 h-10 rounded-full border border-green-500"
+        >
+            <i className="fa-regular fa-trash-can"></i>
+        </button>
+        <button
+            onClick={handleClose}
+            className="bg-white w-10 h-10 border border-green-500 rounded-full"
+        >
+            <i className="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+</div>
+</div>
 
             }
             {getAfterBeforeImg.length > 0 &&
@@ -618,9 +668,9 @@ const ImageUpload = ({ dragFiles }) => {
                             <p>Total Image(s) : {getAfterBeforeImg.length}</p>
                             {getTotalImage == getProccessImgIndex && <p>Total Charge : <TotalBill actionSwitch={getSwitchLoop} /></p>}
                         </div>
-                        <div onClick={reviewPaymentFunc} className="flex justify-center items-center">
+                        <Link to='/pricing' className="flex justify-center items-center">
                             <button className="px-4 py-1 rounded-lg bg-white text-black">Review Payment</button>
-                        </div>
+                        </Link>
                     </div>
                 </div>
             }
@@ -679,7 +729,7 @@ const ImageUpload = ({ dragFiles }) => {
                 )}
             </>
             {/* Login Modal end----------------------------------------- */}
-
+            </div>
         </div >
     )
 }
