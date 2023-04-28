@@ -9,6 +9,8 @@ import { menuContextManager } from '../../App';
 
 const Home = ({ callBackFile }) => {
 
+    const [showSignInForm, setShowSignInForm] = useState(false);
+    const [getSwitchForm, setSwitchForm] = useState(true); 
     const [getMenuId, setMenuId, getMenu, setMenu] = useContext(menuContextManager)
 
     function dragOverHandler(e) {
@@ -41,23 +43,27 @@ const Home = ({ callBackFile }) => {
         }
 
     }
-    const [showSignInForm, setShowSignInForm] = useState(false);
 
-
-    function SignInHandleOpen() {
+    const SignInHandleOpen=()=> {
         setShowSignInForm(true);
+        setSwitchForm(true)
     }
 
-    function SignInHandleClose() {
+    const SignUpHandleOpen =()=>{
+        setShowSignInForm(true);
+        setSwitchForm(false)
+    }
+    const SignInHandleClose = ()=>{
         setShowSignInForm(false);
     }
-
-
 
     return (
         <div id='home' className="bg_1 h-full pb-28">
             <div className='container mx-auto'>
                 <Navbar items={getMenu}></Navbar>
+
+                <button className="hidden" id="singInButton" onClick={SignInHandleOpen}></button>
+                <button className="hidden" id="singUpButton" onClick={SignUpHandleOpen}></button>
 
                 {/* <div className='flex justify-between mx-2 pt-4'>
                     <img className='h-12 w-12 rounded-full' src={logo} alt="" />
@@ -163,13 +169,15 @@ const Home = ({ callBackFile }) => {
             </div>
 
             <div className="flex justify-center items-center mb-8 ">
-                <button
+                {/* <button
                     className="bg-blue-500 text-white rounded-lg py-2 px-4 hover:bg-blue-600 transition-colors"
                     onClick={SignInHandleOpen}
                 >
                     Sign In
-                </button>
-                {showSignInForm && <SignInForm onClose={SignInHandleClose} />}
+                </button> */}
+
+                {showSignInForm && <SignInForm onClose={SignInHandleClose} switchBool={getSwitchForm} />}
+
             </div>
 
 

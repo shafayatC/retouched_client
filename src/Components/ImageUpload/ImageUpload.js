@@ -278,50 +278,51 @@ const ImageUpload = ({ dragFiles }) => {
     }
 
 
-    // const reviewPaymentFunc = async () => {
-    //     // openModal()
+    const reviewPaymentFunc = async () => {
+        // openModal()
+    
+        try {
+          const data = await localforage.getItem('userInfo');
+          // This code runs once the value has been loaded
+          // from the offline store.
+          if (data !== null && Object.keys(data).length > 0) {
+    
+            console.log(data)
+            setUserInfo(data);
+            setToken(data.results.token);
+    
+            const orderId = {
+              "id": getOrderMasterId
+            }
+    
+            fetch(getApiBasicUrl + "/update-order-master-info-by-id", {
+              method: "POST", // or 'PUT'
+              headers: {
+                "Content-Type": "application/json",
+                'Authorization': 'bearer ' + data.results.token
+              },
+              body: JSON.stringify(orderId),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                console.log(data);
+                if (data.status_code == 200) {
+                  navigate('/cart')
+                } else {
+                  setIsOpen(true);
+                }
+              })
+    
+          } else {
+            openModal()
+          }
+        } catch (err) {
+          console.log(err);
+          openModal()
+        }
+    
+      }
 
-    //     try {
-    //         const data = await localforage.getItem('userInfo');
-    //         // This code runs once the value has been loaded
-    //         // from the offline store.
-    //         if (data !== null && Object.keys(data).length > 0) {
-
-    //             console.log(data)
-    //             setUserInfo(data);
-    //             setToken(data.results.token);
-
-    //             const orderId = {
-    //                 "id": getOrderMasterId
-    //             }
-
-    //             fetch(getApiBasicUrl + "/update-order-master-info-by-id", {
-    //                 method: "POST", // or 'PUT'
-    //                 headers: {
-    //                     "Content-Type": "application/json",
-    //                     'Authorization': 'bearer ' + data.results.token
-    //                 },
-    //                 body: JSON.stringify(orderId),
-    //             })
-    //                 .then((res) => res.json())
-    //                 .then((data) => {
-    //                     console.log(data);
-    //                     if (data.status_code == 200) {
-    //                         navigate('/cart')
-    //                     } else {
-    //                         setIsOpen(true);
-    //                     }
-    //                 })
-
-    //         } else {
-    //             openModal()
-    //         }
-    //     } catch (err) {
-    //         console.log(err);
-    //         openModal()
-    //     }
-
-    // }
     useEffect(() => {
 
         dragFiles.length > 0 && dragNdropFiles(dragFiles);
@@ -656,6 +657,9 @@ const ImageUpload = ({ dragFiles }) => {
                                 </button>
                             </div>
                         </div>
+                        <button onClick={reviewPaymentFunc} className="flex justify-center items-center">
+                            <button className="px-4 py-1 rounded-lg bg-white text-black">Review Payment</button>
+                        </button>
                     </div>
 
                 }

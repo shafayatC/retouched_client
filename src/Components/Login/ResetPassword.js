@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { FaFacebookSquare, FaGoogle } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { apiUrlContextManager, userContextManager } from "../../App";
@@ -13,6 +13,7 @@ const ResetPassword = () => {
   const [getModelBaseUrl, setModelBaseUrl, getApiBasicUrl, setApiBasicUrl] = useContext(apiUrlContextManager); 
 
   let { token } = useParams();
+  const navigate = useNavigate();
 
   const showToastMessage = (msg) => {
     toast.success(msg, {
@@ -58,7 +59,7 @@ const ResetPassword = () => {
         const res = await rawResponse.json();
         console.log(res);
         res.status_code == 205 ? showToastMessage(res.message) : showToastMessageWarning(res.message)
-
+        res.status_code == 205 && navigate('/')
       } catch (error) {
         showToastMessageWarning(error)
       }
