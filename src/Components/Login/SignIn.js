@@ -141,7 +141,6 @@ const SignIn = () => {
                     placeholder="Password"
                   />
                 </div>
-
                 <div className="flex justify-between items-center mb-6">
                   <div className="form-group form-check">
                     <input
