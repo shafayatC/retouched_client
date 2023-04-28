@@ -4,7 +4,7 @@ import { apiUrlContextManager, menuContextManager, OrderContextManager, userCont
 import logo2 from '../images/logo2.png'
 // import Page2 from "../Page2/Page2";
 
-const CostBreakDown = () => {
+const CostBreakDown = ({ closeModal }) => {
 
     // const HandleClose = () => {
     //     costCallBack(false);
@@ -135,21 +135,21 @@ const CostBreakDown = () => {
                         <hr className="mb-3"></hr>
                         <p className="text-xs text-center  mb-5"> <span className="font-bold">Address:</span> 2nd Floor, Navana DH Tower, Plot:06, Panthapath, Dhaka, Bangladesh   <span className="font-bold">Phone:</span> 02-55013583   <span className="font-bold">Email:</span> info@retouched.ai</p>
                     </div>
-                    <Link to="/#upload">
-                        <button
-                            className=" w-10 h-10 border border-green-600 rounded-full"
-                            style={{
-                                position: "absolute",
-                                top: 10,
-                                right: 20,
-                                backgroundColor: "white",
-                                padding: "8px 15px",
-                            }}
-                        // onClick={HandleClose}
-                        >
-                            <i className="fa-solid fa-xmark"></i>
-                        </button>
-                    </Link>
+
+                    <button
+                        className=" w-10 h-10 border border-green-600 rounded-full"
+                        style={{
+                            position: "absolute",
+                            top: 10,
+                            right: 20,
+                            backgroundColor: "white",
+                            padding: "8px 15px",
+                        }}
+                        onClick={closeModal}
+                    >
+                        <i className="fa-solid fa-xmark"></i>
+                    </button>
+
 
                 </div>
 
