@@ -52,7 +52,7 @@ const Pricing = () => {
                 </div> */}
 
                 {/* pro----------------------- */}
-                {getSubscriptionPlan.results.subscription_plan_type.map((data, index) => (
+                {typeof getSubscriptionPlan.results !== 'undefined' && getSubscriptionPlan.results.subscription_plan_type.map((data, index) => (
                     <div className='h-[520px] w-[260px] mt-5 border border-blue-400 rounded-t-lg  pb-5'>
                         {/* <p className='w-full bg-blue-400 rounded-t-lg text-sm font-semibold text-white'>Most Popular</p> */}
                         <h2 className='text-center pt-10 text-purple-400  text-xl font-semibold'>{data.title}</h2>
