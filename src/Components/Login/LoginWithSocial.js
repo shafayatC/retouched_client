@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect, useState } from "react";
 import './style.css'
 import { apiUrlContextManager, userContextManager } from "../../App";
@@ -12,6 +13,7 @@ const LoginWithSocial = () => {
     const location = useLocation();
     const { prevPath } = location.state ? location.state : '/';
     const navigation = useNavigate()
+
 
     const twitterSignIn = () => {
 
@@ -35,6 +37,7 @@ const LoginWithSocial = () => {
             {/* <p className="mb-5 font-semibold">OR SIGN IN WITH</p> */}
             <div className="flex flex-col justify-center w-full  gap-5">
                 <div className=" flex justify-center">
+
                     <button onClick={twitterSignIn} className="py-1 text-xs px-2 gap-5 center-line w-60  border border-gray-500  font-medium rounded-lg  hover:bg-green-400 hover:shadow-lg "><i class="fa-brands  text-xl fa-twitter"></i>
                         Sign in with Twitter
                     </button>
@@ -46,6 +49,7 @@ const LoginWithSocial = () => {
                     </button>
                 </div>
                 <div className="flex justify-center">
+
                     <button className="py-1 text-xs px-2 gap-5 w-60 center-line border border-gray-500  font-medium rounded-lg  hover:bg-green-400 hover:shadow-lg "><i className="fa-brands  text-xl fa-google"></i>
                         Sign in with Google
                     </button>
