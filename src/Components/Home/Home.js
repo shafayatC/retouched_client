@@ -9,6 +9,16 @@ import { menuContextManager } from '../../App';
 
 const Home = ({ callBackFile }) => {
 
+    const [isModOpen, setIsModOpen] = useState(false);
+
+    const openModal = () => {
+        setIsModOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModOpen(false);
+    };
+
     const [showSignInForm, setShowSignInForm] = useState(false);
     const [getSwitchForm, setSwitchForm] = useState(true);
     const [getMenuId, setMenuId, getMenu, setMenu] = useContext(menuContextManager)
@@ -180,6 +190,66 @@ const Home = ({ callBackFile }) => {
 
             </div>
 
+            {/* --------------------Login Modal Start------------------- */}
+            <>
+                {isModOpen && (
+                    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-opacity-50 bg-gray-500">
+                        <div className="flex  bg-white w-[450px] mx-auto pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                            <div
+                                className="fixed inset-0 "
+                                aria-hidden="true"
+                                onClick={closeModal}
+                            >
+                                <div className="absolute inset-0 bg-gray-600 opacity-20"></div>
+
+                            </div>
+
+                            <div
+                                className="inline-block w-[460px] h-[180px] align-bottom border border-teal-700 bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all "
+                                role="dialog"
+                                aria-modal="true"
+                                aria-labelledby="modal-headline"
+                            >
+                                <div className="bg-white  flex justify-center pt-5 pb-4 sm:p-6 sm:pb-4">
+                                    <div className="sm:flex sm:items-start">
+
+                                        <div className="mt-3 mb-6 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                            <h3
+                                                className="text-xl leading-6 font-bold text-gray-900"
+
+                                            >
+                                                <i class="fa-solid text-yellow-500  fa-circle-exclamation"></i> Confirmation: <span className='text-lg font-medium'>Clear Previous Order Images</span>
+                                            </h3>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className=" py-4 flex gap-4 justify-center ">
+
+
+                                    <button
+                                        onClick={closeModal}
+                                        className="text-white w-20 bg-green-600  px-1 py-1 rounded-md">
+                                        Okay
+                                    </button>
+
+                                    <button
+
+                                        className="text-white w-20 bg-red-500  px-1 py-1 rounded-md"
+                                        onClick={closeModal}
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </>
+            {/* -------------Login Modal End------------------- */}
+            <button onClick={openModal} className='px-4 py-2 bg-white text-black rounded-lg'>
+                hello
+            </button>
 
         </div>
     )
