@@ -335,7 +335,7 @@ const ImageUpload = ({ dragFiles }) => {
     }, [getAfterBeforeImg, dragFiles])
 
     return (
-        <div id="upload" className="bg-[#04403e]">
+        <div id="upload" className="bg_1 border-b-4 border-white">
             <div className={getAfterBeforeImg.length > 0 ? 'min-h-screen container mx-auto relative pb-20' : 'container mx-auto relative'}>
                 <input
                     onChange={uploadFile}
@@ -678,6 +678,7 @@ const ImageUpload = ({ dragFiles }) => {
                                 <p>Total Image(s) : {getAfterBeforeImg.length}</p>
                                 {getTotalImage == getProccessImgIndex && <p>Total Charge : <TotalBill actionSwitch={getSwitchLoop} /></p>}
                             </div>
+
                         <Link to="/pricing"  className="flex justify-center items-center">
                             <button className="px-4 py-1 rounded-lg bg-white text-black">Review Payment</button>
                         </Link>

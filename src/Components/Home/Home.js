@@ -10,7 +10,7 @@ import { menuContextManager } from '../../App';
 const Home = ({ callBackFile }) => {
 
     const [showSignInForm, setShowSignInForm] = useState(false);
-    const [getSwitchForm, setSwitchForm] = useState(true); 
+    const [getSwitchForm, setSwitchForm] = useState(true);
     const [getMenuId, setMenuId, getMenu, setMenu] = useContext(menuContextManager)
 
     function dragOverHandler(e) {
@@ -44,21 +44,21 @@ const Home = ({ callBackFile }) => {
 
     }
 
-    const SignInHandleOpen=()=> {
+    const SignInHandleOpen = () => {
         setShowSignInForm(true);
         setSwitchForm(true)
     }
 
-    const SignUpHandleOpen =()=>{
+    const SignUpHandleOpen = () => {
         setShowSignInForm(true);
         setSwitchForm(false)
     }
-    const SignInHandleClose = ()=>{
+    const SignInHandleClose = () => {
         setShowSignInForm(false);
     }
 
     return (
-        <div id='home' className="bg_1 h-full pb-28">
+        <div id='home' className="bg_1 h-full pb-28 border-b-4 border-white">
             <div className='container mx-auto'>
                 <Navbar items={getMenu}></Navbar>
 
