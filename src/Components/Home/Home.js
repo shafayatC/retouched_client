@@ -4,20 +4,47 @@ import SignInForm from '../SignInForm/SignInForm';
 import logo from '../images/logo.png'
 import Navbar from './Navbar/Navbar';
 import './style.css'
-import { menuContextManager } from '../../App';
+import { FileContextManager, menuContextManager } from '../../App';
 
 
 const Home = ({ callBackFile }) => {
 
     const [isModOpen, setIsModOpen] = useState(false);
+    const [getActionId, setActionId] = useState(""); 
+    const [
+        fileInfo,
+        setFileInfo,
+        getAfterBeforeImg,
+        setAfterBeforeImg,
+        getLockMenuBool,
+        setLockMenuBool,
+        getImageData,
+        setImageData,
+        actionStatus,
+        setActionStatus,
+        getProccessImgIndex,
+        setProccessImgIndex,
+        getTotalImage,
+        setTotalImage
+    ] = useContext(FileContextManager);
 
-    const openModal = () => {
+    const openModal = (id) => {
+      if(getAfterBeforeImg.length > 0){
         setIsModOpen(true);
+        setActionId(id)
+      }else {
+        document.getElementById(id).click()
+      }
     };
 
     const closeModal = () => {
         setIsModOpen(false);
     };
+
+    const okayButton =()=>{
+        document.getElementById(getActionId).click()
+        closeModal()
+    }
 
     const [showSignInForm, setShowSignInForm] = useState(false);
     const [getSwitchForm, setSwitchForm] = useState(true);
@@ -127,21 +154,25 @@ const Home = ({ callBackFile }) => {
                                     <a
                                         //  href='#upload'
                                         onClick={() =>
-                                            document.querySelector("#singleImagePick").click()
+                                            // document.querySelector("#singleImagePick").click()
+                                            openModal("singleImagePick")
                                         }
                                         className="round-content">
                                         File
                                     </a>
                                 </div>
-                                <a
-                                    onClick={() =>
-                                        document.querySelector("#filepicker").click()
-                                    }
+                                <div
                                     className="round-container">
-                                    <button className="round-content">
+                                    <button 
+                                    
+                                    onClick={() =>
+                                        // document.querySelector("#filepicker").click()
+                                        openModal("filepicker")
+                                    }
+                                    className="round-content">
                                         Folder
                                     </button>
-                                </a>
+                                </div>
                                 <div className="round-container">
                                     <button className="round-content">
                                         FTP
@@ -228,7 +259,7 @@ const Home = ({ callBackFile }) => {
 
 
                                     <button
-                                        onClick={closeModal}
+                                        onClick={okayButton}
                                         className="text-white w-20 bg-green-600  px-1 py-1 rounded-md">
                                         Okay
                                     </button>
@@ -246,10 +277,7 @@ const Home = ({ callBackFile }) => {
                     </div>
                 )}
             </>
-            {/* -------------Login Modal End------------------- */}
-            <button onClick={openModal} className='px-4 py-2 bg-white text-black rounded-lg'>
-                hello
-            </button>
+
 
         </div>
     )
