@@ -14,6 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import TotalBill from "../TotalBill/TotalBill";
 import localforage from "localforage";
 import './style.css'
+import CostBreakDown from "../CostBreakDown/CostBreakDown";
 import SignInForm from "../SignInForm/SignInForm";
 
 const ImageUpload = ({ dragFiles }) => {
@@ -286,8 +287,9 @@ const ImageUpload = ({ dragFiles }) => {
 
     const reviewPaymentFunc = async () => {
         // openModal()
-    
+
         try {
+
           const data = await localforage.getItem('userInfo');
           // This code runs once the value has been loaded
           // from the offline store.
@@ -319,17 +321,34 @@ const ImageUpload = ({ dragFiles }) => {
                 } else {
                     openModal();
                 }
-              })
-    
-          } else {
-            openModal()
-          }
+
+                fetch(getApiBasicUrl + "/update-order-master-info-by-id", {
+                    method: "POST", // or 'PUT'
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': 'bearer ' + data.results.token
+                    },
+                    body: JSON.stringify(orderId),
+                })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        console.log(data);
+                        if (data.status_code == 200) {
+                            navigate('/cart')
+                        } else {
+                            setIsOpen(true);
+                        }
+                    })
+
+            } else {
+                openModal()
+            }
         } catch (err) {
-          console.log(err);
-          openModal()
+            console.log(err);
+            openModal()
         }
-    
-      }
+
+    }
 
     useEffect(() => {
 
@@ -674,7 +693,7 @@ const ImageUpload = ({ dragFiles }) => {
                 {getAfterBeforeImg.length > 0 &&
                     <div className="w-full bg-black rounded-md py-1 absolute flex justify-between px-10 bottom-5">
                         <div className="flex justify-center items-center font-bold">
-                            <Link to="/cost-breakdown" className="px-4 py-1 rounded-lg bg-white text-black" >Charge breakdown</Link>
+                            <button onClick={openModal} className="px-4 py-1 rounded-lg bg-white text-black" >Charge breakdown</button>
                         </div>
                         <div className="flex gap-20 font-bold">
                             <div className="text-white text-start text-sm">
@@ -687,10 +706,10 @@ const ImageUpload = ({ dragFiles }) => {
                         </div>
                     </div>
                 }
-                {/* LOgin Modal Start---------------------------------------------------- */}
+                {/* CostBreakDown Modal Start---------------------------------------------------- */}
                 <>
                     {isOpen && (
-                        <div className="fixed inset-0 z-50 top-48 ">
+                        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-opacity-50 bg-gray-500">
                             <div className="flex  bg-white w-[400px] mx-auto pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                                 <div
                                     className="fixed inset-0 "
@@ -702,21 +721,17 @@ const ImageUpload = ({ dragFiles }) => {
                                 </div>
 
                                 <div
-                                    className="inline-block w-[450px] h-[160px] align-bottom border border-teal-700 bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all "
+                                    className=" w-[750px] h-[560px] absolute bottom-10 left-[50%] align-bottom border border-teal-700 bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all "
                                     role="dialog"
                                     aria-modal="true"
                                     aria-labelledby="modal-headline"
+                                    style={{ transform: 'translateX(-50%)' }}
                                 >
                                     <div className="bg-white  flex justify-center pt-5 pb-4 sm:p-6 sm:pb-4">
                                         <div className="sm:flex sm:items-start">
 
                                             <div className="mt-3 mb-6 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                                <h3
-                                                    className="text-2xl leading-6 font-medium text-gray-900"
-                                                    id="modal-headline"
-                                                >
-                                                    Please Login to your account
-                                                </h3>
+                                                <CostBreakDown closeModal={closeModal} ></CostBreakDown>
 
                                             </div>
                                         </div>
@@ -741,6 +756,8 @@ const ImageUpload = ({ dragFiles }) => {
                         </div>
                     )}
                 </>
+                {/* CostBreakDown Modal end----------------------------------------- */}
+
                 {/* Login Modal end----------------------------------------- */}
                 {showSignInForm && <SignInForm onClose={SignInHandleClose} />}
             </div>

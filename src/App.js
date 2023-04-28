@@ -14,6 +14,7 @@ import ThankYouNote from './Components/Login/ThankYouNote';
 import SetPassword from './Components/Login/SetPassword';
 import ResetPasswordForm from './Components/Login/ResetPasswordForm';
 import ResetPassword from './Components/Login/ResetPassword';
+import ImageUpload from './Components/ImageUpload/ImageUpload';
 
 export const FileContextManager = createContext();
 export const OrderContextManager = createContext();
@@ -74,6 +75,7 @@ function App() {
                 <InitialDataLoad />
                 <Routes>
                   <Route path="/" element={<HomeContainer />} />
+
                   <Route path='/cost-breakdown' element={<CostBreakDown />} />
                   <Route path='/pricing' element={<Pricing />} />
                   <Route path='/log-in' element={<SignIn />} />
@@ -81,10 +83,10 @@ function App() {
                   <Route path="/confirm-password/:token" element={<SetPassword />} />
                   <Route path="/resetpasswordform/" element={<ResetPasswordForm />} />
                   <Route path="/reset-password/:token" element={<ResetPassword />} />
-                  <Route path="" element={<ThankYouNote/>}/>
+                  <Route path="" element={<ThankYouNote />} />
                 </Routes>
               </div>
-              <ToastContainer/>
+              <ToastContainer />
             </apiUrlContextManager.Provider>
           </menuContextManager.Provider>
         </userContextManager.Provider>
