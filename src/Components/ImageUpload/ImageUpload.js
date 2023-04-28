@@ -710,7 +710,7 @@ const ImageUpload = ({ dragFiles }) => {
 
                 }
                 {getAfterBeforeImg.length > 0 &&
-                    <div className="w-full bg-black border border-white rounded-md py-1 absolute flex justify-between px-10 bottom-5">
+                    <div className="w-full bg-black border z-[999] border-white rounded-md py-1 absolute flex justify-between px-10 bottom-5">
                         <div className="flex justify-center items-center font-bold">
                             <button onClick={openModal} className="px-4 py-1 rounded-lg bg-white text-black" >Charge breakdown</button>
                         </div>
