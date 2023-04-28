@@ -84,11 +84,11 @@ const ImageUpload = ({ dragFiles }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const openModal = () => {
-        // setIsOpen(true);
+        setIsOpen(true);
     };
 
     const closeModal = () => {
-        // setIsOpen(false);
+        setIsOpen(false);
     };
     const showSrvMenuFunc = () => {
         console.log(getShowSrvMenu)
@@ -279,54 +279,54 @@ const ImageUpload = ({ dragFiles }) => {
     }
 
 
-    const reviewPaymentFunc = async () => {
-        // openModal()
+    // const reviewPaymentFunc = async () => {
+    //     // openModal()
 
-        try {
+    //     try {
 
-          const data = await localforage.getItem('userInfo');
-          // This code runs once the value has been loaded
-          // from the offline store.
-          if (data !== null && Object.keys(data).length > 0) {
+    //       const data = await localforage.getItem('userInfo');
+    //       // This code runs once the value has been loaded
+    //       // from the offline store.
+    //       if (data !== null && Object.keys(data).length > 0) {
     
-            console.log(data)
-            setUserInfo(data);
-            setToken(data.results.token);
+    //         console.log(data)
+    //         setUserInfo(data);
+    //         setToken(data.results.token);
     
-            const orderId = {
-              "id": getOrderMasterId
-            }
+    //         const orderId = {
+    //           "id": getOrderMasterId
+    //         }
     
-            console.log(getOrderMasterId)
-            console.log(data.results.token)
-            fetch(getApiBasicUrl + "/update-order-master-info-by-id", {
-              method: "POST", // or 'PUT'
-              headers: {
-                "Content-Type": "application/json",
-                'Authorization': 'bearer ' + data.results.token
-              },
-              body: JSON.stringify(orderId),
-            })
-              .then((res) => res.json())
-              .then((data) => {
-                console.log(data);
-                if (data.status_code == 200) {
-                  navigate('/pricing')
-                } else {
-                    openModal();
-                }
-            }
-              )
+    //         console.log(getOrderMasterId)
+    //         console.log(data.results.token)
+    //         fetch(getApiBasicUrl + "/update-order-master-info-by-id", {
+    //           method: "POST", // or 'PUT'
+    //           headers: {
+    //             "Content-Type": "application/json",
+    //             'Authorization': 'bearer ' + data.results.token
+    //           },
+    //           body: JSON.stringify(orderId),
+    //         })
+    //           .then((res) => res.json())
+    //           .then((data) => {
+    //             console.log(data);
+    //             if (data.status_code == 200) {
+    //               navigate('/pricing')
+    //             } else {
+    //                 openModal();
+    //             }
+    //         }
+    //           )
 
-            } else {
-                openModal()
-            }
-        } catch (err) {
-            console.log(err);
-            openModal()
-        }
+    //         } else {
+    //             openModal()
+    //         }
+    //     } catch (err) {
+    //         console.log(err);
+    //         openModal()
+    //     }
 
-    }
+    // }
 
     useEffect(() => {
 
@@ -335,7 +335,7 @@ const ImageUpload = ({ dragFiles }) => {
     }, [getAfterBeforeImg, dragFiles])
 
     return (
-        <div id="upload" className="bg-[#04403e]">
+        <div id="upload" className="bg_1 border-b-4 border-white">
             <div className={getAfterBeforeImg.length > 0 ? 'min-h-screen container mx-auto relative pb-20' : 'container mx-auto relative'}>
                 <input
                     onChange={uploadFile}
@@ -678,9 +678,10 @@ const ImageUpload = ({ dragFiles }) => {
                                 <p>Total Image(s) : {getAfterBeforeImg.length}</p>
                                 {getTotalImage == getProccessImgIndex && <p>Total Charge : <TotalBill actionSwitch={getSwitchLoop} /></p>}
                             </div>
-                        <button onClick={reviewPaymentFunc} className="flex justify-center items-center">
+
+                        <Link to="/pricing"  className="flex justify-center items-center">
                             <button className="px-4 py-1 rounded-lg bg-white text-black">Review Payment</button>
-                        </button>
+                        </Link>
                         </div>
                     </div>
                 }
