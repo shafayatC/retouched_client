@@ -39,6 +39,7 @@ const SignUp = () => {
 
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
+    console.log("getMail : " + getMail + " getToken : " + getToken)
     if (getMail.match(validRegex)) {
       const regMail = { "email": getMail }
       try {
@@ -52,19 +53,18 @@ const SignUp = () => {
           },
           body: JSON.stringify(regMail)
         });
-
+        
         const res = await rawResponse.json();
+        console.log(res)
         if
           (res.status_code == 200) {
           showToastMessage(res.message)
-          navigate("/thank-you-note")
+        //  showToastMessage("Please check your email and confirm your password.")
+         // navigate("/thank-you-note")
         }
-
         else {
           showToastMessageWarning(res.message)
         }
-
-
 
       } catch (error) {
         console.log(error)
@@ -95,10 +95,7 @@ const SignUp = () => {
               />
             </div>
 
-
             <div className="text-center">
-
-
               <button
                 onClick={singUpFunc}
                 className=" w-full mb-5 py-3 bg-green-700 text-white font-medium text-sm "
@@ -112,7 +109,7 @@ const SignUp = () => {
                 Already have an account?
                 <Link to="/log-in">
                   <a
-                    href="#!"
+                    href="#"
                     className="text-red-600 hover:text-lime-400 focus:text-red-700 transition duration-200 ease-in-out"
                   >
                     Log in here

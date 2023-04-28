@@ -85,7 +85,7 @@ const ResetPasswordForm = () => {
                   </div>
 
                   <div className="text-center">
-                    <button onClick={resetPassFunc} className="inline-block px-7 w-full mb-5 py-3 bg-theme-shade text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-lime-400 hover:shadow-lg focus:bg-lime-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                    <button onClick={resetPassFunc} className="inline-block px-7 w-full mb-5 py-3 bg-green-700 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-green-900  hover:shadow-lg focus:bg-green-900  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                       RESET PASSWORD
                     </button>
                     <ToastContainer />
