@@ -37,7 +37,6 @@ const SignUp = () => {
   }
   const singUpFunc = async () => {
 
-
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
     if (getMail.match(validRegex)) {
@@ -102,7 +101,7 @@ const SignUp = () => {
 
               <button
                 onClick={singUpFunc}
-                className=" w-full mb-5 py-3 bg-theme-shade text-white font-medium text-sm "
+                className=" w-full mb-5 py-3 bg-green-700 text-white font-medium text-sm "
               >
                 Create Account
               </button>
@@ -127,5 +126,6 @@ const SignUp = () => {
     </div>
   );
 };
+
 
 export default SignUp;

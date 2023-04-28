@@ -1,12 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FaFacebookSquare, FaGoogle } from "react-icons/fa";
 import { Link, Navigate, redirect, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { apiUrlContextManager, userContextManager } from "../../App";
 import localforage from "localforage";
-import { FacebookAuthProvider, GoogleAuthProvider, getAdditionalUserInfo, signInWithPopup } from "firebase/auth";
-import { auth } from "../../Fire";
 import LoginWithSocial from "./LoginWithSocial";
 
 const SignIn = () => {
@@ -109,14 +106,16 @@ const SignIn = () => {
   }, [])
 
   return (
-    <div className="container mx-auto">
+
+    <div className="container mx-auto pb-16">
       <div>
         {/*getUserInfo.status_code == 200 && <Navigate to={prevPath} replace={true} />*/}
         <section>
           <div className="px-6 mt-20 text-gray-800">
             <div className="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6">
               <div className="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
-                <div className="flex flex-row items-center justify-center lg:justify-start">
+
+                <div className="flex flex-row items-center justify-center  lg:justify-start">
                   <p className="text-3xl mb-0 mr-4">Log in to Retouched.ai</p>
                 </div>
 
@@ -167,7 +166,8 @@ const SignIn = () => {
                 <div className="text-center">
                   <button
                     onClick={singInFunc}
-                    className="w-full mb-5 py-3 bg-theme-shade text-white font-medium text-sm rounded shadow-md "
+
+                    className="w-full mb-5 py-3 bg-green-700 text-white font-medium text-sm rounded shadow-md "
                   >
                     LOGIN WITH EMAIL
                   </button>

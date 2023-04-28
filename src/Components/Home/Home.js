@@ -1,10 +1,14 @@
 
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import SignInForm from '../SignInForm/SignInForm';
 import logo from '../images/logo.png'
+import Navbar from './Navbar/Navbar';
 import './style.css'
+import { menuContextManager } from '../../App';
 
 const Home = ({ callBackFile }) => {
+
+    const [getMenuId, setMenuId, getMenu, setMenu] = useContext(menuContextManager)
 
     function dragOverHandler(e) {
         console.log("File(s) in drop zone");
@@ -50,10 +54,12 @@ const Home = ({ callBackFile }) => {
     return (
         <div id='home' className="bg_1 h-full pb-28">
             <div className='container mx-auto'>
-                <div className='flex justify-between mx-2 pt-4'>
+            <Navbar items={getMenu}></Navbar>
+
+                {/* <div className='flex justify-between mx-2 pt-4'>
                     <img className='h-12 w-12 rounded-full' src={logo} alt="" />
                     <h2 className='text-white font-bold'>SPONSOR <i className="fa-brands ml-2 fa-twitter"></i></h2>
-                </div>
+                </div> */}
                 <div className='flex gap-6 2xl:gap-60 flex-col lg:flex-row'>
                     <div className='mt-28 w-[650px]'>
                         <h2 className='text-white text-4xl text-left'>Stay up to date with the latest in Machine Learning.</h2>
