@@ -1,7 +1,14 @@
-import logo from '../images/logo.png'
-import './style.css'
 
-const Home = ({callBackFile}) => {
+import { useState, useContext } from 'react';
+import SignInForm from '../SignInForm/SignInForm';
+import logo from '../images/logo.png'
+import Navbar from './Navbar/Navbar';
+import './style.css'
+import { menuContextManager } from '../../App';
+
+const Home = ({ callBackFile }) => {
+
+    const [getMenuId, setMenuId, getMenu, setMenu] = useContext(menuContextManager)
 
     function dragOverHandler(e) {
         console.log("File(s) in drop zone");
@@ -33,17 +40,26 @@ const Home = ({callBackFile}) => {
         }
 
     }
+    const [showSignInForm, setShowSignInForm] = useState(false);
 
+    function handleOpen() {
+        setShowSignInForm(true);
+    }
 
+    function handleClose() {
+        setShowSignInForm(false);
+    }
 
 
     return (
         <div id='home' className="bg_1 h-full pb-28">
             <div className='container mx-auto'>
-                <div className='flex justify-between mx-2 pt-4'>
+            <Navbar items={getMenu}></Navbar>
+
+                {/* <div className='flex justify-between mx-2 pt-4'>
                     <img className='h-12 w-12 rounded-full' src={logo} alt="" />
                     <h2 className='text-white font-bold'>SPONSOR <i className="fa-brands ml-2 fa-twitter"></i></h2>
-                </div>
+                </div> */}
                 <div className='flex gap-6 2xl:gap-60 flex-col lg:flex-row'>
                     <div className='mt-28 w-[650px]'>
                         <h2 className='text-white text-4xl text-left'>Stay up to date with the latest in Machine Learning.</h2>
@@ -73,12 +89,12 @@ const Home = ({callBackFile}) => {
                     </div>
 
                     <div
-                    onDrop={dropHandler}
-                    onDragOver={dragOverHandler}
-                    onDragEnter={e => console.log("")}
-                    onDragLeave={e => console.log("")}
-                   className='flex flex-col  w-full  justify-center items-center h-[300px] mt-28 p-5 bg-gray-300 rounded-xl'>
-                        
+                        onDrop={dropHandler}
+                        onDragOver={dragOverHandler}
+                        onDragEnter={e => console.log("")}
+                        onDragLeave={e => console.log("")}
+                        className='flex flex-col  w-full  justify-center items-center h-[300px] mt-28 p-5 bg-gray-300 rounded-xl'>
+
                         <div
 
                             className=" rounded-lg flex flex-col justify-center items-center w-[400px] h-40 mx-auto"
@@ -141,6 +157,16 @@ const Home = ({callBackFile}) => {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div className="flex justify-center items-center min-h-screen">
+                <button
+                    className="bg-blue-500 text-white rounded-lg py-2 px-4 hover:bg-blue-600 transition-colors"
+                    onClick={handleOpen}
+                >
+                    Sign In
+                </button>
+                {showSignInForm && <SignInForm onClose={handleClose} />}
             </div>
 
         </div>
