@@ -8,6 +8,11 @@ import CostBreakDown from './Components/CostBreakDown/CostBreakDown';
 import Pricing from './Components/Pricing/Pricing';
 import SignIn from './Components/Login/SignIn';
 import SignUp from './Components/Login/SignUp';
+import { ToastContainer } from "react-toastify";
+import ThankYouNote from './Components/Login/ThankYouNote';
+import SetPassword from './Components/Login/SetPassword';
+import ResetPasswordForm from './Components/Login/ResetPasswordForm';
+import ResetPassword from './Components/Login/ResetPassword';
 
 export const FileContextManager = createContext();
 export const OrderContextManager = createContext();
@@ -69,9 +74,13 @@ function App() {
                   <Route path='/pricing' element={<Pricing />} />
                   <Route path='/log-in' element={<SignIn />} />
                   <Route path="/sign-up" element={<SignUp />} />
-
+                  <Route path="/confirm-password/:token" element={<SetPassword />} />
+                  <Route path="/resetpasswordform/" element={<ResetPasswordForm />} />
+                  <Route path="/reset-password/:token" element={<ResetPassword />} />
+                  <Route path="" element={<ThankYouNote/>}/>
                 </Routes>
               </div>
+              <ToastContainer/>
             </apiUrlContextManager.Provider>
           </menuContextManager.Provider>
         </userContextManager.Provider>
