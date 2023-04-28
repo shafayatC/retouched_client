@@ -58,7 +58,7 @@ const Home = ({ callBackFile }) => {
     }
 
     return (
-        <div id='home' className="bg_1 h-full pb-28 border-b-4 border-white">
+        <div id='home' className="bg_1 h-full pb-28 border-b-2 border-white">
             <div className='container mx-auto'>
                 <Navbar items={getMenu}></Navbar>
 
