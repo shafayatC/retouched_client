@@ -3,12 +3,14 @@ import free from '../images/free.png'
 import enterprise from '../images/enterprise.png'
 import { OrderContextManager, userContextManager } from '../../App';
 import { Link } from 'react-router-dom';
+import SignInForm from '../SignInForm/SignInForm';
 
 const Pricing = () => {
 
     const [getUserInfo, setUserInfo, getToken, setToken] = useContext(userContextManager);
     const [getServiceTypeId, setServiceTypeId, getSubscriptionPlanId, setSubscriptionPlanId, getOrderMasterId, setOrderMasterId, getCostDetails, setCostDetails] = useContext(OrderContextManager);
     const [getSubscriptionPlan, setSubscriptionPlan] = useState([])
+    const [showSignInForm, setShowSignInForm] = useState(false);
 
 
     const getSubscriptionFunc = () => {
@@ -27,12 +29,22 @@ const Pricing = () => {
             })
     }
 
+    const SignInHandleOpen = () => {
+        // setIsOpen(true);
+        setShowSignInForm(true)
+    };
+
+    const SignInHandleClose = ()=>{
+        setShowSignInForm(false);
+    }
+
     useEffect(() => {
         getSubscriptionFunc()
 
     }, [getOrderMasterId]);
 
     return (
+        <>
         <div className='bg_1 h-[100vh]'>
             <div className='container mx-auto  pb-24 rounded-lg'>
                 <div className='pt-4 pb-16 '>
@@ -65,6 +77,8 @@ const Pricing = () => {
                 <i className="fa-solid fa-xmark"></i>
             </Link>
         </div>
+        {showSignInForm && <SignInForm onClose={SignInHandleClose} />}
+        </>
     )
 }
 

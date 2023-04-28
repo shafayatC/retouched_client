@@ -27,7 +27,6 @@ const ImageUpload = ({ dragFiles }) => {
     const [getSwitchLoop, setSwitchLoop] = useState(false);
     //const [getProccessImgIndex, setProccessImgIndex] = useState(0)
     const [getCallbackAiBool, setCallbackAiBool] = useState(false);
-    const [showSignInForm, setShowSignInForm] = useState(false);
 
     const [
         fileInfo,
@@ -86,16 +85,11 @@ const ImageUpload = ({ dragFiles }) => {
 
     const openModal = () => {
         // setIsOpen(true);
-        setShowSignInForm(true)
     };
 
     const closeModal = () => {
         // setIsOpen(false);
     };
-    const SignInHandleClose = ()=>{
-        setShowSignInForm(false);
-    }
-
     const showSrvMenuFunc = () => {
         console.log(getShowSrvMenu)
         setShowSrvMenu(!getShowSrvMenu)
@@ -321,24 +315,8 @@ const ImageUpload = ({ dragFiles }) => {
                 } else {
                     openModal();
                 }
-
-                fetch(getApiBasicUrl + "/update-order-master-info-by-id", {
-                    method: "POST", // or 'PUT'
-                    headers: {
-                        "Content-Type": "application/json",
-                        'Authorization': 'bearer ' + data.results.token
-                    },
-                    body: JSON.stringify(orderId),
-                })
-                    .then((res) => res.json())
-                    .then((data) => {
-                        console.log(data);
-                        if (data.status_code == 200) {
-                            navigate('/cart')
-                        } else {
-                            setIsOpen(true);
-                        }
-                    })
+            }
+              )
 
             } else {
                 openModal()
@@ -758,8 +736,6 @@ const ImageUpload = ({ dragFiles }) => {
                 </>
                 {/* CostBreakDown Modal end----------------------------------------- */}
 
-                {/* Login Modal end----------------------------------------- */}
-                {showSignInForm && <SignInForm onClose={SignInHandleClose} />}
             </div>
         </div >
     )
