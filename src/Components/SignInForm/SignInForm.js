@@ -6,7 +6,7 @@ import { apiUrlContextManager, userContextManager } from "../../App";
 import localforage from "localforage";
 
 
-function SignInForm({ onClose, switchBool }) {
+function SignInForm({ onClose, switchBool=true }) {
 
     const [isDiv1Visible, setIsDiv1Visible] = useState(true);
     const [isDiv2Visible, setIsDiv2Visible] = useState(false);
@@ -169,7 +169,7 @@ function SignInForm({ onClose, switchBool }) {
 
                 const res = await rawResponse.json();
                 res.status_code == 200 ? showToastMessage(res.message) : showToastMessageWarning(res.message)
-                
+
             } catch (error) {
                 console.log(error)
             }

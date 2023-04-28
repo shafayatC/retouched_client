@@ -14,6 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import TotalBill from "../TotalBill/TotalBill";
 import localforage from "localforage";
 import './style.css'
+import SignInForm from "../SignInForm/SignInForm";
 
 const ImageUpload = ({ dragFiles }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -25,6 +26,7 @@ const ImageUpload = ({ dragFiles }) => {
     const [getSwitchLoop, setSwitchLoop] = useState(false);
     //const [getProccessImgIndex, setProccessImgIndex] = useState(0)
     const [getCallbackAiBool, setCallbackAiBool] = useState(false);
+    const [showSignInForm, setShowSignInForm] = useState(false);
 
     const [
         fileInfo,
@@ -82,12 +84,16 @@ const ImageUpload = ({ dragFiles }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const openModal = () => {
-        setIsOpen(true);
+        // setIsOpen(true);
+        setShowSignInForm(true)
     };
 
     const closeModal = () => {
-        setIsOpen(false);
+        // setIsOpen(false);
     };
+    const SignInHandleClose = ()=>{
+        setShowSignInForm(false);
+    }
 
     const showSrvMenuFunc = () => {
         console.log(getShowSrvMenu)
@@ -295,6 +301,8 @@ const ImageUpload = ({ dragFiles }) => {
               "id": getOrderMasterId
             }
     
+            console.log(getOrderMasterId)
+            console.log(data.results.token)
             fetch(getApiBasicUrl + "/update-order-master-info-by-id", {
               method: "POST", // or 'PUT'
               headers: {
@@ -307,9 +315,9 @@ const ImageUpload = ({ dragFiles }) => {
               .then((data) => {
                 console.log(data);
                 if (data.status_code == 200) {
-                  navigate('/cart')
+                  navigate('/pricing')
                 } else {
-                  setIsOpen(true);
+                    openModal();
                 }
               })
     
@@ -657,9 +665,9 @@ const ImageUpload = ({ dragFiles }) => {
                                 </button>
                             </div>
                         </div>
-                        <button onClick={reviewPaymentFunc} className="flex justify-center items-center">
+                        {/* <button onClick={reviewPaymentFunc} className="flex justify-center items-center">
                             <button className="px-4 py-1 rounded-lg bg-white text-black">Review Payment</button>
-                        </button>
+                        </button> */}
                     </div>
 
                 }
@@ -673,9 +681,9 @@ const ImageUpload = ({ dragFiles }) => {
                                 <p>Total Image(s) : {getAfterBeforeImg.length}</p>
                                 {getTotalImage == getProccessImgIndex && <p>Total Charge : <TotalBill actionSwitch={getSwitchLoop} /></p>}
                             </div>
-                            <Link to='/pricing' className="flex justify-center items-center">
-                                <button className="px-4 py-1 rounded-lg bg-white text-black">Review Payment</button>
-                            </Link>
+                        <button onClick={reviewPaymentFunc} className="flex justify-center items-center">
+                            <button className="px-4 py-1 rounded-lg bg-white text-black">Review Payment</button>
+                        </button>
                         </div>
                     </div>
                 }
@@ -734,6 +742,7 @@ const ImageUpload = ({ dragFiles }) => {
                     )}
                 </>
                 {/* Login Modal end----------------------------------------- */}
+                {showSignInForm && <SignInForm onClose={SignInHandleClose} />}
             </div>
         </div >
     )
