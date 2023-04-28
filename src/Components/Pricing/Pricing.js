@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import free from '../images/free.png'
 import enterprise from '../images/enterprise.png'
-import { OrderContextManager, userContextManager } from '../../App';
+import { OrderContextManager, apiUrlContextManager, userContextManager } from '../../App';
 import { Link } from 'react-router-dom';
 import SignInForm from '../SignInForm/SignInForm';
+import localforage from 'localforage';
 
 const Pricing = () => {
 
@@ -11,6 +12,7 @@ const Pricing = () => {
     const [getServiceTypeId, setServiceTypeId, getSubscriptionPlanId, setSubscriptionPlanId, getOrderMasterId, setOrderMasterId, getCostDetails, setCostDetails] = useContext(OrderContextManager);
     const [getSubscriptionPlan, setSubscriptionPlan] = useState([])
     const [showSignInForm, setShowSignInForm] = useState(false);
+    const [getModelBaseUrl, setModelBaseUrl, getApiBasicUrl, setApiBasicUrl] = useContext(apiUrlContextManager);
 
 
     const getSubscriptionFunc = () => {
@@ -30,7 +32,6 @@ const Pricing = () => {
     }
 
     const SignInHandleOpen = () => {
-        // setIsOpen(true);
         setShowSignInForm(true)
     };
 
@@ -38,9 +39,47 @@ const Pricing = () => {
         setShowSignInForm(false);
     }
 
+    const checkoutFunc = (sbId) => {
+
+        console.log("getToken : "+ getToken)
+        console.log("getModelBaseUrl : "+ getModelBaseUrl)
+        console.log("getOrderMasterId " +  getOrderMasterId + " sbId : "+ sbId)
+        // http://103.197.204.22:8008/v.03.13.23/checkout?order_master_image_id=3AD8432C-AE95-4A80-8FDD-0AEA825F8972&subscription_plan_type_id=5830BA07-B329-4724-8AF2-482B7056F52E
+        fetch(`${getModelBaseUrl}checkout?order_master_image_id=${getOrderMasterId}&subscription_plan_type_id=${sbId}`, {
+            headers: {
+                'Authorization': 'bearer ' + getToken,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                // data.status_code == 200 && window.open(data.results.checkout_url, "_blank");
+                data.status_code == 200 && window.open(data.results.checkout_url, "_self");
+            })
+    }
+
+
+    const choosPlan =async(sbId)=>{
+        try {
+            const data = await localforage.getItem('userInfo');
+            console.log(data)
+            // This code runs once the value has been loaded
+            // from the offline store.
+            if (data !== null && Object.keys(data).length > 0) {
+                checkoutFunc(sbId)
+            }else {
+                SignInHandleOpen()
+            }
+        } catch (err) {
+            console.log(err);
+            SignInHandleOpen()
+          }
+    }
+
+
     useEffect(() => {
         getSubscriptionFunc()
-
     }, [getOrderMasterId]);
 
     return (
@@ -57,7 +96,7 @@ const Pricing = () => {
                             <h2 className='text-center pt-3 text-purple-400  text-xl font-semibold'>{data.title}</h2>
 
                             <h2 className='text-center  gap-3 pt-2 pb-4 text-3xl font-bold'>{data.netCharge}</h2>
-                            <button className='px-6 w-56 rounded-lg  py-2 border border-purple-500 hover:bg-purple-400 mt-2 bg-purple-500 text-white mb-6 font-semibold '>{data.description}</button>
+                            <button onClick={()=>choosPlan(data.id)} className='px-6 w-56 rounded-lg  py-2 border border-purple-500 hover:bg-purple-400 mt-2 bg-purple-500 text-white mb-6 font-semibold '>{data.description}</button>
 
                             {data.subscription_plan_type_description.map((data_2, index_2) => (
                                 <p className='text-start text-sm mt-1 px-5'><i class="fa-solid fa-check mr-3 text-purple-700"></i><span dangerouslySetInnerHTML={{ __html: data_2.description }} /></p>

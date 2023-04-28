@@ -186,7 +186,7 @@ const ImageUpload = ({ dragFiles }) => {
                 setProccessImgIndex(0)
                 setFirstImgView(true);
                 scrollToElement('upload')
-
+                setAfterBeforeImg([])
                 let i = 0;
                 for (const file of newFile) {
                     console.log(file)
@@ -288,15 +288,15 @@ const ImageUpload = ({ dragFiles }) => {
     //       // This code runs once the value has been loaded
     //       // from the offline store.
     //       if (data !== null && Object.keys(data).length > 0) {
-    
+
     //         console.log(data)
     //         setUserInfo(data);
     //         setToken(data.results.token);
-    
+
     //         const orderId = {
     //           "id": getOrderMasterId
     //         }
-    
+
     //         console.log(getOrderMasterId)
     //         console.log(data.results.token)
     //         fetch(getApiBasicUrl + "/update-order-master-info-by-id", {
@@ -335,7 +335,7 @@ const ImageUpload = ({ dragFiles }) => {
     }, [getAfterBeforeImg, dragFiles])
 
     return (
-        <div id="upload" className="bg_1 border-b-4 border-white">
+        <div id="upload" className="bg_1 border-b-2 border-white">
             <div className={getAfterBeforeImg.length > 0 ? 'min-h-screen container mx-auto relative pb-20' : 'container mx-auto relative'}>
                 <input
                     onChange={uploadFile}
@@ -385,6 +385,47 @@ const ImageUpload = ({ dragFiles }) => {
 
                     {getAfterBeforeImg.length > 0 && actionStatus == "" &&
                         <div >
+                            <div className="flex items-center justify-center mt-1">
+                                <i className="fa-solid fa-filter text-white mr-1"></i>
+                                <p className="text-white mr-4">Filter</p>
+                                <div className="relative w-[395px] z-40">
+                                    <input
+                                        // value={getFilterText}
+                                        // onChange={filterFunc}
+                                        maxLength={200}
+                                        type="text"
+                                        className="block w-full appearance-none bg-white border border-gray-400 hover:border-gray-500 px-5 py-2 pr-10 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                                        placeholder="Filter File or Folder"
+                                    />
+
+                                    {/* {getFilterText.length > 0 && ( */}
+                                    <button
+                                        // onClick={clearFilterText}
+                                        className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700  cursor-pointer"
+                                    >
+                                        <i className="fa-sharp fa-solid fa-xmark"></i>
+                                    </button>
+                                    {/* )} */}
+
+                                    {/* <div id="matchsort" className="absolute bg-white z-40 left-[50%] min-w-full">
+                            {getSuggestBool == true &&
+                                getSuggest.map(
+                                    (data, index) =>
+                                        index < 2 && (
+                                            <button
+                                                key={index}
+                                                onClick={() =>
+                                                    filterBysuggest(data.output_urls[0].filter_image_file_path)
+                                                }
+                                                className="w-full text-left px-[10px] py-[7px] text-gray-900 border-gray-200 border-solid border-b-[1px]"
+                                            >
+                                                {data.output_urls[0].filter_image_file_path}
+                                            </button>
+                                        )
+                                )}
+                        </div> */}
+                                </div>
+                            </div>
 
                             <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10 pt-2 ml-2  pr-3 ${getAfterBeforeImg.length > 0 && ' h-[400]'}`}>
 
@@ -441,7 +482,7 @@ const ImageUpload = ({ dragFiles }) => {
                 </div>
                 {getTotalImage !== 0 && getTotalImage == getProccessImgIndex && getFirstImgView &&
 
-                    <div className="flex items-center justify-center absolute top-0 left-0 bg-[#04403e] w-full h-full">
+                    <div className="flex items-center justify-center absolute top-0 left-0 bg_1 w-full h-full z-50">
                         <div
                             // style={{
                             //     // position: "absolute",
@@ -525,11 +566,11 @@ const ImageUpload = ({ dragFiles }) => {
                             }
 
                             <div className="absolute left-0 top-[50%] w-full" style={{ transform: 'translateY(-50%)' }}>
-                                <button disabled={getImgIndex == 0} onClick={() => { setImgIndex(getImgIndex - 1) }} className="float-left ml-36 cursor-pointer text-white disabled:text-black ">
+                                <button disabled={getImgIndex == 0} onClick={() => { setImgIndex(getImgIndex - 1) }} className="float-left ml-36 cursor-pointer text-white disabled:text-gray-500 ">
                                     <i className="fa-solid fa-circle-chevron-left text-4xl "></i>
                                     {/* <i className="fa-solid fa-circle-chevron-left"></i> */}
                                 </button>
-                                <button disabled={getImgIndex == getAfterBeforeImg.length - 1} onClick={() => { setImgIndex(getImgIndex + 1) }} className="float-right mr-36 cursor-pointer text-white  disabled:text-black ">
+                                <button disabled={getImgIndex == getAfterBeforeImg.length - 1} onClick={() => { setImgIndex(getImgIndex + 1) }} className="float-right mr-36 cursor-pointer text-white  disabled:text-gray-500 ">
                                     <i className="fa-solid fa-circle-chevron-right text-4xl "></i>
                                     {/* <i className="fa-solid fa-circle-chevron-right"></i> */}
                                 </button>
@@ -554,7 +595,7 @@ const ImageUpload = ({ dragFiles }) => {
                 }
                 {showImage &&
 
-                    <div className="flex items-center justify-center absolute top-0 left-0 bg-[#04403e] w-full h-full">
+                    <div className="flex items-center justify-center absolute top-0 left-0 bg_1 w-full h-full z-50">
                         <div
                             // style={{
                             //     // position: "absolute",
@@ -638,11 +679,11 @@ const ImageUpload = ({ dragFiles }) => {
                             }
 
                             <div className="absolute left-0 top-[50%] w-full" style={{ transform: 'translateY(-50%)' }}>
-                                <button disabled={getImgIndex == 0} onClick={() => { setImgIndex(getImgIndex - 1) }} className="float-left ml-36 cursor-pointer text-white disabled:text-black ">
+                                <button disabled={getImgIndex == 0} onClick={() => { setImgIndex(getImgIndex - 1) }} className="float-left ml-36 cursor-pointer text-white disabled:text-gray-500 ">
                                     <i className="fa-solid fa-circle-chevron-left text-4xl "></i>
                                     {/* <i className="fa-solid fa-circle-chevron-left"></i> */}
                                 </button>
-                                <button disabled={getImgIndex == getAfterBeforeImg.length - 1} onClick={() => { setImgIndex(getImgIndex + 1) }} className="float-right mr-36 cursor-pointer text-white  disabled:text-black ">
+                                <button disabled={getImgIndex == getAfterBeforeImg.length - 1} onClick={() => { setImgIndex(getImgIndex + 1) }} className="float-right mr-36 cursor-pointer text-white  disabled:text-gray-500 ">
                                     <i className="fa-solid fa-circle-chevron-right text-4xl "></i>
                                     {/* <i className="fa-solid fa-circle-chevron-right"></i> */}
                                 </button>
@@ -669,7 +710,7 @@ const ImageUpload = ({ dragFiles }) => {
 
                 }
                 {getAfterBeforeImg.length > 0 &&
-                    <div className="w-full bg-black rounded-md py-1 absolute flex justify-between px-10 bottom-5">
+                    <div className="w-full bg-black border border-white rounded-md py-1 absolute flex justify-between px-10 bottom-5">
                         <div className="flex justify-center items-center font-bold">
                             <button onClick={openModal} className="px-4 py-1 rounded-lg bg-white text-black" >Charge breakdown</button>
                         </div>
@@ -679,9 +720,9 @@ const ImageUpload = ({ dragFiles }) => {
                                 {getTotalImage == getProccessImgIndex && <p>Total Charge : <TotalBill actionSwitch={getSwitchLoop} /></p>}
                             </div>
 
-                        <Link to="/pricing"  className="flex justify-center items-center">
-                            <button className="px-4 py-1 rounded-lg bg-white text-black">Review Payment</button>
-                        </Link>
+                            <Link to="/pricing" className="flex justify-center items-center">
+                                <button className="px-4 py-1 rounded-lg bg-white text-black">Review Payment</button>
+                            </Link>
                         </div>
                     </div>
                 }
