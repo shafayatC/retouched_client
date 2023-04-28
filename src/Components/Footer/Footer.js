@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../images/logo.png";
+import logo from "../images/logo_2.png";
 import {
     FaFacebookSquare,
     FaLinkedin,
@@ -13,7 +13,7 @@ const Footer = () => {
             <footer className="footer container mx-auto lg:justify-items-center p-10 text-white grid lg:grid-cols-4">
                 <div className="text-start">
                     <figure>
-                        <img className="h-10 w-10 rounded-full mb-2" src={logo} alt="" />
+                        <img className="h-10 w-48 -ml-4 rounded-full mb-2" src={logo} alt="" />
                     </figure>
                     <p>
                         <span className="font-bold text-orange-400 text-xl">Hotline</span>{" "}
