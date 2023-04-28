@@ -6,8 +6,7 @@ import HomeContainer from './Components/HomeContainer/HomeContainer';
 import InitialDataLoad from './Components/InitialDataLoad/InitialDataLoad';
 import CostBreakDown from './Components/CostBreakDown/CostBreakDown';
 import Pricing from './Components/Pricing/Pricing';
-import SignIn from './Components/Login/SignIn';
-import SignUp from './Components/Login/SignUp';
+
 
 export const FileContextManager = createContext();
 export const OrderContextManager = createContext();
@@ -36,6 +35,9 @@ function App() {
   const [getSrvPopBool, setSrvPopBool] = useState(true);
   const [getModelBaseUrl, setModelBaseUrl] = useState("");
   const [getApiBasicUrl, setApiBasicUrl] = useState("http://103.197.204.22:8007/api/2023-02");
+
+
+
 
 
   return (
@@ -67,8 +69,7 @@ function App() {
                   <Route path="/" element={<HomeContainer />} />
                   <Route path='/cost-breakdown' element={<CostBreakDown />} />
                   <Route path='/pricing' element={<Pricing />} />
-                  <Route path='/log-in' element={<SignIn />} />
-                  <Route path="/sign-up" element={<SignUp />} />
+
 
                 </Routes>
               </div>
