@@ -1,7 +1,10 @@
+
+import { useState } from 'react';
+import SignInForm from '../SignInForm/SignInForm';
 import logo from '../images/logo.png'
 import './style.css'
 
-const Home = ({callBackFile}) => {
+const Home = ({ callBackFile }) => {
 
     function dragOverHandler(e) {
         console.log("File(s) in drop zone");
@@ -33,8 +36,15 @@ const Home = ({callBackFile}) => {
         }
 
     }
+    const [showSignInForm, setShowSignInForm] = useState(false);
 
+    function handleOpen() {
+        setShowSignInForm(true);
+    }
 
+    function handleClose() {
+        setShowSignInForm(false);
+    }
 
 
     return (
@@ -73,12 +83,12 @@ const Home = ({callBackFile}) => {
                     </div>
 
                     <div
-                    onDrop={dropHandler}
-                    onDragOver={dragOverHandler}
-                    onDragEnter={e => console.log("")}
-                    onDragLeave={e => console.log("")}
-                   className='flex flex-col  w-full  justify-center items-center h-[300px] mt-28 p-5 bg-gray-300 rounded-xl'>
-                        
+                        onDrop={dropHandler}
+                        onDragOver={dragOverHandler}
+                        onDragEnter={e => console.log("")}
+                        onDragLeave={e => console.log("")}
+                        className='flex flex-col  w-full  justify-center items-center h-[300px] mt-28 p-5 bg-gray-300 rounded-xl'>
+
                         <div
 
                             className=" rounded-lg flex flex-col justify-center items-center w-[400px] h-40 mx-auto"
@@ -141,6 +151,16 @@ const Home = ({callBackFile}) => {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div className="flex justify-center items-center min-h-screen">
+                <button
+                    className="bg-blue-500 text-white rounded-lg py-2 px-4 hover:bg-blue-600 transition-colors"
+                    onClick={handleOpen}
+                >
+                    Sign In
+                </button>
+                {showSignInForm && <SignInForm onClose={handleClose} />}
             </div>
 
         </div>
