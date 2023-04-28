@@ -110,7 +110,7 @@ const SetPassword = () => {
             <div className="text-center">
               <button
                 onClick={setPasswordFunc}
-                className=" w-full mb-5 py-3 bg-theme-shade text-white font-medium rounded-md text-sm "
+                className=" w-full mb-5 py-3 bg-green-700 text-white font-medium rounded-md text-sm "
               >
                 CREATE PASSWORD
               </button>

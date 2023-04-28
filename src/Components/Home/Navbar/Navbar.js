@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import imgTrain from "./img/train.svg";
-import logo from '../../images/logo2.png'
+import logo from '../../images/logo_2.png'
 import "./navbar.css";
 import { menuContextManager, OrderContextManager, userContextManager } from "../../../App";
 import localforage from "localforage";
@@ -31,11 +31,22 @@ const Navbar = ({ items }) => {
 
   }
 
+  const [showSignInForm, setShowSignInForm] = useState(false);
+
+  function handleOpen() {
+    setShowSignInForm(true);
+  }
+
+  function handleClose() {
+    setShowSignInForm(false);
+  }
+
+
 
 
 
   return (
-    <nav className=" bg-black-shade border-gray-200 px-2 sm:px-4 shadow-md light:bg-gray-900">
+    <nav className=" border-b-2 border-white px-2 sm:px-4 shadow-md light:bg-gray-900">
       {console.log(items)}
       <div className="container flex flex-wrap items-center justify-between mx-auto">
         <Link to="/" className="flex items-center">

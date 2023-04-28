@@ -6,6 +6,7 @@ import Navbar from './Navbar/Navbar';
 import './style.css'
 import { menuContextManager } from '../../App';
 
+
 const Home = ({ callBackFile }) => {
 
     const [getMenuId, setMenuId, getMenu, setMenu] = useContext(menuContextManager)
@@ -42,19 +43,21 @@ const Home = ({ callBackFile }) => {
     }
     const [showSignInForm, setShowSignInForm] = useState(false);
 
-    function handleOpen() {
+
+    function SignInHandleOpen() {
         setShowSignInForm(true);
     }
 
-    function handleClose() {
+    function SignInHandleClose() {
         setShowSignInForm(false);
     }
+
 
 
     return (
         <div id='home' className="bg_1 h-full pb-28">
             <div className='container mx-auto'>
-            <Navbar items={getMenu}></Navbar>
+                <Navbar items={getMenu}></Navbar>
 
                 {/* <div className='flex justify-between mx-2 pt-4'>
                     <img className='h-12 w-12 rounded-full' src={logo} alt="" />
@@ -159,15 +162,16 @@ const Home = ({ callBackFile }) => {
                 </div>
             </div>
 
-            <div className="flex justify-center items-center min-h-screen">
+            <div className="flex justify-center items-center mb-8 ">
                 <button
                     className="bg-blue-500 text-white rounded-lg py-2 px-4 hover:bg-blue-600 transition-colors"
-                    onClick={handleOpen}
+                    onClick={SignInHandleOpen}
                 >
                     Sign In
                 </button>
-                {showSignInForm && <SignInForm onClose={handleClose} />}
+                {showSignInForm && <SignInForm onClose={SignInHandleClose} />}
             </div>
+
 
         </div>
     )
