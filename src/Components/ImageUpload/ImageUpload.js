@@ -482,7 +482,7 @@ const ImageUpload = ({ dragFiles }) => {
                 </div>
                 {getTotalImage !== 0 && getTotalImage == getProccessImgIndex && getFirstImgView &&
 
-                    <div className="flex items-center justify-center absolute top-0 left-0 bg_1 w-full h-full">
+                    <div className="flex items-center justify-center absolute top-0 left-0 bg_1 w-full h-full z-50">
                         <div
                             // style={{
                             //     // position: "absolute",
@@ -595,7 +595,7 @@ const ImageUpload = ({ dragFiles }) => {
                 }
                 {showImage &&
 
-                    <div className="flex items-center justify-center absolute top-0 left-0 bg_1 w-full h-full">
+                    <div className="flex items-center justify-center absolute top-0 left-0 bg_1 w-full h-full z-50">
                         <div
                             // style={{
                             //     // position: "absolute",
