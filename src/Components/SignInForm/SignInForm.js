@@ -28,9 +28,10 @@ function SignInForm({ onClose }) {
 
     return (
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-opacity-50 bg-gray-900">
+            
             <div className='bg-white w-[500px] rounded-lg relative'>
 
-                <div className="flex absolute top-10 right-10 justify-end">
+                <div className="flex absolute top-5 right-5 justify-end">
                     <button className="text-gray-600 rounded-full bg-white border-green-500 border h-7 w-7" onClick={onClose}>
                         <i class="fa-solid fa-xmark"></i>
                     </button>
@@ -111,17 +112,8 @@ function SignInForm({ onClose }) {
                     </div>
                 }
 
-            </div>
 
-            <div className='bg-white w-[500px] rounded-lg relative'>
-                <div>
-
-                    <div className="flex absolute top-10 right-10 justify-end">
-                        <button className="text-gray-600 rounded-full bg-white border-green-500 border h-7 w-7" onClick={onClose}>
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                    </div>
-                    {isDiv2Visible &&
+{isDiv2Visible &&
                         <div className="px-6 mt-10 text-gray-800">
                             <div className="flex xl:justify-center  justify-center items-center flex-wrap h-full g-6">
                                 <div className=" w-[300px]">
@@ -167,17 +159,8 @@ function SignInForm({ onClose }) {
                             </div>
                         </div>
                     }
-                </div>
-            </div>
 
-            <div className='bg-white w-[500px] rounded-lg relative'>
-
-                <div className="flex absolute top-10 right-10 justify-end">
-                    <button className="text-gray-600 rounded-full bg-white border-green-500 border h-7 w-7" onClick={onClose}>
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                {isDiv3Visible &&
+{isDiv3Visible &&
                     <div className="px-6 mt-10 text-gray-800">
                         <div className="flex xl:justify-center  justify-center items-center flex-wrap h-full g-6">
                             <div className=" w-[300px]">
@@ -226,8 +209,8 @@ function SignInForm({ onClose }) {
                         </div>
                     </div>
                 }
-
             </div>
+
 
         </div>
     );
