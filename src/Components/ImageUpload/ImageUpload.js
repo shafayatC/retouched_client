@@ -186,7 +186,7 @@ const ImageUpload = ({ dragFiles }) => {
                 setProccessImgIndex(0)
                 setFirstImgView(true);
                 scrollToElement('upload')
-
+                setAfterBeforeImg([])
                 let i = 0;
                 for (const file of newFile) {
                     console.log(file)

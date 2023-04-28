@@ -41,6 +41,7 @@ const Pricing = () => {
 
     const checkoutFunc = (sbId) => {
 
+        console.log("getToken : "+ getToken)
         console.log("getModelBaseUrl : "+ getModelBaseUrl)
         console.log("getOrderMasterId " +  getOrderMasterId + " sbId : "+ sbId)
         // http://103.197.204.22:8008/v.03.13.23/checkout?order_master_image_id=3AD8432C-AE95-4A80-8FDD-0AEA825F8972&subscription_plan_type_id=5830BA07-B329-4724-8AF2-482B7056F52E
@@ -62,6 +63,7 @@ const Pricing = () => {
     const choosPlan =async(sbId)=>{
         try {
             const data = await localforage.getItem('userInfo');
+            console.log(data)
             // This code runs once the value has been loaded
             // from the offline store.
             if (data !== null && Object.keys(data).length > 0) {
