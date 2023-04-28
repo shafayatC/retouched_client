@@ -13,6 +13,7 @@ import { Radio } from 'antd';
 import { Link, useNavigate } from "react-router-dom";
 import TotalBill from "../TotalBill/TotalBill";
 import localforage from "localforage";
+import './style.css'
 
 const ImageUpload = ({ dragFiles }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -88,7 +89,7 @@ const ImageUpload = ({ dragFiles }) => {
         setIsOpen(false);
     };
 
-    const showSrvMenuFunc =()=> {
+    const showSrvMenuFunc = () => {
         console.log(getShowSrvMenu)
         setShowSrvMenu(!getShowSrvMenu)
     }
@@ -155,8 +156,8 @@ const ImageUpload = ({ dragFiles }) => {
         newOrderCreate(newFile);
     }
 
-    const scrollToElement =(elemnt)=>{
-        document.getElementById(elemnt).scrollIntoView({ behavior: "smooth"});
+    const scrollToElement = (elemnt) => {
+        document.getElementById(elemnt).scrollIntoView({ behavior: "smooth" });
     }
     const newOrderCreate = (newFile) => {
 
@@ -165,8 +166,8 @@ const ImageUpload = ({ dragFiles }) => {
             service_type_id: getServiceTypeId,
             subscription_plan_type_id: getSubscriptionPlanId
         };
-        console.log("getToken : " +  getToken)
-        console.log("getSubscriptionPlanId : " +  getSubscriptionPlanId)
+        console.log("getToken : " + getToken)
+        console.log("getSubscriptionPlanId : " + getSubscriptionPlanId)
         fetch(getApiBasicUrl + "/order-master-info", {
             method: "POST", // or 'PUT'
             headers: {
@@ -277,50 +278,51 @@ const ImageUpload = ({ dragFiles }) => {
     }
 
 
-    // const reviewPaymentFunc = async () => {
-    //     // openModal()
+    const reviewPaymentFunc = async () => {
+        // openModal()
+    
+        try {
+          const data = await localforage.getItem('userInfo');
+          // This code runs once the value has been loaded
+          // from the offline store.
+          if (data !== null && Object.keys(data).length > 0) {
+    
+            console.log(data)
+            setUserInfo(data);
+            setToken(data.results.token);
+    
+            const orderId = {
+              "id": getOrderMasterId
+            }
+    
+            fetch(getApiBasicUrl + "/update-order-master-info-by-id", {
+              method: "POST", // or 'PUT'
+              headers: {
+                "Content-Type": "application/json",
+                'Authorization': 'bearer ' + data.results.token
+              },
+              body: JSON.stringify(orderId),
+            })
+              .then((res) => res.json())
+              .then((data) => {
+                console.log(data);
+                if (data.status_code == 200) {
+                  navigate('/cart')
+                } else {
+                  setIsOpen(true);
+                }
+              })
+    
+          } else {
+            openModal()
+          }
+        } catch (err) {
+          console.log(err);
+          openModal()
+        }
+    
+      }
 
-    //     try {
-    //         const data = await localforage.getItem('userInfo');
-    //         // This code runs once the value has been loaded
-    //         // from the offline store.
-    //         if (data !== null && Object.keys(data).length > 0) {
-
-    //             console.log(data)
-    //             setUserInfo(data);
-    //             setToken(data.results.token);
-
-    //             const orderId = {
-    //                 "id": getOrderMasterId
-    //             }
-
-    //             fetch(getApiBasicUrl + "/update-order-master-info-by-id", {
-    //                 method: "POST", // or 'PUT'
-    //                 headers: {
-    //                     "Content-Type": "application/json",
-    //                     'Authorization': 'bearer ' + data.results.token
-    //                 },
-    //                 body: JSON.stringify(orderId),
-    //             })
-    //                 .then((res) => res.json())
-    //                 .then((data) => {
-    //                     console.log(data);
-    //                     if (data.status_code == 200) {
-    //                         navigate('/cart')
-    //                     } else {
-    //                         setIsOpen(true);
-    //                     }
-    //                 })
-
-    //         } else {
-    //             openModal()
-    //         }
-    //     } catch (err) {
-    //         console.log(err);
-    //         openModal()
-    //     }
-
-    // }
     useEffect(() => {
 
         dragFiles.length > 0 && dragNdropFiles(dragFiles);
@@ -329,28 +331,28 @@ const ImageUpload = ({ dragFiles }) => {
 
     return (
         <div id="upload" className="bg-[#04403e]">
-            <div  className={getAfterBeforeImg.length > 0 ? 'min-h-screen container mx-auto relative pb-20' : 'container mx-auto relative'}>
-            <input
-                onChange={uploadFile}
-                type="file"
-                id="filepicker"
-                name="fileList"
-                directory=""
-                webkitdirectory=""
-                accept="image/jpeg, image/png, image/tiff,.tif"
-                className="hidden"
-            />
+            <div className={getAfterBeforeImg.length > 0 ? 'min-h-screen container mx-auto relative pb-20' : 'container mx-auto relative'}>
+                <input
+                    onChange={uploadFile}
+                    type="file"
+                    id="filepicker"
+                    name="fileList"
+                    directory=""
+                    webkitdirectory=""
+                    accept="image/jpeg, image/png, image/tiff,.tif"
+                    className="hidden"
+                />
 
-            <input
-                onChange={uploadFile}
-                type="file"
-                id="singleImagePick"
-                name="imageFile"
-                className="hidden"
-                accept="image/jpeg, image/png, image/tiff,.tif"
-                multiple
-            />
-            {/* {getTotalImage < 1 &&
+                <input
+                    onChange={uploadFile}
+                    type="file"
+                    id="singleImagePick"
+                    name="imageFile"
+                    className="hidden"
+                    accept="image/jpeg, image/png, image/tiff,.tif"
+                    multiple
+                />
+                {/* {getTotalImage < 1 &&
 
                 <div className="flex items-center h-screen w-full">
 
@@ -372,50 +374,50 @@ const ImageUpload = ({ dragFiles }) => {
             } */}
 
 
-            <div className={`relative ${getAfterBeforeImg.length > 0 && ' pt-4'}`}>
+                <div className={`relative ${getAfterBeforeImg.length > 0 && ' pt-4'}`}>
 
-                {getTotalImage > getProccessImgIndex && <Loading_2 />}
+                    {getTotalImage > getProccessImgIndex && <Loading_2 />}
 
-                {getAfterBeforeImg.length > 0 && actionStatus == "" &&
-                    <div >
+                    {getAfterBeforeImg.length > 0 && actionStatus == "" &&
+                        <div >
 
-                        <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10 pt-2 ml-2  pr-3 ${getAfterBeforeImg.length > 0 && ' h-[400]'}`}>
+                            <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10 pt-2 ml-2  pr-3 ${getAfterBeforeImg.length > 0 && ' h-[400]'}`}>
 
-                            {currentImages.map((image, index) => (
-                                <div
-                                    key={index}
-                                    className={`relative h-[250px]`}
-
-                                >
+                                {currentImages.map((image, index) => (
                                     <div
-                                        className={`img-container w-full h-full  bg-no-repeat  cursor-pointer img-bag ${getAfterBeforeImg.length === 1 ? "h-[400px] justify-center" : "img-bag"}`}
-                                        onClick={() => viewImg((currentPage - 1) * itemsPerPage + index)}
-                                    //   style={{
-                                    //     backgroundImage: `url(${image.output_urls[0].compressed_raw_image_public_url})`,
-                                    //   }}
+                                        key={index}
+                                        className={`relative  h-[250px]`}
+
                                     >
-                                        <img className="w-full h-full" src={image.output_urls[0].compressed_raw_image_public_url} />
-                                    </div>
+                                        <div
+                                            className={`img-container w-full h-full   bg-no-repeat  cursor-pointer  ${getAfterBeforeImg.length === 1 ? "h-[400px] justify-center" : "img-bag"}`}
+                                            onClick={() => viewImg((currentPage - 1) * itemsPerPage + index)}
+                                        //   style={{
+                                        //     backgroundImage: `url(${image.output_urls[0].compressed_raw_image_public_url})`,
+                                        //   }}
+                                        >
+                                            <img className="w-full h-full img-bag rounded-lg" src={image.output_urls[0].compressed_raw_image_public_url} />
+                                        </div>
 
 
-                                    {/* <div className="flex gap-1  ">
+                                        {/* <div className="flex gap-1  ">
                                         {image.output_urls[0].is_ai_processed ?
                                             <p><i className="fa-solid text-green-400 absolute top-2 right-2 fa-circle-check"></i></p>
                                             :
                                             <p className="loader_2 absolute top-[40%] left-[45%]"></p>
                                         }
                                     </div> */}
-                                </div>
-                            ))}
+                                    </div>
+                                ))}
+
+                            </div>
+
 
                         </div>
+                    }
 
-
-                    </div>
-                }
-
-                {console.log(getAfterBeforeImg)}
-                {/* {getTotalImage !== 0 && getTotalImage == getProccessImgIndex &&
+                    {console.log(getAfterBeforeImg)}
+                    {/* {getTotalImage !== 0 && getTotalImage == getProccessImgIndex &&
                     <div>
                         <div className="flex gap-16 justify-center">
                             <div className="h-[500px] w-[500px]">
@@ -431,304 +433,307 @@ const ImageUpload = ({ dragFiles }) => {
 
                 } */}
 
-            </div>
-            {getTotalImage !== 0 && getTotalImage == getProccessImgIndex && getFirstImgView &&
+                </div>
+                {getTotalImage !== 0 && getTotalImage == getProccessImgIndex && getFirstImgView &&
 
-                <div className="flex items-center justify-center absolute top-0 left-0 bg-[#04403e] w-full h-full">
-                    <div
-                        // style={{
-                        //     // position: "absolute",
-                        //     // top: -20,
-                        //     left: -10,
-                        //     right: 0,
-                        //     bottom: 0,
-                        //     zIndex: 99,
-                        //     display: "flex",
-                        //     justifyContent: "center",
-                        //     // backgroundColor: "#ffff"
-                        // }}
-                        className="flex flex-col justify-center z-50 bg-white pb-3 mt-[-50px]"
-                    >
-                        {getShowSrvMenu ? 
-                        <div className="h-[450px] w-[700px] bg-white relative rounded-md z-50">
-                        <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-10  font-semibold">Beautify imagery with Ad-on Professional Services</p>
-                        <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
-                        <div className=" w-[400px] pt-20 pl-16 absolute ">
-                            <div className="h-[300px] border border-theme-shade  relative">
-                                {getCallbackAiBool ?
-                                    <CompareImage
-                                        topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
-                                        bottomImage={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
-                                    /> :
-                                    <img className="h-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
-                                }
-                                <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
-                            </div>
-                            <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
+                    <div className="flex items-center justify-center absolute top-0 left-0 bg-[#04403e] w-full h-full">
+                        <div
+                            // style={{
+                            //     // position: "absolute",
+                            //     // top: -20,
+                            //     left: -10,
+                            //     right: 0,
+                            //     bottom: 0,
+                            //     zIndex: 99,
+                            //     display: "flex",
+                            //     justifyContent: "center",
+                            //     // backgroundColor: "#ffff"
+                            // }}
+                            className="flex flex-col justify-center z-50 bg-white pb-3 mt-[-50px]"
+                        >
+                            {getShowSrvMenu ?
+                                <div className="h-[450px] w-[700px] bg-white relative rounded-md z-50">
+                                    <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-10  font-semibold">Beautify imagery with Ad-on Professional Services</p>
+                                    <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
+                                    <div className=" w-[400px] pt-20 pl-16 absolute ">
+                                        <div className="h-[300px] border border-theme-shade  relative">
+                                            {getCallbackAiBool ?
+                                                <CompareImage
+                                                    topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
+                                                    bottomImage={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
+                                                /> :
+                                                <img className="h-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
+                                            }
+                                            <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
+                                        </div>
+                                        <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
 
-                                <Popover content={downloadContent} trigger="click">
-                                    <div className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
-                                        <p className="text-xs">Download</p></div>
-                                </Popover>
+                                            <Popover content={downloadContent} trigger="click">
+                                                <div className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                                                    <p className="text-xs">Download</p></div>
+                                            </Popover>
 
-                                <div onClick={showSrvMenuFunc} className="cursor-pointer"><p><i class="fa-solid fa-sliders"></i></p>
-                                    <p className="text-xs">Adjust</p></div>
-                            </div>
-                        </div>
-
-
-
-                        {getAfterBeforeImg.length > 0 && <ServiceMenu callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
-                    </div>
-
-                        : 
-                    
-                        <div>
-                            <div className="h-[400px] w-[700px] bg-white relative rounded-md z-50">
-                                <p className="w-full text-white px-2 py-2  absolute top-0 bg-teal-500  font-semibold">Beautify imagery with Ad-on Professional Services</p>
-                                <div className=" w-full pt-20 px-10 absolute ">
-                                    <div className="w-full h-[300px] border border-theme-shade  relative">
-                                        {getCallbackAiBool ?
-                                            <CompareImage
-                                                topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
-                                                bottomImage={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
-                                            /> :
-                                            <img className="h-full w-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
-                                        }
-                                        <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
+                                            <div onClick={showSrvMenuFunc} className="cursor-pointer"><p><i class="fa-solid fa-sliders"></i></p>
+                                                <p className="text-xs">Adjust</p></div>
+                                        </div>
                                     </div>
+
+
+
+                                    {getAfterBeforeImg.length > 0 && <ServiceMenu callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
                                 </div>
-                            </div>
 
-                            <div className="px-10">
+                                :
 
-                                <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
+                                <div>
+                                    <div className="h-[400px] w-[700px] bg-white relative rounded-md z-50">
+                                        <p className="w-full text-white px-2 py-2  absolute top-0 bg-teal-500  font-semibold">Beautify imagery with Ad-on Professional Services</p>
+                                        <div className=" w-full pt-20 px-10 absolute ">
+                                            <div className="w-full h-[300px] border border-theme-shade  relative">
+                                                {getCallbackAiBool ?
+                                                    <CompareImage
+                                                        topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
+                                                        bottomImage={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
+                                                    /> :
+                                                    <img className="h-full w-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
+                                                }
+                                                <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                    <Popover content={downloadContent} trigger="click">
-                                        <div className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
-                                            <p className="text-xs">Download</p></div>
-                                    </Popover>
+                                    <div className="px-10">
 
-                                    <div onClick={showSrvMenuFunc} className="cursor-pointer">
-                                        <p><i class="fa-solid fa-sliders"></i></p>
-                                        <p className="text-xs">Adjust</p></div>
-                                </div>
-                            </div>
-                        </div>
-                        }
-                        
-                        <div className="absolute left-0 top-[50%] w-full" style={{ transform: 'translateY(-50%)' }}>
-                            <button disabled={getImgIndex == 0} onClick={() => { setImgIndex(getImgIndex - 1) }} className="float-left ml-36 cursor-pointer text-white disabled:text-black ">
-                                <i className="fa-solid fa-circle-chevron-left text-4xl "></i>
-                                {/* <i className="fa-solid fa-circle-chevron-left"></i> */}
-                            </button>
-                            <button disabled={getImgIndex == getAfterBeforeImg.length - 1} onClick={() => { setImgIndex(getImgIndex + 1) }} className="float-right mr-36 cursor-pointer text-white  disabled:text-black ">
-                                <i className="fa-solid fa-circle-chevron-right text-4xl "></i>
-                                {/* <i className="fa-solid fa-circle-chevron-right"></i> */}
-                            </button>
-                        </div>
-                        <div className="absolute right-4 top-4 flex gap-2">
-                            <button
-                                onClick={() => deletImage(getImgIndex)}
-                                className="bg-white w-10 h-10 rounded-full border border-green-500"
-                            >
-                                <i className="fa-regular fa-trash-can"></i>
-                            </button>
-                            <button
-                                onClick={hanleCloseFirstImg}
-                                className="bg-white w-10 h-10 border border-green-500 rounded-full"
-                            >
-                                <i className="fa-solid fa-xmark"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                                        <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
 
-            }
-            {showImage &&
+                                            <Popover content={downloadContent} trigger="click">
+                                                <div className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                                                    <p className="text-xs">Download</p></div>
+                                            </Popover>
 
-<div className="flex items-center justify-center absolute top-0 left-0 bg-[#04403e] w-full h-full">
-<div
-    // style={{
-    //     // position: "absolute",
-    //     // top: -20,
-    //     left: -10,
-    //     right: 0,
-    //     bottom: 0,
-    //     zIndex: 99,
-    //     display: "flex",
-    //     justifyContent: "center",
-    //     // backgroundColor: "#ffff"
-    // }}
-    className="flex flex-col justify-center z-50 bg-white pb-3 mt-[-50px]"
->
-    {getShowSrvMenu ? 
-    <div className="h-[450px] w-[700px] bg-white relative rounded-md z-50">
-    <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-10  font-semibold">Beautify imagery with Ad-on Professional Services</p>
-    <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
-    <div className=" w-[400px] pt-20 pl-16 absolute ">
-        <div className="h-[300px] border border-theme-shade  relative">
-            {getCallbackAiBool ?
-                <CompareImage
-                    topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
-                    bottomImage={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
-                /> :
-                <img className="h-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
-            }
-            <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
-        </div>
-        <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
-
-            <Popover content={downloadContent} trigger="click">
-                <div className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
-                    <p className="text-xs">Download</p></div>
-            </Popover>
-
-            <div onClick={showSrvMenuFunc} className="cursor-pointer"><p><i class="fa-solid fa-sliders"></i></p>
-                <p className="text-xs">Adjust</p></div>
-        </div>
-    </div>
-
-
-
-    {getAfterBeforeImg.length > 0 && <ServiceMenu callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
-</div>
-
-    : 
-
-    <div>
-        <div className="h-[400px] w-[700px] bg-white relative rounded-md z-50">
-            <p className="w-full text-white px-2 py-2  absolute top-0 bg-teal-500  font-semibold">Beautify imagery with Ad-on Professional Services</p>
-            <div className=" w-full pt-20 px-10 absolute ">
-                <div className="w-full h-[300px] border border-theme-shade  relative">
-                    {getCallbackAiBool ?
-                        <CompareImage
-                            topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
-                            bottomImage={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
-                        /> :
-                        <img className="h-full w-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
-                    }
-                    <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
-                </div>
-            </div>
-        </div>
-
-        <div className="px-10">
-
-            <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
-
-                <Popover content={downloadContent} trigger="click">
-                    <div className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
-                        <p className="text-xs">Download</p></div>
-                </Popover>
-
-                <div onClick={showSrvMenuFunc} className="cursor-pointer">
-                    <p><i class="fa-solid fa-sliders"></i></p>
-                    <p className="text-xs">Adjust</p></div>
-            </div>
-        </div>
-    </div>
-    }
-    
-    <div className="absolute left-0 top-[50%] w-full" style={{ transform: 'translateY(-50%)' }}>
-        <button disabled={getImgIndex == 0} onClick={() => { setImgIndex(getImgIndex - 1) }} className="float-left ml-36 cursor-pointer text-white disabled:text-black ">
-            <i className="fa-solid fa-circle-chevron-left text-4xl "></i>
-            {/* <i className="fa-solid fa-circle-chevron-left"></i> */}
-        </button>
-        <button disabled={getImgIndex == getAfterBeforeImg.length - 1} onClick={() => { setImgIndex(getImgIndex + 1) }} className="float-right mr-36 cursor-pointer text-white  disabled:text-black ">
-            <i className="fa-solid fa-circle-chevron-right text-4xl "></i>
-            {/* <i className="fa-solid fa-circle-chevron-right"></i> */}
-        </button>
-    </div>
-    <div className="absolute right-4 top-4 flex gap-2">
-        <button
-            onClick={() => deletImage(getImgIndex)}
-            className="bg-white w-10 h-10 rounded-full border border-green-500"
-        >
-            <i className="fa-regular fa-trash-can"></i>
-        </button>
-        <button
-            onClick={handleClose}
-            className="bg-white w-10 h-10 border border-green-500 rounded-full"
-        >
-            <i className="fa-solid fa-xmark"></i>
-        </button>
-    </div>
-</div>
-</div>
-
-            }
-            {getAfterBeforeImg.length > 0 &&
-                <div className="w-full bg-black rounded-md py-1 absolute flex justify-between px-10 bottom-5">
-                    <div className="flex justify-center items-center font-bold">
-                        <Link to="/cost-breakdown" className="px-4 py-1 rounded-lg bg-white text-black" >Charge breakdown</Link>
-                    </div>
-                    <div className="flex gap-20 font-bold">
-                        <div className="text-white text-start text-sm">
-                            <p>Total Image(s) : {getAfterBeforeImg.length}</p>
-                            {getTotalImage == getProccessImgIndex && <p>Total Charge : <TotalBill actionSwitch={getSwitchLoop} /></p>}
-                        </div>
-                        <Link to='/pricing' className="flex justify-center items-center">
-                            <button className="px-4 py-1 rounded-lg bg-white text-black">Review Payment</button>
-                        </Link>
-                    </div>
-                </div>
-            }
-            {/* LOgin Modal Start---------------------------------------------------- */}
-            <>
-                {isOpen && (
-                    <div className="fixed inset-0 z-50 top-48 ">
-                        <div className="flex  bg-white w-[400px] mx-auto pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                            <div
-                                className="fixed inset-0 "
-                                aria-hidden="true"
-                                onClick={closeModal}
-                            >
-                                <div className="absolute inset-0 bg-gray-600 opacity-80"></div>
-
-                            </div>
-
-                            <div
-                                className="inline-block w-[450px] h-[160px] align-bottom border border-teal-700 bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all "
-                                role="dialog"
-                                aria-modal="true"
-                                aria-labelledby="modal-headline"
-                            >
-                                <div className="bg-white  flex justify-center pt-5 pb-4 sm:p-6 sm:pb-4">
-                                    <div className="sm:flex sm:items-start">
-
-                                        <div className="mt-3 mb-6 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                            <h3
-                                                className="text-2xl leading-6 font-medium text-gray-900"
-                                                id="modal-headline"
-                                            >
-                                                Please Login to your account
-                                            </h3>
-
+                                            <div onClick={showSrvMenuFunc} className="cursor-pointer">
+                                                <p><i class="fa-solid fa-sliders"></i></p>
+                                                <p className="text-xs">Adjust</p></div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className=" py-4 flex gap-4 justify-center ">
+                            }
 
-                                    <Link to="/log-in">
-                                        <button className="text-white w-20 bg-green-400  px-1 py-1 rounded-md">
-                                            Login
-                                        </button>
-                                    </Link>
-                                    <button
-
-                                        className="text-white w-20 bg-red-400  px-1 py-1 rounded-md"
-                                        onClick={closeModal}
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
+                            <div className="absolute left-0 top-[50%] w-full" style={{ transform: 'translateY(-50%)' }}>
+                                <button disabled={getImgIndex == 0} onClick={() => { setImgIndex(getImgIndex - 1) }} className="float-left ml-36 cursor-pointer text-white disabled:text-black ">
+                                    <i className="fa-solid fa-circle-chevron-left text-4xl "></i>
+                                    {/* <i className="fa-solid fa-circle-chevron-left"></i> */}
+                                </button>
+                                <button disabled={getImgIndex == getAfterBeforeImg.length - 1} onClick={() => { setImgIndex(getImgIndex + 1) }} className="float-right mr-36 cursor-pointer text-white  disabled:text-black ">
+                                    <i className="fa-solid fa-circle-chevron-right text-4xl "></i>
+                                    {/* <i className="fa-solid fa-circle-chevron-right"></i> */}
+                                </button>
+                            </div>
+                            <div className="absolute right-4 top-4 flex gap-2">
+                                <button
+                                    onClick={() => deletImage(getImgIndex)}
+                                    className="bg-white w-10 h-10 rounded-full border border-green-500"
+                                >
+                                    <i className="fa-regular fa-trash-can"></i>
+                                </button>
+                                <button
+                                    onClick={hanleCloseFirstImg}
+                                    className="bg-white w-10 h-10 border border-green-500 rounded-full"
+                                >
+                                    <i className="fa-solid fa-xmark"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
-                )}
-            </>
-            {/* Login Modal end----------------------------------------- */}
+
+                }
+                {showImage &&
+
+                    <div className="flex items-center justify-center absolute top-0 left-0 bg-[#04403e] w-full h-full">
+                        <div
+                            // style={{
+                            //     // position: "absolute",
+                            //     // top: -20,
+                            //     left: -10,
+                            //     right: 0,
+                            //     bottom: 0,
+                            //     zIndex: 99,
+                            //     display: "flex",
+                            //     justifyContent: "center",
+                            //     // backgroundColor: "#ffff"
+                            // }}
+                            className="flex flex-col justify-center z-50 bg-white pb-3 mt-[-50px]"
+                        >
+                            {getShowSrvMenu ?
+                                <div className="h-[450px] w-[700px] bg-white relative rounded-md z-50">
+                                    <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-10  font-semibold">Beautify imagery with Ad-on Professional Services</p>
+                                    <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
+                                    <div className=" w-[400px] pt-20 pl-16 absolute ">
+                                        <div className="h-[300px] border border-theme-shade  relative">
+                                            {getCallbackAiBool ?
+                                                <CompareImage
+                                                    topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
+                                                    bottomImage={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
+                                                /> :
+                                                <img className="h-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
+                                            }
+                                            <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
+                                        </div>
+                                        <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
+
+                                            <Popover content={downloadContent} trigger="click">
+                                                <div className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                                                    <p className="text-xs">Download</p></div>
+                                            </Popover>
+
+                                            <div onClick={showSrvMenuFunc} className="cursor-pointer"><p><i class="fa-solid fa-sliders"></i></p>
+                                                <p className="text-xs">Adjust</p></div>
+                                        </div>
+                                    </div>
+
+
+
+                                    {getAfterBeforeImg.length > 0 && <ServiceMenu callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
+                                </div>
+
+                                :
+
+                                <div>
+                                    <div className="h-[400px] w-[700px] bg-white relative rounded-md z-50">
+                                        <p className="w-full text-white px-2 py-2  absolute top-0 bg-teal-500  font-semibold">Beautify imagery with Ad-on Professional Services</p>
+                                        <div className=" w-full pt-20 px-10 absolute ">
+                                            <div className="w-full h-[300px] border border-theme-shade  relative">
+                                                {getCallbackAiBool ?
+                                                    <CompareImage
+                                                        topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
+                                                        bottomImage={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
+                                                    /> :
+                                                    <img className="h-full w-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
+                                                }
+                                                <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="px-10">
+
+                                        <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
+
+                                            <Popover content={downloadContent} trigger="click">
+                                                <div className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                                                    <p className="text-xs">Download</p></div>
+                                            </Popover>
+
+                                            <div onClick={showSrvMenuFunc} className="cursor-pointer">
+                                                <p><i class="fa-solid fa-sliders"></i></p>
+                                                <p className="text-xs">Adjust</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            <div className="absolute left-0 top-[50%] w-full" style={{ transform: 'translateY(-50%)' }}>
+                                <button disabled={getImgIndex == 0} onClick={() => { setImgIndex(getImgIndex - 1) }} className="float-left ml-36 cursor-pointer text-white disabled:text-black ">
+                                    <i className="fa-solid fa-circle-chevron-left text-4xl "></i>
+                                    {/* <i className="fa-solid fa-circle-chevron-left"></i> */}
+                                </button>
+                                <button disabled={getImgIndex == getAfterBeforeImg.length - 1} onClick={() => { setImgIndex(getImgIndex + 1) }} className="float-right mr-36 cursor-pointer text-white  disabled:text-black ">
+                                    <i className="fa-solid fa-circle-chevron-right text-4xl "></i>
+                                    {/* <i className="fa-solid fa-circle-chevron-right"></i> */}
+                                </button>
+                            </div>
+                            <div className="absolute right-4 top-4 flex gap-2">
+                                <button
+                                    onClick={() => deletImage(getImgIndex)}
+                                    className="bg-white w-10 h-10 rounded-full border border-green-500"
+                                >
+                                    <i className="fa-regular fa-trash-can"></i>
+                                </button>
+                                <button
+                                    onClick={handleClose}
+                                    className="bg-white w-10 h-10 border border-green-500 rounded-full"
+                                >
+                                    <i className="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button onClick={reviewPaymentFunc} className="flex justify-center items-center">
+                            <button className="px-4 py-1 rounded-lg bg-white text-black">Review Payment</button>
+                        </button>
+                    </div>
+
+                }
+                {getAfterBeforeImg.length > 0 &&
+                    <div className="w-full bg-black rounded-md py-1 absolute flex justify-between px-10 bottom-5">
+                        <div className="flex justify-center items-center font-bold">
+                            <Link to="/cost-breakdown" className="px-4 py-1 rounded-lg bg-white text-black" >Charge breakdown</Link>
+                        </div>
+                        <div className="flex gap-20 font-bold">
+                            <div className="text-white text-start text-sm">
+                                <p>Total Image(s) : {getAfterBeforeImg.length}</p>
+                                {getTotalImage == getProccessImgIndex && <p>Total Charge : <TotalBill actionSwitch={getSwitchLoop} /></p>}
+                            </div>
+                            <Link to='/pricing' className="flex justify-center items-center">
+                                <button className="px-4 py-1 rounded-lg bg-white text-black">Review Payment</button>
+                            </Link>
+                        </div>
+                    </div>
+                }
+                {/* LOgin Modal Start---------------------------------------------------- */}
+                <>
+                    {isOpen && (
+                        <div className="fixed inset-0 z-50 top-48 ">
+                            <div className="flex  bg-white w-[400px] mx-auto pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                                <div
+                                    className="fixed inset-0 "
+                                    aria-hidden="true"
+                                    onClick={closeModal}
+                                >
+                                    <div className="absolute inset-0 bg-gray-600 opacity-80"></div>
+
+                                </div>
+
+                                <div
+                                    className="inline-block w-[450px] h-[160px] align-bottom border border-teal-700 bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all "
+                                    role="dialog"
+                                    aria-modal="true"
+                                    aria-labelledby="modal-headline"
+                                >
+                                    <div className="bg-white  flex justify-center pt-5 pb-4 sm:p-6 sm:pb-4">
+                                        <div className="sm:flex sm:items-start">
+
+                                            <div className="mt-3 mb-6 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                                <h3
+                                                    className="text-2xl leading-6 font-medium text-gray-900"
+                                                    id="modal-headline"
+                                                >
+                                                    Please Login to your account
+                                                </h3>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className=" py-4 flex gap-4 justify-center ">
+
+                                        <Link to="/log-in">
+                                            <button className="text-white w-20 bg-green-400  px-1 py-1 rounded-md">
+                                                Login
+                                            </button>
+                                        </Link>
+                                        <button
+
+                                            className="text-white w-20 bg-red-400  px-1 py-1 rounded-md"
+                                            onClick={closeModal}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </>
+                {/* Login Modal end----------------------------------------- */}
             </div>
         </div >
     )

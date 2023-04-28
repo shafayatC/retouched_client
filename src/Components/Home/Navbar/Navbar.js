@@ -46,7 +46,7 @@ const Navbar = ({ items }) => {
 
 
   return (
-    <nav className=" border-b-2 border-white px-2 sm:px-4 shadow-md light:bg-gray-900">
+    <nav className=" px-2 sm:px-4 shadow-md light:bg-gray-900">
       {console.log(items)}
       <div className="container flex flex-wrap items-center justify-between mx-auto">
         <Link to="/" className="flex items-center">
@@ -92,14 +92,39 @@ const Navbar = ({ items }) => {
                   marginRight: "0px",
                   position: "relative"
                 }}>
-                <Link
-                  onClick={() => setMenuId(item.id)}
-                  to={item.url}
-                >
-                  <button className={`rounded-md text-white w-20 py-1 hover:bg-white hover:text-black ${item.type == 'sign_up' && 'bg-theme-shade'}`}>
-                    <div key={item.id}>{item.name}</div>
+
+                {item.type == "sign_up" ?
+                  <button
+                    onClick={() =>
+                      document.querySelector("#singUpButton").click()
+                    }
+                  >
+                    <button className={`rounded-md text-white w-20 py-1 hover:bg-white hover:text-black ${item.type == 'sign_up' && 'bg-theme-shade'}`}>
+                      <div key={item.id}>{item.name}</div>
+                    </button>
                   </button>
-                </Link>
+                  : item.type == "sign_in" ?
+                    <button
+                      onClick={() =>
+                        document.querySelector("#singInButton").click()
+                      }
+                    >
+                      <button className={`rounded-md text-white w-20 py-1 hover:bg-white hover:text-black ${item.type == 'sign_up' && 'bg-theme-shade'}`}>
+                        <div key={item.id}>{item.name}</div>
+                      </button>
+                    </button>
+                    :
+                    <Link
+                      onClick={() => setMenuId(item.id)}
+                      to={item.url}
+                    >
+                      <button className={`rounded-md text-white w-20 py-1 hover:bg-white hover:text-black ${item.type == 'sign_up' && 'bg-theme-shade'}`}>
+                        <div key={item.id}>{item.name}</div>
+                      </button>
+                    </Link>
+                }
+
+
                 <div className="subMenu">
                   {items.map((subItem, subIndex) =>
                     item.id === subItem.parent_menu_list_id &&
