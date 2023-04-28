@@ -4,10 +4,8 @@ import p3 from "../images/3.jpg"
 import CompareImage from "../CompareImage/CompareImage";
 import { FileContextManager, OrderContextManager, apiUrlContextManager, menuContextManager, userContextManager } from "../../App";
 import { useContext, useEffect, useState } from "react";
-
 import Loading_2 from "../Loading/Loading_2";
 import ServiceMenu from "../ServiceMenu/ServiceMenu";
-
 import { Popover } from 'antd';
 import { Radio } from 'antd';
 import { Link, useNavigate } from "react-router-dom";
@@ -16,6 +14,7 @@ import localforage from "localforage";
 import './style.css'
 import CostBreakDown from "../CostBreakDown/CostBreakDown";
 import SignInForm from "../SignInForm/SignInForm";
+import { matchSorter } from "match-sorter";
 
 const ImageUpload = ({ dragFiles }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -27,6 +26,8 @@ const ImageUpload = ({ dragFiles }) => {
     const [getSwitchLoop, setSwitchLoop] = useState(false);
     //const [getProccessImgIndex, setProccessImgIndex] = useState(0)
     const [getCallbackAiBool, setCallbackAiBool] = useState(false);
+    const [getFilterText, setFilterText] = useState("");
+    const [getSuggestBool, setSuggestBool] = useState(false);
 
     const [
         fileInfo,
@@ -328,6 +329,43 @@ const ImageUpload = ({ dragFiles }) => {
 
     // }
 
+
+    const filterFunc = (e) => {
+        e.preventDefault();
+
+        Promise.all(getAfterBeforeImg).then((data) => {
+            // const imagePath = data.output_urls[0].compressed_raw_image_public_url.split('CompressedRaw'); 
+            console.log(data);
+            const suggestList = matchSorter(data, e.target.value, {
+                keys: [(data) => data.output_urls[0].compressed_raw_image_public_url],
+            });
+            setSuggest(suggestList);
+        });
+
+        setFilterText(e.target.value);
+        if (e.target.value.length > 0) {
+            setActionStatus("filter");
+            setSuggestBool(true);
+            setCurrentPage(1);
+        } else {
+            setActionStatus("");
+            setSuggestBool(false);
+        }
+    };
+    const clearFilterText = () => {
+        setFilterText("");
+        setSuggestBool(false);
+        setActionStatus("");
+    };
+    const filterBysuggest = (txt) => {
+        setFilterText(txt);
+        setSuggestBool(false);
+        if (txt.length > -1) {
+            setActionStatus("filter");
+        } else {
+            setActionStatus("");
+        }
+    };
     useEffect(() => {
 
         dragFiles.length > 0 && dragNdropFiles(dragFiles);
@@ -382,50 +420,51 @@ const ImageUpload = ({ dragFiles }) => {
                 <div className={`relative ${getAfterBeforeImg.length > 0 && ' pt-4'}`}>
 
                     {getTotalImage > getProccessImgIndex && <Loading_2 />}
+                    {getAfterBeforeImg.length > 0 &&
+                        <div className="flex items-center justify-center mt-1">
+                            <i className="fa-solid fa-filter text-white mr-1"></i>
+                            <p className="text-white mr-4">Filter</p>
+                            <div className="relative w-[395px] z-40">
+                                <input
+                                    value={getFilterText}
+                                    onChange={filterFunc}
+                                    maxLength={200}
+                                    type="text"
+                                    className="block w-full appearance-none bg-white border border-gray-400 hover:border-gray-500 px-5 py-2 pr-10 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                                    placeholder="Filter File or Folder"
+                                />
 
-                    {getAfterBeforeImg.length > 0 && actionStatus == "" &&
-                        <div >
-                            <div className="flex items-center justify-center mt-1">
-                                <i className="fa-solid fa-filter text-white mr-1"></i>
-                                <p className="text-white mr-4">Filter</p>
-                                <div className="relative w-[395px] z-40">
-                                    <input
-                                        // value={getFilterText}
-                                        // onChange={filterFunc}
-                                        maxLength={200}
-                                        type="text"
-                                        className="block w-full appearance-none bg-white border border-gray-400 hover:border-gray-500 px-5 py-2 pr-10 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-                                        placeholder="Filter File or Folder"
-                                    />
-
-                                    {/* {getFilterText.length > 0 && ( */}
+                                {getFilterText.length > 0 && (
                                     <button
-                                        // onClick={clearFilterText}
+                                        onClick={clearFilterText}
                                         className="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700  cursor-pointer"
                                     >
                                         <i className="fa-sharp fa-solid fa-xmark"></i>
                                     </button>
-                                    {/* )} */}
-
-                                    {/* <div id="matchsort" className="absolute bg-white z-40 left-[50%] min-w-full">
-                            {getSuggestBool == true &&
-                                getSuggest.map(
-                                    (data, index) =>
-                                        index < 2 && (
-                                            <button
-                                                key={index}
-                                                onClick={() =>
-                                                    filterBysuggest(data.output_urls[0].filter_image_file_path)
-                                                }
-                                                className="w-full text-left px-[10px] py-[7px] text-gray-900 border-gray-200 border-solid border-b-[1px]"
-                                            >
-                                                {data.output_urls[0].filter_image_file_path}
-                                            </button>
-                                        )
                                 )}
-                        </div> */}
+
+                                <div id="matchsort" className="absolute bg-white z-40 left-[50%] min-w-full">
+                                    {getSuggestBool == true &&
+                                        getSuggest.map(
+                                            (data, index) =>
+                                                index < 2 && (
+                                                    <button
+                                                        key={index}
+                                                        onClick={() =>
+                                                            filterBysuggest(data.output_urls[0].filter_image_file_path)
+                                                        }
+                                                        className="w-full text-left px-[10px] py-[7px] text-gray-900 border-gray-200 border-solid border-b-[1px]"
+                                                    >
+                                                        {data.output_urls[0].filter_image_file_path}
+                                                    </button>
+                                                )
+                                        )}
                                 </div>
                             </div>
+                        </div>
+                    }
+                    {getAfterBeforeImg.length > 0 && actionStatus == "" &&
+                        <div >
 
                             <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10 pt-2 ml-2  pr-3 ${getAfterBeforeImg.length > 0 && ' h-[400]'}`}>
 
@@ -461,6 +500,45 @@ const ImageUpload = ({ dragFiles }) => {
 
                         </div>
                     }
+
+{getSuggest.length > 0 && actionStatus == "filter" && (
+            
+            <div >
+
+            <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10 pt-2 ml-2  pr-3 ${getSuggest.length > 0 && ' h-[400]'}`}>
+
+                {currentImages.map((image, index) => (
+                    <div
+                        key={index}
+                        className={`relative  h-[250px]`}
+
+                    >
+                        <div
+                            className={`img-container w-full h-full   bg-no-repeat  cursor-pointer  ${getSuggest.length === 1 ? "h-[400px] justify-center" : "img-bag"}`}
+                            onClick={() => viewImg((currentPage - 1) * itemsPerPage + index)}
+                        //   style={{
+                        //     backgroundImage: `url(${image.output_urls[0].compressed_raw_image_public_url})`,
+                        //   }}
+                        >
+                            <img className="w-full h-full img-bag rounded-lg" src={image.output_urls[0].compressed_raw_image_public_url} />
+                        </div>
+
+
+                        {/* <div className="flex gap-1  ">
+                        {image.output_urls[0].is_ai_processed ?
+                            <p><i className="fa-solid text-green-400 absolute top-2 right-2 fa-circle-check"></i></p>
+                            :
+                            <p className="loader_2 absolute top-[40%] left-[45%]"></p>
+                        }
+                    </div> */}
+                    </div>
+                ))}
+
+            </div>
+
+
+        </div>
+            )}
 
                     {console.log(getAfterBeforeImg)}
                     {/* {getTotalImage !== 0 && getTotalImage == getProccessImgIndex &&

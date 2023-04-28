@@ -9,15 +9,19 @@ import localforage from 'localforage';
 const Pricing = () => {
 
     const [isModOpen, setIsModOpen] = useState(false);
-
-    const openModal = () => {
+    const [getSubscribId, setSubscribId] = useState("");
+    const openModal = (id) => {
         setIsModOpen(true);
+        setSubscribId(id)
     };
 
     const closeModal = () => {
         setIsModOpen(false);
     };
-
+    const okayButton =()=>{
+        checkoutFunc(getSubscribId)
+        closeModal()
+    }
 
     const [getUserInfo, setUserInfo, getToken, setToken] = useContext(userContextManager);
     const [getServiceTypeId, setServiceTypeId, getSubscriptionPlanId, setSubscriptionPlanId, getOrderMasterId, setOrderMasterId, getCostDetails, setCostDetails] = useContext(OrderContextManager);
@@ -50,11 +54,31 @@ const Pricing = () => {
         setShowSignInForm(false);
     }
 
+    const updateOrderIdFunc = () => {
+        const orderId = {
+            "id": getOrderMasterId
+        }
+
+        fetch(getApiBasicUrl + "/update-order-master-info-by-id", {
+            method: "POST", // or 'PUT'
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': 'bearer ' + getToken
+            },
+            body: JSON.stringify(orderId),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+            })
+    }
+
     const checkoutFunc = (sbId) => {
 
         console.log("getToken : " + getToken)
         console.log("getModelBaseUrl : " + getModelBaseUrl)
         console.log("getOrderMasterId " + getOrderMasterId + " sbId : " + sbId)
+        updateOrderIdFunc(); 
         // http://103.197.204.22:8008/v.03.13.23/checkout?order_master_image_id=3AD8432C-AE95-4A80-8FDD-0AEA825F8972&subscription_plan_type_id=5830BA07-B329-4724-8AF2-482B7056F52E
         fetch(`${getModelBaseUrl}checkout?order_master_image_id=${getOrderMasterId}&subscription_plan_type_id=${sbId}`, {
             headers: {
@@ -78,7 +102,7 @@ const Pricing = () => {
             // This code runs once the value has been loaded
             // from the offline store.
             if (data !== null && Object.keys(data).length > 0) {
-                checkoutFunc(sbId)
+                openModal(sbId)
             } else {
                 SignInHandleOpen()
             }
@@ -153,10 +177,8 @@ const Pricing = () => {
                                             </div>
                                         </div>
                                         <div className=" py-4 flex gap-4 justify-center ">
-
-
                                             <button
-                                                onClick={closeModal}
+                                                onClick={okayButton}
                                                 className="text-white w-20 bg-green-600  px-1 py-1 rounded-md">
                                                 Okay
                                             </button>
@@ -174,10 +196,7 @@ const Pricing = () => {
                             </div>
                         )}
                     </>
-                    {/* -------------Login Modal End------------------- */}
-                    <button onClick={openModal} className='px-4 mt-6 py-2 bg-white text-black rounded-lg'>
-                        hello
-                    </button>
+                    
 
                 </div>
                 <Link to='/'
