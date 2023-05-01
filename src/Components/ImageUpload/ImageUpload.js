@@ -141,7 +141,7 @@ const ImageUpload = ({ dragFiles }) => {
                 // setFileInfo(fileInfo.filter((f, index) => index !== dlImage));
                 setAfterBeforeImg(getAfterBeforeImg.filter((f, index) => index !== dlImage))
                 // setProccessImgIndex(getProccessImgIndex - 1)
-                handleClose();
+              //  handleClose();
             })
 
         //setFileInfo(fileInfo.filter((f) => f.imageUrl !== dlImage));
@@ -691,7 +691,7 @@ const ImageUpload = ({ dragFiles }) => {
                                 <button
                                     onClick={() => deletImage(getImgIndex)}
                                     className="bg-white w-10 h-10 rounded-full border border-green-500"
-                                >
+                                > 
                                     <i className="fa-regular fa-trash-can"></i>
                                 </button>
                                 <button
@@ -704,8 +704,8 @@ const ImageUpload = ({ dragFiles }) => {
                         </div>
                     </div>
                 }
-                {showImage &&
-
+                {showImage && getAfterBeforeImg.length > 0 && typeof getAfterBeforeImg[getImgIndex] !== 'undefined' &&
+ 
                     <div className="flex items-center justify-center absolute top-0 left-0 bg_1 w-full h-full z-50">
                         <div
                             // style={{
