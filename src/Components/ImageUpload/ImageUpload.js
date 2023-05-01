@@ -29,7 +29,7 @@ const ImageUpload = ({ dragFiles }) => {
     const [getCallbackAiBool, setCallbackAiBool] = useState(false);
     const [getFilterText, setFilterText] = useState("");
     const [getSuggestBool, setSuggestBool] = useState(false);
-
+    const [getFirstImgPrcStatus, setFirstImgPrcStatus] = useState(false); 
     const [
         fileInfo,
         setFileInfo,
@@ -217,6 +217,7 @@ const ImageUpload = ({ dragFiles }) => {
                         data.append("file", file);
                         data.append("file_relative_path", pathOfFile);
                         data.append("subscription_plan_type_id", getSubscriptionPlanId);
+                        console.log("check lenght : " +  i + " check img : " + newFile.length)
                         dataTransfer(data);
                     }
                 }
@@ -258,37 +259,7 @@ const ImageUpload = ({ dragFiles }) => {
         }
     };
 
-    function dragOverHandler(e) {
-        console.log("File(s) in drop zone");
-
-        // Prevent default behavior (Prevent file from being opened)
-        e.preventDefault();
-    }
-
-    function dropHandler(ev) {
-        console.log("File(s) dropped");
-
-        // Prevent default behavior (Prevent file from being opened)
-        ev.preventDefault();
-
-        if (ev.dataTransfer.items) {
-            // Use DataTransferItemList interface to access the file(s)
-            let files = [];
-
-            [...ev.dataTransfer.items].forEach((item, i) => {
-                // If dropped items aren't files, reject them
-                if (item.kind === "file") {
-                    const file = item.getAsFile();
-                    files.push(file)
-                    console.log(`… file[${i}].name = ${file.name}`);
-                }
-            });
-
-            dragNdropFiles(files)
-        }
-
-    }
-
+   
 
     // const reviewPaymentFunc = async () => {
     //     // openModal()
@@ -379,12 +350,62 @@ const ImageUpload = ({ dragFiles }) => {
     };
 
 
+    function testImage(url, callback, timeout) {
+        timeout = timeout || 5000;
+        var timedOut = false,
+            timer;
+        var img = new Image();
+        img.onerror = img.onabort = function () {
+            if (!timedOut) {
+                clearTimeout(timer);
+                callback("error");
+            }
+        };
+        img.onload = function () {
+            if (!timedOut) {
+                clearTimeout(timer);
+                callback("success");
+            }
+        };
+        img.src = url;
+        timer = setTimeout(function () {
+            timedOut = true;
+            callback("timeout");
+        }, timeout);
+    }
+
+
+    const checkAiProccesDone = () => {
+
+        console.log("testing ai process" + " total + " + getAfterBeforeImg.length + " => ");
+
+        if (getAfterBeforeImg.length > 0) {
+                    if (typeof getAfterBeforeImg[0].output_urls[0] !== "undefined") {
+                        if (getAfterBeforeImg[0].output_urls[0].is_ai_processed == false) {
+                            const myCallback = (result) => {
+                                if (result == "success") {
+                                    // getAfterBeforeImg[0].output_urls[0].is_ai_processed = true;
+                                    setFirstImgPrcStatus(true); 
+                                }else {
+                                    checkAiProccesDone()
+                                }
+                            };
+                            testImage(
+                                getAfterBeforeImg[0].output_urls[0].default_compressed_output_public_url,
+                                myCallback
+                            );
+                        } else {
+                        }
+                    }
+        }
+    };
+
     useEffect(() => {
 
         dragFiles.length > 0 && dragNdropFiles(dragFiles);
 
     }, [dragFiles])
-// }, [getAfterBeforeImg, dragFiles])
+    // }, [getAfterBeforeImg, dragFiles])
 
     return (
         <div id="upload" className="bg_1 border-b-2 border-white">
@@ -430,10 +451,11 @@ const ImageUpload = ({ dragFiles }) => {
                 </div>
             } */}
 
-
+            {console.log("getFirstImgPrcStatus " + getFirstImgPrcStatus )}
                 <div className={`relative ${getAfterBeforeImg.length > 0 && ' pt-4'}`}>
 
                     {getTotalImage > getProccessImgIndex && <Loading_2 />}
+
                     {getAfterBeforeImg.length > 0 &&
                         <div className="flex items-center justify-center mt-1">
                             <i className="fa-solid fa-filter text-white mr-1"></i>
@@ -522,7 +544,7 @@ const ImageUpload = ({ dragFiles }) => {
                             <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10 pt-2 ml-2  pr-3 ${getSuggest.length > 0 && ' h-[400]'}`}>
 
                                 {currentImages.map((image, index) => (
-                                    
+
                                     <div
                                         key={index}
                                         className={`relative  h-[250px]`}
@@ -573,7 +595,7 @@ const ImageUpload = ({ dragFiles }) => {
                 } */}
 
                 </div>
-                {getTotalImage !== 0 && getTotalImage == getProccessImgIndex && getFirstImgView &&
+                {getTotalImage !== 0 && getTotalImage == getProccessImgIndex && getFirstImgView && 
 
                     <div className="flex items-center justify-center absolute top-0 left-0 bg_1 w-full h-full z-50">
                         <div
@@ -607,9 +629,9 @@ const ImageUpload = ({ dragFiles }) => {
                                         </div>
                                         <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
 
-                                                <a  href={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url} download className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
-                                                    <p className="text-xs">Download</p>
-                                                </a>
+                                            <a href={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url} download className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                                                <p className="text-xs">Download</p>
+                                            </a>
 
                                             <div onClick={showSrvMenuFunc} className="cursor-pointer"><p><i class="fa-solid fa-sliders"></i></p>
                                                 <p className="text-xs">Adjust</p></div>
@@ -642,9 +664,9 @@ const ImageUpload = ({ dragFiles }) => {
 
                                         <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
 
-                                        <a  href={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url} download className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
-                                            <p className="text-xs">Download</p>
-                                        </a>
+                                            <a href={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url} download className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                                                <p className="text-xs">Download</p>
+                                            </a>
 
                                             <div onClick={showSrvMenuFunc} className="cursor-pointer">
                                                 <p><i class="fa-solid fa-sliders"></i></p>
@@ -681,7 +703,6 @@ const ImageUpload = ({ dragFiles }) => {
                             </div>
                         </div>
                     </div>
-
                 }
                 {showImage &&
 
@@ -719,8 +740,8 @@ const ImageUpload = ({ dragFiles }) => {
 
 
                                             <a href={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url} download className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
-                                                    <p className="text-xs">Download</p>
-                                                </a>
+                                                <p className="text-xs">Download</p>
+                                            </a>
 
                                             <div onClick={showSrvMenuFunc} className="cursor-pointer"><p><i class="fa-solid fa-sliders"></i></p>
                                                 <p className="text-xs">Adjust</p></div>
@@ -755,7 +776,7 @@ const ImageUpload = ({ dragFiles }) => {
 
                                         <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
 
-                                        <a  href={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url} download className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                                            <a href={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url} download className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
                                                 <p className="text-xs">Download</p>
                                             </a>
 
