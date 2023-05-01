@@ -86,7 +86,7 @@ const ServiceMenu = ({ imageFile, callBackIsAiProccess }) => {
         if (typeof imageFile !== 'undefined') {
 
             setImageDetail(imageFile.output_urls[0])
-
+            console.log("order image id : " + imageFile.output_urls[0].order_image_detail_id)
             fetch(`${getApiBasicUrl}/order-detail-info-by-id?order_image_detail_id=${imageFile.output_urls[0].order_image_detail_id}`, {
                 headers: {
                     'Authorization': 'bearer ' + getToken,
@@ -97,6 +97,8 @@ const ServiceMenu = ({ imageFile, callBackIsAiProccess }) => {
                 .then(data => {
 
                     if (data.status_code == 200) {
+                        console.log("price")
+                        console.log(data)
                         setOrderImageInfo(data);
                         setImagePrice(data.results.order_detail_per_image_charge[0].per_image_charge)
                     }
