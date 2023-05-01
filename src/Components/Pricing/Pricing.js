@@ -10,6 +10,8 @@ const Pricing = () => {
 
     const [isModOpen, setIsModOpen] = useState(false);
     const [getSubscribId, setSubscribId] = useState("");
+    const [getTotalPrice, setTotalPrice] = useState("");
+
     const openModal = (id) => {
         setIsModOpen(true);
         setSubscribId(id)
@@ -98,13 +100,14 @@ const Pricing = () => {
     }
 
 
-    const choosPlan = async (sbId) => {
+    const choosPlan = async (sbId, pr) => {
         try {
             const data = await localforage.getItem('userInfo');
             console.log(data)
             // This code runs once the value has been loaded
             // from the offline store.
             if (data !== null && Object.keys(data).length > 0) {
+                setTotalPrice(pr)
                 openModal(sbId)
             } else {
                 SignInHandleOpen()
@@ -113,6 +116,7 @@ const Pricing = () => {
             console.log(err);
             SignInHandleOpen()
         }
+        handleHideClick() 
     }
     const [isVisible, setIsVisible] = useState(true);
 
@@ -127,7 +131,7 @@ const Pricing = () => {
 
     useEffect(() => {
         getSubscriptionFunc()
-    }, [getOrderMasterId, getSubscriptionPlan]);
+    }, [getOrderMasterId]);
 
     return (
         <>
@@ -145,7 +149,7 @@ const Pricing = () => {
                                 <h2 className='text-center pt-3 text-purple-400  text-xl font-semibold'>{data.title}</h2>
 
                                 <h2 className='text-center  gap-3 pt-2 pb-4 text-3xl font-bold'>{data.netCharge}</h2>
-                                <button onClick={() => { choosPlan(data.id); handleHideClick() }} className='px-6 w-56 rounded-lg  py-2 border border-purple-500 hover:bg-purple-400 mt-2 bg-purple-500 text-white mb-6 font-semibold '>{data.description}</button>
+                                <button onClick={() => { choosPlan(data.id, data.netCharge)}} className='px-6 w-56 rounded-lg  py-2 border border-purple-500 hover:bg-purple-400 mt-2 bg-purple-500 text-white mb-6 font-semibold '>{data.description}</button>
 
                                 {data.subscription_plan_type_description.map((data_2, index_2) => (
                                     <p className='text-start text-sm mt-1 px-5'><i class="fa-solid fa-check mr-3 text-purple-700"></i><span dangerouslySetInnerHTML={{ __html: data_2.description }} /></p>
@@ -175,7 +179,7 @@ const Pricing = () => {
                                             style={{ transform: 'translateX(-50%)' }}
                                         >
                                             <div>
-                                                <h2>Total Charge :{getSubscriptionPlan.results.subscription_plan_type[0].netCharge} </h2>
+                                                <h2>Total Charge :{getTotalPrice} </h2>
                                             </div>
                                             <div>
                                                 <div className="bg-white  flex gap-6 justify-center pt-5 pb-4 sm:p-6 sm:pb-4">
