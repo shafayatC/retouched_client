@@ -51,6 +51,7 @@ const Pricing = () => {
     };
 
     const SignInHandleClose = () => {
+        getSubscriptionFunc()
         setShowSignInForm(false);
     }
 
@@ -115,7 +116,7 @@ const Pricing = () => {
 
     useEffect(() => {
         getSubscriptionFunc()
-    }, [getOrderMasterId]);
+    }, [getOrderMasterId, getSubscriptionPlan]);
 
     return (
         <>
