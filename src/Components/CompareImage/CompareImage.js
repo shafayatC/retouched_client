@@ -50,15 +50,20 @@ const CompareImage = ({ topImage, bottomImage }) => {
 
     const onKeyDown = useCallback(
         (e) => {
-            const { offsetLeft, offsetParent } = handleRef.current;
+            if (handleRef.current) {
+                const { offsetLeft, offsetParent } = handleRef.current;
 
-            if (e.code === "ArrowLeft") {
-                setPositioning(offsetLeft + offsetParent.offsetLeft - 10);
-            }
-
-            if (e.code === "ArrowRight") {
-                setPositioning(offsetLeft + offsetParent.offsetLeft + 10);
-            }
+                if (e.code === "ArrowLeft") {
+                    setPositioning(offsetLeft + offsetParent.offsetLeft - 10);
+                }
+    
+                if (e.code === "ArrowRight") {
+                    setPositioning(offsetLeft + offsetParent.offsetLeft + 10);
+                }
+              } else {
+                // Handle the case when handleRef.current is null
+              }
+           
         },
         [setPositioning]
     );

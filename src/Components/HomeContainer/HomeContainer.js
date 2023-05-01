@@ -6,6 +6,7 @@ import Footer from '../Footer/Footer';
 const HomeContainer = () => {
 
     const [getDragFile, setDragFile] = useState([])
+    
     const callBackFile=(data)=>{
         setDragFile(data); 
     }

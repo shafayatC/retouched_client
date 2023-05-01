@@ -380,7 +380,8 @@ const ImageUpload = ({ dragFiles }) => {
 
         dragFiles.length > 0 && dragNdropFiles(dragFiles);
 
-    }, [getAfterBeforeImg, dragFiles])
+    }, [dragFiles])
+// }, [getAfterBeforeImg, dragFiles])
 
     return (
         <div id="upload" className="bg_1 border-b-2 border-white">
@@ -518,6 +519,7 @@ const ImageUpload = ({ dragFiles }) => {
                             <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10 pt-2 ml-2  pr-3 ${getSuggest.length > 0 && ' h-[400]'}`}>
 
                                 {currentImages.map((image, index) => (
+                                    
                                     <div
                                         key={index}
                                         className={`relative  h-[250px]`}
@@ -602,10 +604,9 @@ const ImageUpload = ({ dragFiles }) => {
                                         </div>
                                         <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
 
-                                            <Popover content={downloadContent} trigger="click">
-                                                <div className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
-                                                    <p className="text-xs">Download</p></div>
-                                            </Popover>
+                                                <a  href={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url} download className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                                                    <p className="text-xs">Download</p>
+                                                </a>
 
                                             <div onClick={showSrvMenuFunc} className="cursor-pointer"><p><i class="fa-solid fa-sliders"></i></p>
                                                 <p className="text-xs">Adjust</p></div>
@@ -638,10 +639,9 @@ const ImageUpload = ({ dragFiles }) => {
 
                                         <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
 
-                                            <Popover content={downloadContent} trigger="click">
-                                                <div className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
-                                                    <p className="text-xs">Download</p></div>
-                                            </Popover>
+                                        <a  href={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url} download className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                                            <p className="text-xs">Download</p>
+                                        </a>
 
                                             <div onClick={showSrvMenuFunc} className="cursor-pointer">
                                                 <p><i class="fa-solid fa-sliders"></i></p>
@@ -714,10 +714,10 @@ const ImageUpload = ({ dragFiles }) => {
                                         </div>
                                         <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
 
-                                            <Popover content={downloadContent} trigger="click">
-                                                <div className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
-                                                    <p className="text-xs">Download</p></div>
-                                            </Popover>
+
+                                            <a href={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url} download className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                                                    <p className="text-xs">Download</p>
+                                                </a>
 
                                             <div onClick={showSrvMenuFunc} className="cursor-pointer"><p><i class="fa-solid fa-sliders"></i></p>
                                                 <p className="text-xs">Adjust</p></div>
@@ -752,10 +752,9 @@ const ImageUpload = ({ dragFiles }) => {
 
                                         <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
 
-                                            <Popover content={downloadContent} trigger="click">
-                                                <div className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
-                                                    <p className="text-xs">Download</p></div>
-                                            </Popover>
+                                        <a  href={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url} download className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                                                <p className="text-xs">Download</p>
+                                            </a>
 
                                             <div onClick={showSrvMenuFunc} className="cursor-pointer">
                                                 <p><i class="fa-solid fa-sliders"></i></p>
