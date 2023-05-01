@@ -5,6 +5,7 @@ import { OrderContextManager, apiUrlContextManager, userContextManager } from '.
 import { Link } from 'react-router-dom';
 import SignInForm from '../SignInForm/SignInForm';
 import localforage from 'localforage';
+import './pricing.css'
 
 const Pricing = () => {
 
@@ -116,7 +117,7 @@ const Pricing = () => {
             console.log(err);
             SignInHandleOpen()
         }
-        handleHideClick() 
+        handleHideClick()
     }
     const [isVisible, setIsVisible] = useState(true);
 
@@ -149,7 +150,7 @@ const Pricing = () => {
                                 <h2 className='text-center pt-3 text-purple-400  text-xl font-semibold'>{data.title}</h2>
 
                                 <h2 className='text-center  gap-3 pt-2 pb-4 text-3xl font-bold'>{data.netCharge}</h2>
-                                <button onClick={() => { choosPlan(data.id, data.netCharge)}} className='px-6 w-56 rounded-lg  py-2 border border-purple-500 hover:bg-purple-400 mt-2 bg-purple-500 text-white mb-6 font-semibold '>{data.description}</button>
+                                <button onClick={() => { choosPlan(data.id, data.netCharge) }} className='px-6 w-56 rounded-lg  py-2 border border-purple-500 hover:bg-purple-400 mt-2 bg-purple-500 text-white mb-6 font-semibold '>{data.description}</button>
 
                                 {data.subscription_plan_type_description.map((data_2, index_2) => (
                                     <p className='text-start text-sm mt-1 px-5'><i class="fa-solid fa-check mr-3 text-purple-700"></i><span dangerouslySetInnerHTML={{ __html: data_2.description }} /></p>
@@ -172,25 +173,26 @@ const Pricing = () => {
                                         </div>
 
                                         <div
-                                            className="absolute flex left-[50%] w-[780px] h-[320px] bottom-0 border border-teal-700 bg-white  text-left overflow-hidden shadow-xl transform transition-all "
+                                            className="absolute flex gap-4 left-[50%] w-[780px] h-[320px] bottom-0 border border-teal-700 bg-white  text-left overflow-hidden shadow-xl transform transition-all "
                                             role="dialog"
                                             aria-modal="true"
                                             aria-labelledby="modal-headline"
                                             style={{ transform: 'translateX(-50%)' }}
                                         >
-                                            <div>
-                                                <h2>Total Charge :{getTotalPrice} </h2>
+                                            <div className="priceCircle ">
+                                                <h2 className='flex justify-center font-bold text-3xl'>Total</h2>
+                                                <h5 className='flex justify-center font-bold text-5xl'>{getTotalPrice}</h5>
                                             </div>
-                                            <div>
-                                                <div className="bg-white  flex gap-6 justify-center pt-5 pb-4 sm:p-6 sm:pb-4">
+                                            <div className='flex flex-col justify-center items-center'>
+                                                <div className="bg-white  flex gap-6 justify-center items-center pt-5 pb-4 sm:p-6 sm:pb-4">
                                                     <div className="sm:flex sm:items-start">
 
                                                         <div className="mt-3 mb-6 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                                             <h3
-                                                                className="text-2xl pt-6 pb-8 leading-6 font-bold text-gray-900"
+                                                                className="text-lg pt-6 pb-8 leading-6 font-bold text-gray-900"
 
                                                             >
-                                                                <i class="fa-solid text-yellow-500  fa-circle-exclamation"></i> Confirmation: <span className='text-xl font-medium'>Redirecting to Payment Processing </span>
+                                                                <i class="fa-solid text-yellow-500  fa-circle-exclamation"></i> Confirmation: <span className='text-sm font-medium'>Redirecting to Payment Processing </span>
                                                             </h3>
 
                                                         </div>
@@ -199,13 +201,13 @@ const Pricing = () => {
                                                 <div className=" py-4 flex gap-8 justify-center ">
                                                     <button
                                                         onClick={okayButton}
-                                                        className="text-white w-28 bg-green-600  px-3 py-2 rounded-md">
+                                                        className="text-white w-20 bg-green-600  px-3 py-1 rounded-md">
                                                         Okay
                                                     </button>
 
                                                     <button
 
-                                                        className="text-white w-28 bg-red-500  px-3 py-2 rounded-md"
+                                                        className="text-white w-20 bg-red-500  px-3 py-1 rounded-md"
                                                         onClick={() => { closeModal(); handleShowClick() }}
                                                     >
                                                         Cancel
