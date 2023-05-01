@@ -1,7 +1,7 @@
 
 import React, { useContext, useEffect } from 'react';
 import { useState } from 'react';
-import { FileContextManager, apiUrlContextManager, userContextManager } from '../../App';
+import { FileContextManager, OrderContextManager, apiUrlContextManager, userContextManager } from '../../App';
 
 
 const ServiceMenu = ({ imageFile, callBackIsAiProccess }) => {
@@ -27,6 +27,7 @@ const ServiceMenu = ({ imageFile, callBackIsAiProccess }) => {
     ] = useContext(FileContextManager);
     const [getUserInfo, setUserInfo, getToken, setToken] = useContext(userContextManager);
     const [getModelBaseUrl, setModelBaseUrl, getApiBasicUrl, setApiBasicUrl] = useContext(apiUrlContextManager);
+    const [getServiceTypeId, setServiceTypeId, getSubscriptionPlanId, setSubscriptionPlanId,  getOrderMasterId, setOrderMasterId, getCostDetails, setCostDetails] = useContext(OrderContextManager);
 
 
 
@@ -101,8 +102,8 @@ const ServiceMenu = ({ imageFile, callBackIsAiProccess }) => {
                     }
                 })
 
-
-            fetch(`${getApiBasicUrl}/order-image-service?order_image_detail_id=${imageFile.output_urls[0].order_image_detail_id}`, {
+                // http://103.197.204.22:8007/api/2023-02/order-image-service?order_image_detail_id=8ED80955-0A00-4F9F-9D29-00082325001E&subscription_plan_type_id=D7EE61D8-0FA9-4C72-B228-59FB370EE2A9&service_type_id=8C0CA426-9F58-406B-972D-1079EE80F9E9
+            fetch(`${getApiBasicUrl}/order-image-service?order_image_detail_id=${imageFile.output_urls[0].order_image_detail_id}&subscription_plan_type_id=${getSubscriptionPlanId}&service_type_id=${getServiceTypeId}`, {
                 headers: {
                     'Authorization': 'bearer ' + getToken,
                     'Content-Type': 'application/x-www-form-urlencoded'
