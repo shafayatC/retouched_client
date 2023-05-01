@@ -15,6 +15,7 @@ import './style.css'
 import CostBreakDown from "../CostBreakDown/CostBreakDown";
 import SignInForm from "../SignInForm/SignInForm";
 import { matchSorter } from "match-sorter";
+import CheckAiProccess from "./CheckAiProccess";
 
 const ImageUpload = ({ dragFiles }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -602,8 +603,6 @@ const ImageUpload = ({ dragFiles }) => {
                                         </div>
                                     </div>
 
-
-
                                     {getAfterBeforeImg.length > 0 && <ServiceMenu callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
                                 </div>
 
@@ -640,6 +639,7 @@ const ImageUpload = ({ dragFiles }) => {
                                                 <p className="text-xs">Adjust</p></div>
                                         </div>
                                     </div>
+                                    {getAfterBeforeImg.length > 0 && <CheckAiProccess callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
                                 </div>
                             }
 
@@ -753,6 +753,7 @@ const ImageUpload = ({ dragFiles }) => {
                                                 <p className="text-xs">Adjust</p></div>
                                         </div>
                                     </div>
+                                    {getAfterBeforeImg.length > 0 && <CheckAiProccess callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
                                 </div>
                             }
 
