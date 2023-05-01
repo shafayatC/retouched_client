@@ -15,6 +15,7 @@ import './style.css'
 import CostBreakDown from "../CostBreakDown/CostBreakDown";
 import SignInForm from "../SignInForm/SignInForm";
 import { matchSorter } from "match-sorter";
+import CheckAiProccess from "./CheckAiProccess";
 
 const ImageUpload = ({ dragFiles }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -152,6 +153,15 @@ const ImageUpload = ({ dragFiles }) => {
         newOrderCreate(newFile);
 
     };
+
+    const nextPage = () => {
+        setCurrentPage(currentPage + 1);
+    };
+
+    const previousPage = () => {
+        setCurrentPage(currentPage - 1);
+    };
+
 
     const dragNdropFiles = (newFile) => {
         setActionStatus("");
@@ -501,44 +511,44 @@ const ImageUpload = ({ dragFiles }) => {
                         </div>
                     }
 
-{getSuggest.length > 0 && actionStatus == "filter" && (
-            
-            <div >
+                    {getSuggest.length > 0 && actionStatus == "filter" && (
 
-            <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10 pt-2 ml-2  pr-3 ${getSuggest.length > 0 && ' h-[400]'}`}>
+                        <div >
 
-                {currentImages.map((image, index) => (
-                    <div
-                        key={index}
-                        className={`relative  h-[250px]`}
+                            <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10 pt-2 ml-2  pr-3 ${getSuggest.length > 0 && ' h-[400]'}`}>
 
-                    >
-                        <div
-                            className={`img-container w-full h-full   bg-no-repeat  cursor-pointer  ${getSuggest.length === 1 ? "h-[400px] justify-center" : "img-bag"}`}
-                            onClick={() => viewImg((currentPage - 1) * itemsPerPage + index)}
-                        //   style={{
-                        //     backgroundImage: `url(${image.output_urls[0].compressed_raw_image_public_url})`,
-                        //   }}
-                        >
-                            <img className="w-full h-full img-bag rounded-lg" src={image.output_urls[0].compressed_raw_image_public_url} />
-                        </div>
+                                {currentImages.map((image, index) => (
+                                    <div
+                                        key={index}
+                                        className={`relative  h-[250px]`}
+
+                                    >
+                                        <div
+                                            className={`img-container w-full h-full   bg-no-repeat  cursor-pointer  ${getSuggest.length === 1 ? "h-[400px] justify-center" : "img-bag"}`}
+                                            onClick={() => viewImg((currentPage - 1) * itemsPerPage + index)}
+                                        //   style={{
+                                        //     backgroundImage: `url(${image.output_urls[0].compressed_raw_image_public_url})`,
+                                        //   }}
+                                        >
+                                            <img className="w-full h-full img-bag rounded-lg" src={image.output_urls[0].compressed_raw_image_public_url} />
+                                        </div>
 
 
-                        {/* <div className="flex gap-1  ">
+                                        {/* <div className="flex gap-1  ">
                         {image.output_urls[0].is_ai_processed ?
                             <p><i className="fa-solid text-green-400 absolute top-2 right-2 fa-circle-check"></i></p>
                             :
                             <p className="loader_2 absolute top-[40%] left-[45%]"></p>
                         }
                     </div> */}
-                    </div>
-                ))}
+                                    </div>
+                                ))}
 
-            </div>
+                            </div>
 
 
-        </div>
-            )}
+                        </div>
+                    )}
 
                     {console.log(getAfterBeforeImg)}
                     {/* {getTotalImage !== 0 && getTotalImage == getProccessImgIndex &&
@@ -602,8 +612,6 @@ const ImageUpload = ({ dragFiles }) => {
                                         </div>
                                     </div>
 
-
-
                                     {getAfterBeforeImg.length > 0 && <ServiceMenu callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
                                 </div>
 
@@ -640,6 +648,7 @@ const ImageUpload = ({ dragFiles }) => {
                                                 <p className="text-xs">Adjust</p></div>
                                         </div>
                                     </div>
+                                    {getAfterBeforeImg.length > 0 && <CheckAiProccess callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
                                 </div>
                             }
 
@@ -753,6 +762,7 @@ const ImageUpload = ({ dragFiles }) => {
                                                 <p className="text-xs">Adjust</p></div>
                                         </div>
                                     </div>
+                                    {getAfterBeforeImg.length > 0 && <CheckAiProccess callBackIsAiProccess={callBackIsAiProccess} imageFile={actionStatus == "filter" ? getSuggest[getImgIndex] : getAfterBeforeImg[getImgIndex]} />}
                                 </div>
                             }
 
@@ -788,26 +798,52 @@ const ImageUpload = ({ dragFiles }) => {
 
                 }
                 {getAfterBeforeImg.length > 0 &&
-                    <div className="w-full bg-black border z-[999] border-white rounded-md py-1 absolute flex justify-between px-10 bottom-5">
-                        <div className="flex justify-center items-center font-bold">
-                            <button onClick={openModal} className="px-4 py-1 rounded-lg bg-white text-black" >Charge breakdown</button>
-                        </div>
-                        <div className="flex gap-20 font-bold">
-                            <div className="text-white text-start text-sm">
-                                <p>Total Image(s) : {getAfterBeforeImg.length}</p>
-                                {getTotalImage == getProccessImgIndex && <p>Total Charge : <TotalBill actionSwitch={getSwitchLoop} /></p>}
-                            </div>
 
-                            <Link to="/pricing" className="flex justify-center items-center">
-                                <button className="px-4 py-1 rounded-lg bg-white text-black">Review Payment</button>
-                            </Link>
+                    <div className=" absolute   bottom-12 w-full ">
+
+                        <div className="flex justify-between w-full    ">
+                            {/* Previous button */}
+                            <div>
+                                <button
+                                    disabled={currentPage === 1}
+                                    className="cursor-pointer text-white disabled:text-gray-500"
+                                    onClick={previousPage}
+                                >
+                                    <i className="fa-solid text-2xl ml-5 fa-circle-chevron-left "></i>
+                                </button></div>
+                            {/* Next Button */}
+                            <div>
+                                <button
+                                    disabled={currentPage === Math.ceil(actionStatus == "filter" ? getSuggest.length / itemsPerPage : getAfterBeforeImg.length / itemsPerPage)}
+                                    className="cursor-pointer text-white disabled:text-gray-500"
+                                    onClick={nextPage}
+                                >
+                                    <i className="fa-solid text-2xl mr-3 fa-circle-chevron-right "></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="w-full bg-black border z-[999] border-white rounded-md py-1 absolute flex justify-between px-10 ">
+                            <div className="flex justify-center items-center font-bold">
+                                <button onClick={openModal} className="px-4 py-1 rounded-lg bg-white text-black" >Charge breakdown</button>
+                            </div>
+                            <div className="flex gap-20 font-bold">
+                                <div className="text-white text-start text-sm">
+                                    <p>Total Image(s) : {getAfterBeforeImg.length}</p>
+                                    {getTotalImage == getProccessImgIndex && <p>Total Charge : <TotalBill actionSwitch={getSwitchLoop} /></p>}
+                                </div>
+
+                                <Link to="/pricing" className="flex justify-center items-center">
+                                    <button className="px-4 py-1 rounded-lg bg-white text-black">Review Payment</button>
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 }
                 {/* CostBreakDown Modal Start---------------------------------------------------- */}
                 <>
                     {isOpen && (
-                        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-opacity-50 bg-gray-500">
+                        <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-opacity-50 bg-gray-500">
                             <div className="flex  bg-white w-[400px] mx-auto pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                                 <div
                                     className="fixed inset-0 "
