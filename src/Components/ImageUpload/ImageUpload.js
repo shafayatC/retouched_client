@@ -340,6 +340,7 @@ const ImageUpload = ({ dragFiles }) => {
     // }
 
 
+
     const filterFunc = (e) => {
         e.preventDefault();
 
@@ -376,6 +377,8 @@ const ImageUpload = ({ dragFiles }) => {
             setActionStatus("");
         }
     };
+
+
     useEffect(() => {
 
         dragFiles.length > 0 && dragNdropFiles(dragFiles);
