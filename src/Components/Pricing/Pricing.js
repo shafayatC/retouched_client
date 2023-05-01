@@ -23,6 +23,7 @@ const Pricing = () => {
     };
     const okayButton = () => {
         checkoutFunc(getSubscribId)
+        setSubscriptionPlanId(getSubscribId)
         closeModal()
     }
 
