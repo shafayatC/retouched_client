@@ -384,7 +384,7 @@ const ImageUpload = ({ dragFiles }) => {
         dragFiles.length > 0 && dragNdropFiles(dragFiles);
 
     }, [dragFiles])
-// }, [getAfterBeforeImg, dragFiles])
+    // }, [getAfterBeforeImg, dragFiles])
 
     return (
         <div id="upload" className="bg_1 border-b-2 border-white">
@@ -480,7 +480,7 @@ const ImageUpload = ({ dragFiles }) => {
                     {getAfterBeforeImg.length > 0 && actionStatus == "" &&
                         <div >
 
-                            <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10 pt-2 ml-2  pr-3 ${getAfterBeforeImg.length > 0 && ' h-[400]'}`}>
+                            <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10 pt-2 ml-2 mb-5 pr-3 ${getAfterBeforeImg.length > 0 && ' h-[400]'}`}>
 
                                 {currentImages.map((image, index) => (
                                     <div
@@ -519,10 +519,10 @@ const ImageUpload = ({ dragFiles }) => {
 
                         <div >
 
-                            <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10 pt-2 ml-2  pr-3 ${getSuggest.length > 0 && ' h-[400]'}`}>
+                            <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10 pt-2 ml-2   pr-3 ${getSuggest.length > 0 && ' h-[400]'}`}>
 
                                 {currentImages.map((image, index) => (
-                                    
+
                                     <div
                                         key={index}
                                         className={`relative  h-[250px]`}
@@ -591,25 +591,25 @@ const ImageUpload = ({ dragFiles }) => {
                             className="flex flex-col justify-center z-50 bg-white pb-3 mt-[-50px]"
                         >
                             {getShowSrvMenu ?
-                                <div className="h-[450px] w-[700px] bg-white relative rounded-md z-50">
+                                <div className="h-[500px] w-[700px] bg-white relative rounded-md z-50">
                                     <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-10  font-semibold">Beautify imagery with Ad-on Professional Services</p>
                                     <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
                                     <div className=" w-[400px] pt-20 pl-16 absolute ">
-                                        <div className="h-[300px] border border-theme-shade  relative">
+                                        <div className=" w-[300px] relative">
                                             {getCallbackAiBool ?
                                                 <CompareImage
                                                     topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
                                                     bottomImage={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
                                                 /> :
-                                                <img className="h-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
+                                                <img className="h-[300px] w-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
                                             }
                                             <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
                                         </div>
                                         <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
 
-                                                <a  href={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url} download className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
-                                                    <p className="text-xs">Download</p>
-                                                </a>
+                                            <a href={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url} download className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                                                <p className="text-xs">Download</p>
+                                            </a>
 
                                             <div onClick={showSrvMenuFunc} className="cursor-pointer"><p><i class="fa-solid fa-sliders"></i></p>
                                                 <p className="text-xs">Adjust</p></div>
@@ -622,16 +622,16 @@ const ImageUpload = ({ dragFiles }) => {
                                 :
 
                                 <div>
-                                    <div className="h-[400px] w-[700px] bg-white relative rounded-md z-50">
+                                    <div className="h-[500px] w-[600px] bg-white relative rounded-md z-50">
                                         <p className="w-full text-white px-2 py-2  absolute top-0 bg-teal-500  font-semibold">Beautify imagery with Ad-on Professional Services</p>
-                                        <div className=" w-full pt-20 px-10 absolute ">
-                                            <div className="w-full h-[300px] border border-theme-shade  relative">
+                                        <div className=" h-[460px] w-[570px] pt-12 ml-4 absolute ">
+                                            <div className="  relative">
                                                 {getCallbackAiBool ?
                                                     <CompareImage
                                                         topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
                                                         bottomImage={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
                                                     /> :
-                                                    <img className="h-full w-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
+                                                    <img className="h-[460px] w-[570px] " src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
                                                 }
                                                 <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
                                             </div>
@@ -642,9 +642,9 @@ const ImageUpload = ({ dragFiles }) => {
 
                                         <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
 
-                                        <a  href={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url} download className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
-                                            <p className="text-xs">Download</p>
-                                        </a>
+                                            <a href={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url} download className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                                                <p className="text-xs">Download</p>
+                                            </a>
 
                                             <div onClick={showSrvMenuFunc} className="cursor-pointer">
                                                 <p><i class="fa-solid fa-sliders"></i></p>
@@ -701,7 +701,7 @@ const ImageUpload = ({ dragFiles }) => {
                             className="flex flex-col justify-center z-50 bg-white pb-3 mt-[-50px]"
                         >
                             {getShowSrvMenu ?
-                                <div className="h-[450px] w-[700px] bg-white relative rounded-md z-50">
+                                <div className="h-[500px] w-[700px] bg-white relative rounded-md z-50">
                                     <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-10  font-semibold">Beautify imagery with Ad-on Professional Services</p>
                                     <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
                                     <div className=" w-[400px] pt-20 pl-16 absolute ">
@@ -711,7 +711,7 @@ const ImageUpload = ({ dragFiles }) => {
                                                     topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
                                                     bottomImage={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
                                                 /> :
-                                                <img className="h-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
+                                                <img className="h-[300px] w-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
                                             }
                                             <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
                                         </div>
@@ -719,8 +719,8 @@ const ImageUpload = ({ dragFiles }) => {
 
 
                                             <a href={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url} download className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
-                                                    <p className="text-xs">Download</p>
-                                                </a>
+                                                <p className="text-xs">Download</p>
+                                            </a>
 
                                             <div onClick={showSrvMenuFunc} className="cursor-pointer"><p><i class="fa-solid fa-sliders"></i></p>
                                                 <p className="text-xs">Adjust</p></div>
@@ -735,16 +735,16 @@ const ImageUpload = ({ dragFiles }) => {
                                 :
 
                                 <div>
-                                    <div className="h-[400px] w-[700px] bg-white relative rounded-md z-50">
+                                    <div className="h-[500px] w-[600px] bg-white relative rounded-md z-50">
                                         <p className="w-full text-white px-2 py-2  absolute top-0 bg-teal-500  font-semibold">Beautify imagery with Ad-on Professional Services</p>
-                                        <div className=" w-full pt-20 px-10 absolute ">
-                                            <div className="w-full h-[300px] border border-theme-shade  relative">
+                                        <div className=" w-full pt-12 px-4 absolute ">
+                                            <div className="w-[570px] h-[460px] border border-theme-shade  relative">
                                                 {getCallbackAiBool ?
                                                     <CompareImage
                                                         topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
                                                         bottomImage={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url}
                                                     /> :
-                                                    <img className="h-full w-full" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
+                                                    <img className="h-[460px] w-[570px]" src={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url} />
                                                 }
                                                 <p className="absolute top-0 right-0  bg-teal-500 text-white px-3 text-xs py-1  rounded-l-3xl z-10">{actionStatus == "filter" ? getSuggest[getImgIndex].output_urls[0].order_image_detail_sequence_no : getAfterBeforeImg[getImgIndex].output_urls[0].order_image_detail_sequence_no}</p>
                                             </div>
@@ -753,9 +753,9 @@ const ImageUpload = ({ dragFiles }) => {
 
                                     <div className="px-10">
 
-                                        <div className="flex justify-between border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
+                                        <div className="flex justify-between w-[500px] border px-10 p-2 rounded-lg border-teal-500 mt-4 ">
 
-                                        <a  href={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url} download className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
+                                            <a href={getAfterBeforeImg[getImgIndex].output_urls[0].default_compressed_output_public_url} download className="cursor-pointer"><p><i class="fa-solid fa-download"></i></p>
                                                 <p className="text-xs">Download</p>
                                             </a>
 
@@ -803,7 +803,7 @@ const ImageUpload = ({ dragFiles }) => {
 
                     <div className=" absolute   bottom-12 w-full ">
 
-                        <div className="flex justify-between w-full    ">
+                        <div className="flex mb-4 justify-between w-full    ">
                             {/* Previous button */}
                             <div>
                                 <button

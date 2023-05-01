@@ -56,14 +56,14 @@ const CompareImage = ({ topImage, bottomImage }) => {
                 if (e.code === "ArrowLeft") {
                     setPositioning(offsetLeft + offsetParent.offsetLeft - 10);
                 }
-    
+
                 if (e.code === "ArrowRight") {
                     setPositioning(offsetLeft + offsetParent.offsetLeft + 10);
                 }
-              } else {
+            } else {
                 // Handle the case when handleRef.current is null
-              }
-           
+            }
+
         },
         [setPositioning]
     );
