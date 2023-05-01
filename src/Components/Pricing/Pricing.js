@@ -58,6 +58,7 @@ const Pricing = () => {
 
     const SignInHandleClose = () => {
         setShowSignInForm(false);
+        handleShowClick()
     }
 
     const updateOrderIdFunc = () => {
