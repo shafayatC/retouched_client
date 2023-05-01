@@ -4,13 +4,24 @@ import SignInForm from '../SignInForm/SignInForm';
 import logo from '../images/logo.png'
 import Navbar from './Navbar/Navbar';
 import './style.css'
-import { FileContextManager, menuContextManager } from '../../App';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { FileContextManager, apiUrlContextManager, menuContextManager, userContextManager } from '../../App';
 
 
 const Home = ({ callBackFile }) => {
 
     const [isModOpen, setIsModOpen] = useState(false);
     const [getActionId, setActionId] = useState(""); 
+    const [showSignInForm, setShowSignInForm] = useState(false);
+    const [getSwitchForm, setSwitchForm] = useState(true);
+    const [getSignUpMail, setSignUpMail] = useState("");
+    const [getModelBaseUrl, setModelBaseUrl, getApiBasicUrl, setApiBasicUrl] = useContext(apiUrlContextManager); 
+    const [getMenuId, setMenuId, getMenu, setMenu] = useContext(menuContextManager)
+    const [getUserInfo, setUserInfo, getToken, setToken] = useContext(userContextManager);
+
+
+
     const [
         fileInfo,
         setFileInfo,
@@ -46,9 +57,7 @@ const Home = ({ callBackFile }) => {
         closeModal()
     }
 
-    const [showSignInForm, setShowSignInForm] = useState(false);
-    const [getSwitchForm, setSwitchForm] = useState(true);
-    const [getMenuId, setMenuId, getMenu, setMenu] = useContext(menuContextManager)
+
 
     function dragOverHandler(e) {
         console.log("File(s) in drop zone");
@@ -94,6 +103,61 @@ const Home = ({ callBackFile }) => {
         setShowSignInForm(false);
     }
 
+    const singUpFunc = async () => {
+
+
+        var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+        if (getSignUpMail.match(validRegex)) {
+            const regMail = { "email": getSignUpMail }
+            try {
+
+                const rawResponse = await fetch(getApiBasicUrl + '/system-sign-up', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'bearer ' + getToken
+                    },
+                    body: JSON.stringify(regMail)
+                });
+
+                const res = await rawResponse.json();
+                if
+                    (res.status_code == 200) {
+                    showToastMessage(res.message)
+                }
+
+                else {
+                    showToastMessageWarning(res.message)
+                }
+
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            showToastMessageError("email format is not valide")
+        }
+    }
+
+    const showToastMessage = (msg) => {
+        toast.success(msg, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      };
+    
+      const showToastMessageWarning = (msg) => {
+        toast.warning(msg, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      };
+    
+      const showToastMessageError = (msg) => {
+        toast.error(msg, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      };
+    
     return (
         <div id='home' className="bg_1 h-full pb-28 border-b-2 border-white">
             <div className='container mx-auto'>
@@ -113,10 +177,13 @@ const Home = ({ callBackFile }) => {
 
                         <div className="mt-4 flex gap-3">
                             <input
+                            
+                            onChange={(e) => setSignUpMail(e.target.value)}
+                            value={getSignUpMail}
                                 type="text"
                                 className=" w-96 px-4 py-3 border border-gray-400 text-xl font-normal text-white bg-gray-800 rounded-md " placeholder="Email address"
                             />
-                            <button className='bg-[#03448D] border hover:bg-blue-400 border-blue-400 text-white font-semibold rounded-md text-sm px-8 '>Join Here</button>
+                            <button onClick={singUpFunc} className='bg-[#03448D] border hover:bg-blue-400 border-blue-400 text-white font-semibold rounded-md text-sm px-8 '>Join Here</button>
                         </div>
 
                         <div className='flex mt-16 gap-4'>

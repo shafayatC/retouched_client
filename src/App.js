@@ -10,6 +10,7 @@ import Pricing from './Components/Pricing/Pricing';
 import SignIn from './Components/Login/SignIn';
 import SignUp from './Components/Login/SignUp';
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import ThankYouNote from './Components/Login/ThankYouNote';
 import SetPassword from './Components/Login/SetPassword';
 import ResetPasswordForm from './Components/Login/ResetPasswordForm';
