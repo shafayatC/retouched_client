@@ -7,6 +7,7 @@ import './style.css'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FileContextManager, apiUrlContextManager, menuContextManager, userContextManager } from '../../App';
+import PopupMessage from '../PopUp/PopupMessage';
 
 
 const Home = ({ callBackFile }) => {
@@ -19,9 +20,8 @@ const Home = ({ callBackFile }) => {
     const [getModelBaseUrl, setModelBaseUrl, getApiBasicUrl, setApiBasicUrl] = useContext(apiUrlContextManager); 
     const [getMenuId, setMenuId, getMenu, setMenu] = useContext(menuContextManager)
     const [getUserInfo, setUserInfo, getToken, setToken] = useContext(userContextManager);
-
-
-
+    const [getPopup, setPopup] = useState(false); 
+    const [getPopMsg, setPopMsg] = useState("");
     const [
         fileInfo,
         setFileInfo,
@@ -40,6 +40,7 @@ const Home = ({ callBackFile }) => {
     ] = useContext(FileContextManager);
 
     const openModal = (id) => {
+        document.getElementById(id).value = null; 
       if(getAfterBeforeImg.length > 0){
         setIsModOpen(true);
         setActionId(id)
@@ -157,7 +158,9 @@ const Home = ({ callBackFile }) => {
           position: toast.POSITION.TOP_RIGHT,
         });
       };
-    
+      const callBackMessagePopup =(bl)=>{
+        setPopup(bl)
+    }
     return (
         <div id='home' className="bg_1 h-full pb-28 border-b-2 border-white">
             <div className='container mx-auto'>
@@ -345,6 +348,7 @@ const Home = ({ callBackFile }) => {
                 )}
             </>
 
+            {getPopup && <PopupMessage msg={getPopMsg} dark={true} callBackMessagePopup={callBackMessagePopup}/>}  
 
         </div>
     )

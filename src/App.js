@@ -44,7 +44,8 @@ function App() {
   const [getSrvPopBool, setSrvPopBool] = useState(true);
   const [getModelBaseUrl, setModelBaseUrl] = useState("");
   const [getApiBasicUrl, setApiBasicUrl] = useState("http://103.197.204.22:8007/api/2023-02");
-
+  const [getLimitImg, setLimitImg] = useState(0)
+  const [getFirstImgPrcStatus, setFirstImgPrcStatus] = useState(false);
 
 
 
@@ -65,10 +66,12 @@ function App() {
         getProccessImgIndex,
         setProccessImgIndex,
         getTotalImage,
-        setTotalImage
+        setTotalImage,
+        getFirstImgPrcStatus, 
+        setFirstImgPrcStatus
       ]}
     >
-      <OrderContextManager.Provider value={[getServiceTypeId, setServiceTypeId, getSubscriptionPlanId, setSubscriptionPlanId, getOrderMasterId, setOrderMasterId, getCostDetails, setCostDetails, getSrvPopBool, setSrvPopBool, getOrderDetailInfo, setOrderDetailInfo]}>
+      <OrderContextManager.Provider value={[getServiceTypeId, setServiceTypeId, getSubscriptionPlanId, setSubscriptionPlanId, getOrderMasterId, setOrderMasterId, getCostDetails, setCostDetails, getSrvPopBool, setSrvPopBool, getOrderDetailInfo, setOrderDetailInfo, getLimitImg, setLimitImg]}>
         <userContextManager.Provider value={[getUserInfo, setUserInfo, getToken, setToken]}>
           <menuContextManager.Provider value={[getMenuId, setMenuId, getMenu, setMenu, getDashboardMenu, setDashboardMenu]}>
             <apiUrlContextManager.Provider value={[getModelBaseUrl, setModelBaseUrl, getApiBasicUrl, setApiBasicUrl]}>

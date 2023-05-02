@@ -16,6 +16,8 @@ import CostBreakDown from "../CostBreakDown/CostBreakDown";
 import SignInForm from "../SignInForm/SignInForm";
 import { matchSorter } from "match-sorter";
 import CheckAiProccess from "./CheckAiProccess";
+import PopupMessage from "../PopUp/PopupMessage";
+import ImageProccessChecking from "./ImageProccessChecking";
 
 const ImageUpload = ({ dragFiles }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -29,7 +31,9 @@ const ImageUpload = ({ dragFiles }) => {
     const [getCallbackAiBool, setCallbackAiBool] = useState(false);
     const [getFilterText, setFilterText] = useState("");
     const [getSuggestBool, setSuggestBool] = useState(false);
-    const [getFirstImgPrcStatus, setFirstImgPrcStatus] = useState(false);
+    // const [getFirstImgPrcStatus, setFirstImgPrcStatus] = useState(false);
+    const [getPopup, setPopup] = useState(false); 
+    const [getPopMsg, setPopMsg] = useState("");
     const [
         fileInfo,
         setFileInfo,
@@ -44,11 +48,13 @@ const ImageUpload = ({ dragFiles }) => {
         getProccessImgIndex,
         setProccessImgIndex,
         getTotalImage,
-        setTotalImage
+        setTotalImage,
+        getFirstImgPrcStatus, 
+        setFirstImgPrcStatus
     ] = useContext(FileContextManager);
 
     const [getMenuId, setMenuId, getMenu, setMenu, getDashboardMenu, setDashboardMenu] = useContext(menuContextManager)
-    const [getServiceTypeId, setServiceTypeId, getSubscriptionPlanId, setSubscriptionPlanId, getOrderMasterId, setOrderMasterId, getCostDetails, setCostDetails] = useContext(OrderContextManager);
+    const [getServiceTypeId, setServiceTypeId, getSubscriptionPlanId, setSubscriptionPlanId, getOrderMasterId, setOrderMasterId, getCostDetails, setCostDetails, getSrvPopBool, setSrvPopBool, getOrderDetailInfo, setOrderDetailInfo, getLimitImg, setLimitImg]= useContext(OrderContextManager);
     const [getUserInfo, setUserInfo, getToken, setToken] = useContext(userContextManager);
     const [getModelBaseUrl, setModelBaseUrl, getApiBasicUrl, setApiBasicUrl] = useContext(apiUrlContextManager);
 
@@ -74,8 +80,6 @@ const ImageUpload = ({ dragFiles }) => {
                 <Radio value={1}>JPG</Radio>
                 <Radio value={2}>PNG</Radio>
                 <Radio value={3}>PSD</Radio>
-
-
             </Radio.Group>
             <div className="flex justify-end text-xs">
                 <button className="bg-green-600 text-white rounded-lg py-1 px-2 mt-2 font-semibold">Download</button>
@@ -149,8 +153,14 @@ const ImageUpload = ({ dragFiles }) => {
 
     const uploadFile = (e) => {
         const newFile = e.target.files;
-        setActionStatus("");
-        newOrderCreate(newFile);
+        console.log(newFile.length)
+        if(newFile.length > getLimitImg){
+            setPopMsg(`You can not upload more than ${getLimitImg} images using the subscriptions`)
+            setPopup(true); 
+        }else {
+            setActionStatus("");
+            newOrderCreate(newFile);
+        }
 
     };
 
@@ -354,7 +364,6 @@ const ImageUpload = ({ dragFiles }) => {
         }
     };
 
-
     function testImage(url, callback, timeout) {
         timeout = timeout || 5000;
         var timedOut = false,
@@ -402,6 +411,9 @@ const ImageUpload = ({ dragFiles }) => {
         );
     };
 
+    const callBackMessagePopup =(bl)=>{
+        setPopup(bl)
+    }
     useEffect(() => {
 
         dragFiles.length > 0 && dragNdropFiles(dragFiles);
@@ -522,16 +534,10 @@ const ImageUpload = ({ dragFiles }) => {
                                         >
                                             <img className="w-full h-full img-bag rounded-lg" src={image.output_urls[0].compressed_raw_image_public_url} />
                                         </div>
-
-
-                                        <div className=" text-green-400 absolute top-2 right-2 ">
-
+                                        <ImageProccessChecking imgFile={image.output_urls[0].default_compressed_output_public_url}/>
+                                        {/* <div className=" text-green-400 absolute top-2 right-2 ">
                                             <p><i className="fa-solid fa-circle-check"></i></p>
-
-
-
-
-                                        </div>
+                                        </div> */}
                                     </div>
                                 ))}
 
@@ -563,8 +569,6 @@ const ImageUpload = ({ dragFiles }) => {
                                         >
                                             <img className="w-full h-full img-bag rounded-lg" src={image.output_urls[0].compressed_raw_image_public_url} />
                                         </div>
-
-
 
                                         {/* <div className="flex gap-1  ">
                         {image.output_urls[0].is_ai_processed ?
@@ -600,7 +604,7 @@ const ImageUpload = ({ dragFiles }) => {
                 } */}
 
                 </div>
-                {getTotalImage !== 0 && getTotalImage == getProccessImgIndex && getFirstImgView && getFirstImgPrcStatus &&
+                {getTotalImage !== 0 && getTotalImage == getProccessImgIndex && getFirstImgView && getFirstImgPrcStatus && getAfterBeforeImg.length > 0 && typeof getAfterBeforeImg[getImgIndex] !== 'undefined' &&
 
                     <div className="flex items-center justify-center absolute top-0 left-0 bg_1 w-full h-full z-50">
                         <div
@@ -920,6 +924,7 @@ const ImageUpload = ({ dragFiles }) => {
                 </>
                 {/* CostBreakDown Modal end----------------------------------------- */}
 
+                  {getPopup && <PopupMessage msg={getPopMsg} dark={true} callBackMessagePopup={callBackMessagePopup}/>}  
             </div>
         </div >
     )
