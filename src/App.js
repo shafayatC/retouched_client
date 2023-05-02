@@ -16,6 +16,8 @@ import SetPassword from './Components/Login/SetPassword';
 import ResetPasswordForm from './Components/Login/ResetPasswordForm';
 import ResetPassword from './Components/Login/ResetPassword';
 import ImageUpload from './Components/ImageUpload/ImageUpload';
+import SubscriptionPlan from './Components/Pricing/SubscriptionPlan';
+import ReviewPayment from './Components/Pricing/ReviewPayment';
 
 export const FileContextManager = createContext();
 export const OrderContextManager = createContext();
@@ -44,7 +46,8 @@ function App() {
   const [getSrvPopBool, setSrvPopBool] = useState(true);
   const [getModelBaseUrl, setModelBaseUrl] = useState("");
   const [getApiBasicUrl, setApiBasicUrl] = useState("http://103.197.204.22:8007/api/2023-02");
-
+  const [getLimitImg, setLimitImg] = useState(0)
+  const [getFirstImgPrcStatus, setFirstImgPrcStatus] = useState(false);
 
 
 
@@ -65,10 +68,12 @@ function App() {
         getProccessImgIndex,
         setProccessImgIndex,
         getTotalImage,
-        setTotalImage
+        setTotalImage,
+        getFirstImgPrcStatus, 
+        setFirstImgPrcStatus
       ]}
     >
-      <OrderContextManager.Provider value={[getServiceTypeId, setServiceTypeId, getSubscriptionPlanId, setSubscriptionPlanId, getOrderMasterId, setOrderMasterId, getCostDetails, setCostDetails, getSrvPopBool, setSrvPopBool, getOrderDetailInfo, setOrderDetailInfo]}>
+      <OrderContextManager.Provider value={[getServiceTypeId, setServiceTypeId, getSubscriptionPlanId, setSubscriptionPlanId, getOrderMasterId, setOrderMasterId, getCostDetails, setCostDetails, getSrvPopBool, setSrvPopBool, getOrderDetailInfo, setOrderDetailInfo, getLimitImg, setLimitImg]}>
         <userContextManager.Provider value={[getUserInfo, setUserInfo, getToken, setToken]}>
           <menuContextManager.Provider value={[getMenuId, setMenuId, getMenu, setMenu, getDashboardMenu, setDashboardMenu]}>
             <apiUrlContextManager.Provider value={[getModelBaseUrl, setModelBaseUrl, getApiBasicUrl, setApiBasicUrl]}>
@@ -81,6 +86,8 @@ function App() {
                   <Route path='/pricing' element={<Pricing />} />
                   <Route path='/log-in' element={<SignIn />} />
                   <Route path="/sign-up" element={<SignUp />} />
+                  <Route path="/review-payment" element={<ReviewPayment />} />
+                  <Route path="/subscription-plan" element={<SubscriptionPlan />} />
                   <Route path="/confirm-password/:token" element={<SetPassword />} />
                   <Route path="/resetpasswordform/" element={<ResetPasswordForm />} />
                   <Route path="/reset-password/:token" element={<ResetPassword />} />

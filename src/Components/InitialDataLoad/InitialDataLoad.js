@@ -6,7 +6,7 @@ import localforage from 'localforage';
 const InitialDataLoad = () => {
 
 
-  const [getServiceTypeId, setServiceTypeId, getSubscriptionPlanId, setSubscriptionPlanId,  getOrderMasterId, setOrderMasterId, getCostDetails, setCostDetails] = useContext(OrderContextManager);
+  const [getServiceTypeId, setServiceTypeId, getSubscriptionPlanId, setSubscriptionPlanId, getOrderMasterId, setOrderMasterId, getCostDetails, setCostDetails, getSrvPopBool, setSrvPopBool, getOrderDetailInfo, setOrderDetailInfo, getLimitImg, setLimitImg]= useContext(OrderContextManager);
   const [getMenuId, setMenuId, getMenu, setMenu, getDashboardMenu, setDashboardMenu] = useContext(menuContextManager)
   const [getUserInfo, setUserInfo, getToken, setToken] = useContext(userContextManager);
   const [getModelBaseUrl, setModelBaseUrl, getApiBasicUrl, setApiBasicUrl] = useContext(apiUrlContextManager); 
@@ -25,9 +25,11 @@ const InitialDataLoad = () => {
       .then(data => {
         if (data.status_code == 200) {
           console.log(data);
+          console.log("limit image : " + data.results.default_settings[0].no_of_image_limit)
           setModelBaseUrl(data.results.default_settings[0].model_base_url)
           setServiceTypeId(data.results.default_settings[0].service_type_id)
           setSubscriptionPlanId(data.results.default_settings[0].subscription_plan_type_id)
+          setLimitImg(data.results.default_settings[0].no_of_image_limit)
         }
       })
   }
