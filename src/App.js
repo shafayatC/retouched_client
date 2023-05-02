@@ -16,6 +16,7 @@ import SetPassword from './Components/Login/SetPassword';
 import ResetPasswordForm from './Components/Login/ResetPasswordForm';
 import ResetPassword from './Components/Login/ResetPassword';
 import ImageUpload from './Components/ImageUpload/ImageUpload';
+import SubscriptionPlan from './Components/Pricing/SubscriptionPlan';
 
 export const FileContextManager = createContext();
 export const OrderContextManager = createContext();
@@ -84,6 +85,7 @@ function App() {
                   <Route path='/pricing' element={<Pricing />} />
                   <Route path='/log-in' element={<SignIn />} />
                   <Route path="/sign-up" element={<SignUp />} />
+                  <Route path="/subscription-plan" element={<SubscriptionPlan />} />
                   <Route path="/confirm-password/:token" element={<SetPassword />} />
                   <Route path="/resetpasswordform/" element={<ResetPasswordForm />} />
                   <Route path="/reset-password/:token" element={<ResetPassword />} />
