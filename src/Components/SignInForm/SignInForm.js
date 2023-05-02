@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { apiUrlContextManager, userContextManager } from "../../App";
 import localforage from "localforage";
+import InitialDataLoad from "../InitialDataLoad/InitialDataLoad";
 
 
 function SignInForm({ onClose, switchBool=true }) {
@@ -376,6 +377,7 @@ function SignInForm({ onClose, switchBool=true }) {
                 }
             </div>
 
+            <InitialDataLoad />
 
         </div>
     );

@@ -155,6 +155,7 @@ const ImageUpload = ({ dragFiles }) => {
     const uploadFile = (e) => {
         const newFile = e.target.files;
         console.log(newFile.length)
+        console.log(getLimitImg)
         if (newFile.length > getLimitImg) {
             setPopMsg(`You can not upload more than ${getLimitImg} images using the subscriptions`)
             setPopup(true);
