@@ -81,6 +81,7 @@ const InitialDataLoad = () => {
 
   return (
     <>
+    {console.log("testingggg ")}
     </>
   );
 };

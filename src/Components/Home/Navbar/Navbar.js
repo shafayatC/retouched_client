@@ -43,8 +43,6 @@ const Navbar = ({ items }) => {
 
 
 
-
-
   return (
     <nav className=" px-2 sm:px-4 shadow-md light:bg-gray-900">
       {console.log(items)}
