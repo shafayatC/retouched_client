@@ -9,7 +9,7 @@ import ServiceMenu from "../ServiceMenu/ServiceMenu";
 import SubscriptionPlan from "../Pricing/SubscriptionPlan";
 import { Popover } from 'antd';
 import { Radio } from 'antd';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, json, useNavigate } from "react-router-dom";
 import TotalBill from "../TotalBill/TotalBill";
 import localforage from "localforage";
 import './style.css'
@@ -370,7 +370,7 @@ const ImageUpload = ({ dragFiles }) => {
         var timedOut = false,
             timer;
         var img = new Image();
-        img.src = url;
+       img.src = url;
         img.onerror = img.onabort = function () {
             if (!timedOut) {
                 clearTimeout(timer);
@@ -870,7 +870,7 @@ const ImageUpload = ({ dragFiles }) => {
                                     {getTotalImage == getProccessImgIndex && <p>Total Charge : <TotalBill actionSwitch={getSwitchLoop} /></p>}
                                 </div>
 
-                                <Link to="/pricing" className="flex justify-center items-center">
+                                <Link to="/review-payment" className="flex justify-center items-center">
                                     <button className="px-4 py-1 rounded-lg bg-white text-black">Review Payment</button>
                                 </Link>
                             </div>

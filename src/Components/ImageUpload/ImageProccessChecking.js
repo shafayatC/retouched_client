@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const ImageProccessChecking = () => {
+const ImageProccessChecking = ({imgFile}) => {
     const [getImageStatus, setImageStatus] = useState(false);
 
     function testImage(url, callback, timeout) {
@@ -49,6 +49,10 @@ const ImageProccessChecking = () => {
             myCallback
         );
     };
+
+    useEffect(()=>{
+        checkAiProccesDone(imgFile)
+    },[])
 
     return (
         <>

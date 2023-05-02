@@ -13,21 +13,6 @@ const Pricing = () => {
     const [getSubscribId, setSubscribId] = useState("");
     const [getTotalPrice, setTotalPrice] = useState("");
 
-    const openModal = (id) => {
-        setIsModOpen(true);
-        setSubscribId(id)
-    };
-
-    const closeModal = () => {
-        setIsModOpen(false);
-    };
-    const okayButton = () => {
-        checkoutFunc(getSubscribId)
-        setSubscriptionPlanId(getSubscribId)
-        closeModal()
-    }
-
-
 
     const [getUserInfo, setUserInfo, getToken, setToken] = useContext(userContextManager);
     const [getServiceTypeId, setServiceTypeId, getSubscriptionPlanId, setSubscriptionPlanId, getOrderMasterId, setOrderMasterId, getCostDetails, setCostDetails] = useContext(OrderContextManager);
@@ -35,6 +20,20 @@ const Pricing = () => {
     const [showSignInForm, setShowSignInForm] = useState(false);
     const [getModelBaseUrl, setModelBaseUrl, getApiBasicUrl, setApiBasicUrl] = useContext(apiUrlContextManager);
 
+    const openModal = (id) => {
+        // setIsModOpen(true);
+        // setSubscribId(id)
+        setSubscriptionPlanId(id)
+    };
+
+    const closeModal = () => {
+        setIsModOpen(false);
+    };
+    const okayButton = () => {
+        // checkoutFunc(getSubscribId)
+        setSubscriptionPlanId(getSubscribId)
+        // closeModal()
+    }
 
     const getSubscriptionFunc = () => {
 
@@ -100,7 +99,7 @@ const Pricing = () => {
             })
     }
 
-
+// sbId = subscribe id , pr = price 
     const choosPlan = async (sbId, pr) => {
         try {
             const data = await localforage.getItem('userInfo');
@@ -108,7 +107,7 @@ const Pricing = () => {
             // This code runs once the value has been loaded
             // from the offline store.
             if (data !== null && Object.keys(data).length > 0) {
-                setTotalPrice(pr)
+                // setTotalPrice(pr)
                 openModal(sbId)
             } else {
                 SignInHandleOpen()
