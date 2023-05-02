@@ -6,6 +6,7 @@ import { FileContextManager, OrderContextManager, apiUrlContextManager, menuCont
 import { useContext, useEffect, useState } from "react";
 import Loading_2 from "../Loading/Loading_2";
 import ServiceMenu from "../ServiceMenu/ServiceMenu";
+import SubscriptionPlan from "../Pricing/SubscriptionPlan";
 import { Popover } from 'antd';
 import { Radio } from 'antd';
 import { Link, useNavigate } from "react-router-dom";
@@ -52,7 +53,7 @@ const ImageUpload = ({ dragFiles }) => {
     const [getUserInfo, setUserInfo, getToken, setToken] = useContext(userContextManager);
     const [getModelBaseUrl, setModelBaseUrl, getApiBasicUrl, setApiBasicUrl] = useContext(apiUrlContextManager);
 
-    const itemsPerPage = 8;
+    const itemsPerPage = 6;
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -503,9 +504,13 @@ const ImageUpload = ({ dragFiles }) => {
                         </div>
                     }
                     {getAfterBeforeImg.length > 0 && actionStatus == "" &&
-                        <div >
-                            {/* <div className="h-[530px] w-[300px] bg-red-300"></div> */}
-                            <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-5 pt-2 ml-2 mb-5 pr-3 ${getAfterBeforeImg.length > 0 && ' h-[400]'}`}>
+                        <div className="flex gap-3" >
+                            <div className="w-[300px] mt-2 flex flex-col justify-center rounded-lg bg-white h-[520px]">
+                                <h2 className="font-bold">Choose Your Subscription Plan</h2>
+                                <div className=" ml-2"><SubscriptionPlan ></SubscriptionPlan></div>
+                            </div>
+
+                            <div className={`grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-5 pt-2 ml-2 mb-5 pr-3 ${getAfterBeforeImg.length > 0 && ""}`}>
 
                                 {currentImages.map((image, index) => (
                                     <div
@@ -520,7 +525,7 @@ const ImageUpload = ({ dragFiles }) => {
                                         //     backgroundImage: `url(${image.output_urls[0].compressed_raw_image_public_url})`,
                                         //   }}
                                         >
-                                            <img className="w-full h-full img-bag rounded-lg" src={image.output_urls[0].compressed_raw_image_public_url} />
+                                            <img className="w-full h-[250px]  rounded-lg" src={image.output_urls[0].compressed_raw_image_public_url} />
                                         </div>
 
 
@@ -545,7 +550,7 @@ const ImageUpload = ({ dragFiles }) => {
 
                         <div >
 
-                            <div className={`grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-5 pt-2 ml-2   pr-3 ${getSuggest.length > 0 && ' h-[400]'}`}>
+                            <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10 pt-2 ml-2   pr-3 ${getSuggest.length > 0 && ' h-[400]'}`}>
 
                                 {currentImages.map((image, index) => (
 
@@ -827,9 +832,9 @@ const ImageUpload = ({ dragFiles }) => {
                 }
                 {getAfterBeforeImg.length > 0 &&
 
-                    <div className=" absolute   bottom-12 w-full ">
+                    <div className=" absolute bottom-12 w-full ">
 
-                        <div className="flex mb-4 justify-between w-full    ">
+                        <div className="flex mb-2 justify-between w-full    ">
                             {/* Previous button */}
                             <div>
                                 <button
