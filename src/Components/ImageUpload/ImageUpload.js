@@ -33,7 +33,7 @@ const ImageUpload = ({ dragFiles }) => {
     const [getFilterText, setFilterText] = useState("");
     const [getSuggestBool, setSuggestBool] = useState(false);
     // const [getFirstImgPrcStatus, setFirstImgPrcStatus] = useState(false);
-    const [getPopup, setPopup] = useState(false); 
+    const [getPopup, setPopup] = useState(false);
     const [getPopMsg, setPopMsg] = useState("");
     const [
         fileInfo,
@@ -50,12 +50,12 @@ const ImageUpload = ({ dragFiles }) => {
         setProccessImgIndex,
         getTotalImage,
         setTotalImage,
-        getFirstImgPrcStatus, 
+        getFirstImgPrcStatus,
         setFirstImgPrcStatus
     ] = useContext(FileContextManager);
 
     const [getMenuId, setMenuId, getMenu, setMenu, getDashboardMenu, setDashboardMenu] = useContext(menuContextManager)
-    const [getServiceTypeId, setServiceTypeId, getSubscriptionPlanId, setSubscriptionPlanId, getOrderMasterId, setOrderMasterId, getCostDetails, setCostDetails, getSrvPopBool, setSrvPopBool, getOrderDetailInfo, setOrderDetailInfo, getLimitImg, setLimitImg]= useContext(OrderContextManager);
+    const [getServiceTypeId, setServiceTypeId, getSubscriptionPlanId, setSubscriptionPlanId, getOrderMasterId, setOrderMasterId, getCostDetails, setCostDetails, getSrvPopBool, setSrvPopBool, getOrderDetailInfo, setOrderDetailInfo, getLimitImg, setLimitImg] = useContext(OrderContextManager);
     const [getUserInfo, setUserInfo, getToken, setToken] = useContext(userContextManager);
     const [getModelBaseUrl, setModelBaseUrl, getApiBasicUrl, setApiBasicUrl] = useContext(apiUrlContextManager);
 
@@ -155,10 +155,10 @@ const ImageUpload = ({ dragFiles }) => {
     const uploadFile = (e) => {
         const newFile = e.target.files;
         console.log(newFile.length)
-        if(newFile.length > getLimitImg){
+        if (newFile.length > getLimitImg) {
             setPopMsg(`You can not upload more than ${getLimitImg} images using the subscriptions`)
-            setPopup(true); 
-        }else {
+            setPopup(true);
+        } else {
             setActionStatus("");
             newOrderCreate(newFile);
         }
@@ -370,7 +370,7 @@ const ImageUpload = ({ dragFiles }) => {
         var timedOut = false,
             timer;
         var img = new Image();
-       img.src = url;
+        img.src = url;
         img.onerror = img.onabort = function () {
             if (!timedOut) {
                 clearTimeout(timer);
@@ -412,7 +412,7 @@ const ImageUpload = ({ dragFiles }) => {
         );
     };
 
-    const callBackMessagePopup =(bl)=>{
+    const callBackMessagePopup = (bl) => {
         setPopup(bl)
     }
     useEffect(() => {
@@ -539,7 +539,7 @@ const ImageUpload = ({ dragFiles }) => {
                                         >
                                             <img className="w-full h-[250px]  rounded-lg" src={image.output_urls[0].compressed_raw_image_public_url} />
                                         </div>
-                                        <ImageProccessChecking imgFile={image.output_urls[0].default_compressed_output_public_url}/>
+                                        <ImageProccessChecking imgFile={image.output_urls[0].default_compressed_output_public_url} />
                                         {/* <div className=" text-green-400 absolute top-2 right-2 ">
                                             <p><i className="fa-solid fa-circle-check"></i></p>
                                         </div> */}
@@ -929,7 +929,7 @@ const ImageUpload = ({ dragFiles }) => {
                 </>
                 {/* CostBreakDown Modal end----------------------------------------- */}
 
-                  {getPopup && <PopupMessage msg={getPopMsg} dark={true} callBackMessagePopup={callBackMessagePopup}/>}  
+                {getPopup && <PopupMessage msg={getPopMsg} dark={true} callBackMessagePopup={callBackMessagePopup} />}
             </div>
         </div >
     )
