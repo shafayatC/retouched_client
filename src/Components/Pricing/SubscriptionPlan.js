@@ -147,8 +147,16 @@ const Pricing = () => {
                         <h2 className='text-center pt-1 text-purple-400  text-sm font-semibold'>{data.title}</h2>
 
 
+                        {getSubscribtionValue.length > 0 ?
+                            <button disabled={getSubscribtionValue == data.id} onClick={() => { choosPlan(data.id, data.netCharge) }} className='px-3 w-36 rounded-lg  py-1 border border-purple-500 disabled:bg-black hover:bg-purple-400 mt-1 bg-purple-500 text-white text-xs mb-1 font-semibold '>
+                                {getSubscribtionValue == data.id ? "Current Plan" : data.description}
+                            </button>
+                            :
+                            <button disabled={data.is_default} onClick={() => { choosPlan(data.id, data.netCharge) }} className='px-3 w-36 rounded-lg  py-1 border border-purple-500 disabled:bg-black hover:bg-purple-400 mt-1 bg-purple-500 text-white text-xs mb-1 font-semibold '>
+                                {data.is_default ? "Current Plan" : data.description}
+                            </button>
+                        }
 
-                        <button disabled={getSubscribtionValue.length > 0 ? getSubscribtionValue == data.id : data.is_default} onClick={() => { choosPlan(data.id, data.netCharge) }} className='px-3 w-36 rounded-lg  py-1 border border-purple-500 disabled:bg-black hover:bg-purple-400 mt-1 bg-purple-500 text-white text-xs mb-1 font-semibold '>{data.description}</button>
 
 
                         {data.subscription_plan_type_description.map((data_2, index_2) => (
