@@ -157,7 +157,7 @@ const ImageUpload = ({ dragFiles }) => {
     const nextPage = () => {
         setCurrentPage(currentPage + 1);
     };
- 
+
     const previousPage = () => {
         setCurrentPage(currentPage - 1);
     };
@@ -167,7 +167,7 @@ const ImageUpload = ({ dragFiles }) => {
         setActionStatus("");
         newOrderCreate(newFile);
     }
- 
+
     const scrollToElement = (elemnt) => {
         document.getElementById(elemnt).scrollIntoView({ behavior: "smooth" });
     }
@@ -456,8 +456,8 @@ const ImageUpload = ({ dragFiles }) => {
                 {console.log("getFirstImgPrcStatus " + getFirstImgPrcStatus)}
                 <div className={`relative ${getAfterBeforeImg.length > 0 && ' pt-4'}`}>
 
-                {  getTotalImage > getProccessImgIndex && <Loading_2 />}
-                {getTotalImage > 0 &&  getTotalImage >= getProccessImgIndex && getFirstImgPrcStatus == false && <Loading_2 />}
+                    {getTotalImage > getProccessImgIndex && <Loading_2 />}
+                    {getTotalImage > 0 && getTotalImage >= getProccessImgIndex && getFirstImgPrcStatus == false && <Loading_2 />}
 
                     {getAfterBeforeImg.length > 0 &&
                         <div className="flex items-center justify-center mt-1">
@@ -504,8 +504,8 @@ const ImageUpload = ({ dragFiles }) => {
                     }
                     {getAfterBeforeImg.length > 0 && actionStatus == "" &&
                         <div >
-
-                            <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10 pt-2 ml-2 mb-5 pr-3 ${getAfterBeforeImg.length > 0 && ' h-[400]'}`}>
+                            {/* <div className="h-[530px] w-[300px] bg-red-300"></div> */}
+                            <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-5 pt-2 ml-2 mb-5 pr-3 ${getAfterBeforeImg.length > 0 && ' h-[400]'}`}>
 
                                 {currentImages.map((image, index) => (
                                     <div
@@ -524,13 +524,14 @@ const ImageUpload = ({ dragFiles }) => {
                                         </div>
 
 
-                                        {/* <div className="flex gap-1  ">
-                                        {image.output_urls[0].is_ai_processed ?
-                                            <p><i className="fa-solid text-green-400 absolute top-2 right-2 fa-circle-check"></i></p>
-                                            :
-                                            <p className="loader_2 absolute top-[40%] left-[45%]"></p>
-                                        }
-                                    </div> */}
+                                        <div className=" text-green-400 absolute top-2 right-2 ">
+
+                                            <p><i className="fa-solid fa-circle-check"></i></p>
+
+
+
+
+                                        </div>
                                     </div>
                                 ))}
 
@@ -544,7 +545,7 @@ const ImageUpload = ({ dragFiles }) => {
 
                         <div >
 
-                            <div className={`grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10 pt-2 ml-2   pr-3 ${getSuggest.length > 0 && ' h-[400]'}`}>
+                            <div className={`grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-5 pt-2 ml-2   pr-3 ${getSuggest.length > 0 && ' h-[400]'}`}>
 
                                 {currentImages.map((image, index) => (
 
@@ -562,6 +563,7 @@ const ImageUpload = ({ dragFiles }) => {
                                         >
                                             <img className="w-full h-full img-bag rounded-lg" src={image.output_urls[0].compressed_raw_image_public_url} />
                                         </div>
+
 
 
                                         {/* <div className="flex gap-1  ">
@@ -650,7 +652,7 @@ const ImageUpload = ({ dragFiles }) => {
                                     <div className="h-[500px] w-[600px] bg-white relative rounded-md z-50">
                                         <p className="w-full text-white px-2 py-2  absolute top-0 bg-teal-500  font-semibold">Beautify imagery with Ad-on Professional Services</p>
                                         <div className=" h-[460px] w-[570px] pt-12 ml-4 absolute ">
-                                        <div className="w-[570px] h-[460px] border border-theme-shade  relative">
+                                            <div className="w-[570px] h-[460px] border border-theme-shade  relative">
                                                 {getCallbackAiBool ?
                                                     <CompareImage
                                                         topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
