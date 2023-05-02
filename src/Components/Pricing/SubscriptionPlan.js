@@ -12,6 +12,11 @@ const Pricing = () => {
     const [isModOpen, setIsModOpen] = useState(false);
     const [getSubscribId, setSubscribId] = useState("");
     const [getTotalPrice, setTotalPrice] = useState("");
+    const [getSubscribtionValue, setSubscribtionValue] = useState("")
+
+    const subscriptionPlanFunc = (value) => {
+        setSubscribtionValue(value);
+    }
 
     const openModal = (id) => {
         setIsModOpen(true);
@@ -130,11 +135,26 @@ const Pricing = () => {
 
             <div className='flex flex-col w-full justify-center relative'>
                 {typeof getSubscriptionPlan.results !== 'undefined' && getSubscriptionPlan.results.subscription_plan_type.map((data, index) => (
-                    <div className='h-[160px] w-[260px]  border bg-white border-blue-400'>
+                    <div className='h-[125px] w-[260px]  border bg-white border-blue-400'>
 
                         <h2 className='text-center pt-1 text-purple-400  text-sm font-semibold'>{data.title}</h2>
 
-                        <button onClick={() => { choosPlan(data.id, data.netCharge) }} className='px-3 w-36 rounded-lg  py-1 border border-purple-500 hover:bg-purple-400 mt-2 bg-purple-500 text-white text-xs mb-2 font-semibold '>{data.description}</button>
+                        <input
+                            type="checkbox"
+                            id={"planCheck_" + index}
+                            value={data.id}
+                            hidden
+                            onChange={() => subscriptionPlanFunc(data.id)}
+                            className=" checked:bg-teal-500 rounded-full disabled:bg-red-400 "
+                        />
+                        <label
+                            htmlFor={"planCheck_" + index}
+                            className="ml-3 text-sm font-semibold"
+                        >
+
+                            <button disabled={getSubscribtionValue == data.id} onClick={() => { choosPlan(data.id, data.netCharge) }} className='px-3 w-36 rounded-lg  py-1 border border-purple-500 disabled:bg-black hover:bg-purple-400 mt-1 bg-purple-500 text-white text-xs mb-1 font-semibold '>{data.description}</button>
+                        </label>
+
 
                         {data.subscription_plan_type_description.map((data_2, index_2) => (
                             <p className='text-start text-xs ml-5 mt-1 px-5'><i class="fa-solid fa-check mr-3 text-purple-700"></i><span dangerouslySetInnerHTML={{ __html: data_2.description }} /></p>

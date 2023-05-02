@@ -505,7 +505,7 @@ const ImageUpload = ({ dragFiles }) => {
                     }
                     {getAfterBeforeImg.length > 0 && actionStatus == "" &&
                         <div className="flex gap-3" >
-                            <div className="w-[300px] mt-2 flex flex-col justify-center rounded-lg bg-white h-[520px]">
+                            <div className="w-[300px] mt-2 flex flex-col justify-center rounded-lg bg-white h-[525px]">
                                 <h2 className="font-bold">Choose Your Subscription Plan</h2>
                                 <div className=" ml-2"><SubscriptionPlan ></SubscriptionPlan></div>
                             </div>
