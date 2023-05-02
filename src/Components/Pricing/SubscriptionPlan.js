@@ -15,6 +15,7 @@ const Pricing = () => {
     const [getSubscribtionValue, setSubscribtionValue] = useState("")
 
     const subscriptionPlanFunc = (value) => {
+        console.log(value);
         setSubscribtionValue(value);
     }
 
@@ -26,9 +27,12 @@ const Pricing = () => {
     const [getModelBaseUrl, setModelBaseUrl, getApiBasicUrl, setApiBasicUrl] = useContext(apiUrlContextManager);
 
     const openModal = (id) => {
+        console.log(id)
         // setIsModOpen(true);
         // setSubscribId(id)
-        setSubscriptionPlanId(id)
+        subscriptionPlanFunc(id)
+        setSubscriptionPlanId(getSubscribId)
+
     };
 
     const closeModal = () => {
@@ -52,7 +56,12 @@ const Pricing = () => {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                setSubscriptionPlan(data)
+                setSubscriptionPlan(data);
+                data.map(d => {
+                    if (d.is_default == true) {
+                        openModal(d.id)
+                    }
+                })
             })
     }
 
@@ -104,7 +113,7 @@ const Pricing = () => {
             })
     }
 
-// sbId = subscribe id , pr = price 
+    // sbId = subscribe id , pr = price 
     const choosPlan = async (sbId, pr) => {
         try {
             const data = await localforage.getItem('userInfo');
@@ -121,7 +130,6 @@ const Pricing = () => {
             console.log(err);
             SignInHandleOpen()
         }
-
     }
 
 
@@ -138,21 +146,9 @@ const Pricing = () => {
 
                         <h2 className='text-center pt-1 text-purple-400  text-sm font-semibold'>{data.title}</h2>
 
-                        <input
-                            type="checkbox"
-                            id={"planCheck_" + index}
-                            value={data.id}
-                            hidden
-                            onChange={() => subscriptionPlanFunc(data.id)}
-                            className=" checked:bg-teal-500 rounded-full disabled:bg-red-400 "
-                        />
-                        <label
-                            htmlFor={"planCheck_" + index}
-                            className="ml-3 text-sm font-semibold"
-                        >
 
-                            <button disabled={getSubscribtionValue == data.id} onClick={() => { choosPlan(data.id, data.netCharge) }} className='px-3 w-36 rounded-lg  py-1 border border-purple-500 disabled:bg-black hover:bg-purple-400 mt-1 bg-purple-500 text-white text-xs mb-1 font-semibold '>{data.description}</button>
-                        </label>
+
+                        <button disabled={getSubscribtionValue.length > 0 ? getSubscribtionValue == data.id : data.is_default} onClick={() => { choosPlan(data.id, data.netCharge) }} className='px-3 w-36 rounded-lg  py-1 border border-purple-500 disabled:bg-black hover:bg-purple-400 mt-1 bg-purple-500 text-white text-xs mb-1 font-semibold '>{data.description}</button>
 
 
                         {data.subscription_plan_type_description.map((data_2, index_2) => (
