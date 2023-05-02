@@ -29,7 +29,7 @@ const ImageUpload = ({ dragFiles }) => {
     const [getCallbackAiBool, setCallbackAiBool] = useState(false);
     const [getFilterText, setFilterText] = useState("");
     const [getSuggestBool, setSuggestBool] = useState(false);
-    const [getFirstImgPrcStatus, setFirstImgPrcStatus] = useState(false);
+
     const [
         fileInfo,
         setFileInfo,
@@ -141,7 +141,7 @@ const ImageUpload = ({ dragFiles }) => {
                 // setFileInfo(fileInfo.filter((f, index) => index !== dlImage));
                 setAfterBeforeImg(getAfterBeforeImg.filter((f, index) => index !== dlImage))
                 // setProccessImgIndex(getProccessImgIndex - 1)
-                //  handleClose();
+                handleClose();
             })
 
         //setFileInfo(fileInfo.filter((f) => f.imageUrl !== dlImage));
@@ -171,9 +171,6 @@ const ImageUpload = ({ dragFiles }) => {
     const scrollToElement = (elemnt) => {
         document.getElementById(elemnt).scrollIntoView({ behavior: "smooth" });
     }
-
-    var img_i = 0;
-
     const newOrderCreate = (newFile) => {
 
         const myOrdre = {
@@ -220,7 +217,6 @@ const ImageUpload = ({ dragFiles }) => {
                         data.append("file", file);
                         data.append("file_relative_path", pathOfFile);
                         data.append("subscription_plan_type_id", getSubscriptionPlanId);
-                        console.log("check lenght : " + i + " check img : " + newFile.length)
                         dataTransfer(data);
                     }
                 }
@@ -248,7 +244,6 @@ const ImageUpload = ({ dragFiles }) => {
             setProccessImgIndex(getProccessImgIndex => getProccessImgIndex + 1);
             console.log(getProccessImgIndex)
             if (data.status_code == 200) {
-                img_i++;
                 scrollToElement('upload')
                 const found = getAfterBeforeImg.some(el => el.output_urls[0].compressed_raw_image_public_url === data.results.output_urls[0].compressed_raw_image_public_url);
                 found == false && setAfterBeforeImg((getAfterBeforeImg) => [
@@ -256,8 +251,6 @@ const ImageUpload = ({ dragFiles }) => {
                     data.results,
                 ]);
 
-                console.log("img_i " + img_i)
-                img_i == 1 && checkAiProccesDone(data.results.output_urls[0].default_compressed_output_public_url)
             }
 
         } catch (error) {
@@ -265,6 +258,36 @@ const ImageUpload = ({ dragFiles }) => {
         }
     };
 
+    function dragOverHandler(e) {
+        console.log("File(s) in drop zone");
+
+        // Prevent default behavior (Prevent file from being opened)
+        e.preventDefault();
+    }
+
+    function dropHandler(ev) {
+        console.log("File(s) dropped");
+
+        // Prevent default behavior (Prevent file from being opened)
+        ev.preventDefault();
+
+        if (ev.dataTransfer.items) {
+            // Use DataTransferItemList interface to access the file(s)
+            let files = [];
+
+            [...ev.dataTransfer.items].forEach((item, i) => {
+                // If dropped items aren't files, reject them
+                if (item.kind === "file") {
+                    const file = item.getAsFile();
+                    files.push(file)
+                    console.log(`… file[${i}].name = ${file.name}`);
+                }
+            });
+
+            dragNdropFiles(files)
+        }
+
+    }
 
 
     // const reviewPaymentFunc = async () => {
@@ -356,52 +379,6 @@ const ImageUpload = ({ dragFiles }) => {
     };
 
 
-    function testImage(url, callback, timeout) {
-        timeout = timeout || 5000;
-        var timedOut = false,
-            timer;
-        var img = new Image();
-        img.onerror = img.onabort = function () {
-            if (!timedOut) {
-                clearTimeout(timer);
-                callback("error");
-            }
-        };
-        img.onload = function () {
-            if (!timedOut) {
-                clearTimeout(timer);
-                callback("success");
-            }
-        };
-        img.src = url;
-        timer = setTimeout(function () {
-            timedOut = true;
-            callback("timeout");
-        }, timeout);
-    }
-
-
-    const checkAiProccesDone = (imgFile) => {
-        console.log(imgFile)
-        console.log("check proccese is done ")
-        const myCallback = (result) => {
-            if (result == "success") {
-                // getAfterBeforeImg[0].output_urls[0].is_ai_processed = true;
-                console.log("success is")
-
-                setFirstImgPrcStatus(true);
-            } else {
-                console.log("unsuccess is")
-
-                checkAiProccesDone(imgFile)
-            }
-        };
-        testImage(
-            imgFile,
-            myCallback
-        );
-    };
-
     useEffect(() => {
 
         dragFiles.length > 0 && dragNdropFiles(dragFiles);
@@ -453,11 +430,10 @@ const ImageUpload = ({ dragFiles }) => {
                 </div>
             } */}
 
-                {console.log("getFirstImgPrcStatus " + getFirstImgPrcStatus)}
+
                 <div className={`relative ${getAfterBeforeImg.length > 0 && ' pt-4'}`}>
 
                     {getTotalImage > getProccessImgIndex && <Loading_2 />}
-
                     {getAfterBeforeImg.length > 0 &&
                         <div className="flex items-center justify-center mt-1">
                             <i className="fa-solid fa-filter text-white mr-1"></i>
@@ -563,13 +539,13 @@ const ImageUpload = ({ dragFiles }) => {
                                         </div>
 
 
-                                        {/* <div className="flex gap-1  ">
-                        {image.output_urls[0].is_ai_processed ?
-                            <p><i className="fa-solid text-green-400 absolute top-2 right-2 fa-circle-check"></i></p>
-                            :
-                            <p className="loader_2 absolute top-[40%] left-[45%]"></p>
-                        }
-                    </div> */}
+                                        <div className="flex gap-1  ">
+                                            {image.output_urls[0].is_ai_processed ?
+                                                <p><i className="fa-solid text-green-400 absolute top-2 right-2 fa-circle-check"></i></p>
+                                                :
+                                                <p className="loader_2 absolute top-[40%] left-[45%]"></p>
+                                            }
+                                        </div>
                                     </div>
                                 ))}
 
@@ -619,7 +595,7 @@ const ImageUpload = ({ dragFiles }) => {
                                     <p className=" text-white px-2 py-1 rounded-lg absolute top-1 bg-teal-500 left-10  font-semibold">Beautify imagery with Ad-on Professional Services</p>
                                     <p className="bg-teal-500 text-white absolute top-1 right-0 mb-10 font-semibold py-1 px-4  rounded-l-3xl">Choose Your Services</p>
                                     <div className=" w-[400px] pt-20 pl-16 absolute ">
-                                        <div className=" w-full h-[300px] relative">
+                                        <div className=" w-[300px ] relative">
                                             {getCallbackAiBool ?
                                                 <CompareImage
                                                     topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
@@ -649,7 +625,7 @@ const ImageUpload = ({ dragFiles }) => {
                                     <div className="h-[500px] w-[600px] bg-white relative rounded-md z-50">
                                         <p className="w-full text-white px-2 py-2  absolute top-0 bg-teal-500  font-semibold">Beautify imagery with Ad-on Professional Services</p>
                                         <div className=" h-[460px] w-[570px] pt-12 ml-4 absolute ">
-                                        <div className="w-[570px] h-[460px] border border-theme-shade  relative">
+                                            <div className="  relative">
                                                 {getCallbackAiBool ?
                                                     <CompareImage
                                                         topImage={getAfterBeforeImg[getImgIndex].output_urls[0].compressed_raw_image_public_url}
@@ -705,8 +681,9 @@ const ImageUpload = ({ dragFiles }) => {
                             </div>
                         </div>
                     </div>
+
                 }
-                {showImage && getAfterBeforeImg.length > 0 && typeof getAfterBeforeImg[getImgIndex] !== 'undefined' &&
+                {showImage &&
 
                     <div className="flex items-center justify-center absolute top-0 left-0 bg_1 w-full h-full z-50">
                         <div
