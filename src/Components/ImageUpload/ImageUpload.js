@@ -157,7 +157,7 @@ const ImageUpload = ({ dragFiles }) => {
     const nextPage = () => {
         setCurrentPage(currentPage + 1);
     };
-
+ 
     const previousPage = () => {
         setCurrentPage(currentPage - 1);
     };
@@ -167,7 +167,7 @@ const ImageUpload = ({ dragFiles }) => {
         setActionStatus("");
         newOrderCreate(newFile);
     }
-
+ 
     const scrollToElement = (elemnt) => {
         document.getElementById(elemnt).scrollIntoView({ behavior: "smooth" });
     }
@@ -246,7 +246,6 @@ const ImageUpload = ({ dragFiles }) => {
             console.log(typeof (3 + 1))
 
             setProccessImgIndex(getProccessImgIndex => getProccessImgIndex + 1);
-            console.log(getProccessImgIndex)
             if (data.status_code == 200) {
                 img_i++;
                 scrollToElement('upload')
@@ -361,6 +360,7 @@ const ImageUpload = ({ dragFiles }) => {
         var timedOut = false,
             timer;
         var img = new Image();
+        img.src = url;
         img.onerror = img.onabort = function () {
             if (!timedOut) {
                 clearTimeout(timer);
@@ -373,7 +373,7 @@ const ImageUpload = ({ dragFiles }) => {
                 callback("success");
             }
         };
-        img.src = url;
+        // img.src = url;
         timer = setTimeout(function () {
             timedOut = true;
             callback("timeout");
@@ -456,7 +456,8 @@ const ImageUpload = ({ dragFiles }) => {
                 {console.log("getFirstImgPrcStatus " + getFirstImgPrcStatus)}
                 <div className={`relative ${getAfterBeforeImg.length > 0 && ' pt-4'}`}>
 
-                    {getTotalImage > getProccessImgIndex && <Loading_2 />}
+                {  getTotalImage > getProccessImgIndex && <Loading_2 />}
+                {getTotalImage > 0 &&  getTotalImage >= getProccessImgIndex && getFirstImgPrcStatus == false && <Loading_2 />}
 
                     {getAfterBeforeImg.length > 0 &&
                         <div className="flex items-center justify-center mt-1">
@@ -597,7 +598,7 @@ const ImageUpload = ({ dragFiles }) => {
                 } */}
 
                 </div>
-                {getTotalImage !== 0 && getTotalImage == getProccessImgIndex && getFirstImgView &&
+                {getTotalImage !== 0 && getTotalImage == getProccessImgIndex && getFirstImgView && getFirstImgPrcStatus &&
 
                     <div className="flex items-center justify-center absolute top-0 left-0 bg_1 w-full h-full z-50">
                         <div
