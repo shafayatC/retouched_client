@@ -242,7 +242,6 @@ const ImageUpload = ({ dragFiles }) => {
             console.log(typeof (3 + 1))
 
             setProccessImgIndex(getProccessImgIndex => getProccessImgIndex + 1);
-            console.log(getProccessImgIndex)
             if (data.status_code == 200) {
                 scrollToElement('upload')
                 const found = getAfterBeforeImg.some(el => el.output_urls[0].compressed_raw_image_public_url === data.results.output_urls[0].compressed_raw_image_public_url);
@@ -379,6 +378,53 @@ const ImageUpload = ({ dragFiles }) => {
     };
 
 
+    function testImage(url, callback, timeout) {
+        timeout = timeout || 5000;
+        var timedOut = false,
+            timer;
+        var img = new Image();
+        img.src = url;
+        img.onerror = img.onabort = function () {
+            if (!timedOut) {
+                clearTimeout(timer);
+                callback("error");
+            }
+        };
+        img.onload = function () {
+            if (!timedOut) {
+                clearTimeout(timer);
+                callback("success");
+            }
+        };
+        // img.src = url;
+        timer = setTimeout(function () {
+            timedOut = true;
+            callback("timeout");
+        }, timeout);
+    }
+
+
+    const checkAiProccesDone = (imgFile) => {
+        console.log(imgFile)
+        console.log("check proccese is done ")
+        const myCallback = (result) => {
+            if (result == "success") {
+                // getAfterBeforeImg[0].output_urls[0].is_ai_processed = true;
+                console.log("success is")
+
+                setFirstImgPrcStatus(true);
+            } else {
+                console.log("unsuccess is")
+
+                checkAiProccesDone(imgFile)
+            }
+        };
+        testImage(
+            imgFile,
+            myCallback
+        );
+    };
+
     useEffect(() => {
 
         dragFiles.length > 0 && dragNdropFiles(dragFiles);
@@ -433,7 +479,10 @@ const ImageUpload = ({ dragFiles }) => {
 
                 <div className={`relative ${getAfterBeforeImg.length > 0 && ' pt-4'}`}>
 
-                    {getTotalImage > getProccessImgIndex && <Loading_2 />}
+
+                {  getTotalImage > getProccessImgIndex && <Loading_2 />}
+                {getTotalImage > 0 &&  getTotalImage >= getProccessImgIndex && getFirstImgPrcStatus == false && <Loading_2 />}
+
                     {getAfterBeforeImg.length > 0 &&
                         <div className="flex items-center justify-center mt-1">
                             <i className="fa-solid fa-filter text-white mr-1"></i>
@@ -573,7 +622,7 @@ const ImageUpload = ({ dragFiles }) => {
                 } */}
 
                 </div>
-                {getTotalImage !== 0 && getTotalImage == getProccessImgIndex && getFirstImgView &&
+                {getTotalImage !== 0 && getTotalImage == getProccessImgIndex && getFirstImgView && getFirstImgPrcStatus &&
 
                     <div className="flex items-center justify-center absolute top-0 left-0 bg_1 w-full h-full z-50">
                         <div
