@@ -539,7 +539,7 @@ const ImageUpload = ({ dragFiles }) => {
                                         </div>
 
 
-                                        <div className="flex gap-1  ">
+                                        <div className="flex gap-1 ">
                                             {image.output_urls[0].is_ai_processed ?
                                                 <p><i className="fa-solid text-green-400 absolute top-2 right-2 fa-circle-check"></i></p>
                                                 :
