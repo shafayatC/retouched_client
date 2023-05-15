@@ -24,7 +24,7 @@ const CompareImage = ({ topImage, bottomImage }) => {
         (e) => {
             if (e.clientX) {
                 setPositioning(e.clientX);
-            } else if (e.touches[0] && e.touches[0].clientX) {
+            } else if (e.touches && e.touches[0] && e.touches[0].clientX) {
                 setPositioning(e.touches[0].clientX);
             }
         },
